@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class DocentePlanificacion extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 }

@@ -16,6 +16,7 @@ class CreateTipoAsignaturasTable extends Migration
         Schema::create('tipo_asignaturas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -19,6 +19,7 @@ class CreatePeriodoLectivosTable extends Migration
             $table->integer('periodo_academico_id');
             $table->dateTime('fecha_inicio_activo', $precision = 0);
             $table->dateTime('fecha_fin_activo', $precision = 0);
+            $table->softDeletes();
             $table->timestamps();
 
             /*

@@ -16,6 +16,7 @@ class CreatePeriodoAcademicosTable extends Migration
         Schema::create('periodo_academicos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

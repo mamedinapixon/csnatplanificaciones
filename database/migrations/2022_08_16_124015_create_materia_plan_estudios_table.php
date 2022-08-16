@@ -19,6 +19,7 @@ class CreateMateriaPlanEstudiosTable extends Migration
             $table->integer('materia_id');
             $table->integer('anio_curdada');
             $table->integer('periodo_academico_id');
+            $table->softDeletes();
             $table->timestamps();
 
             /*

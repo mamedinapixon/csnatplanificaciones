@@ -18,6 +18,7 @@ class CreateMateriasTable extends Migration
             $table->string('codigo_siu');
             $table->string('nombre');
             $table->string('nombre_reducido');
+            $table->softDeletes();
             $table->timestamps();
 
             /*

@@ -43,6 +43,7 @@ class CreatePlanificacionsTable extends Migration
             $table->boolean('herramientas_virtuales')->default(0);
             $table->text('herramientas_virtuales_previstas')->nullable();
             $table->text('observacioens_sugerencias')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
             /*

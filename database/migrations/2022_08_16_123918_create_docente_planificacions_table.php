@@ -18,6 +18,7 @@ class CreateDocentePlanificacionsTable extends Migration
             $table->integer('planificacion_id');
             $table->integer('docente_id');
             $table->integer('cargo_id');
+            $table->softDeletes();
             $table->timestamps();
 
             /*

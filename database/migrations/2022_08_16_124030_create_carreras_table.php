@@ -20,6 +20,7 @@ class CreateCarrerasTable extends Migration
             $table->integer('plan_anio');
             $table->string('nombre_reducido');
             $table->integer('estado_id');
+            $table->softDeletes();
             $table->timestamps();
 
             /*
