@@ -17,8 +17,9 @@ class CreatePlanificacionsTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('materia_plan_estudio_id');
-            $table->string('electiva_nombre')->default('');
             $table->integer('docente_id');
+            $table->integer('periodo_lectivo_id');
+            $table->string('electiva_nombre')->default('');
             $table->boolean('doc_invitados')->default(0);
             $table->integer('tipo_asignatura_id')->nullable();
             $table->integer('carga_horaria')->default(0);

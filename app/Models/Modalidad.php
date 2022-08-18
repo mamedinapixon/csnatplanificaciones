@@ -9,4 +9,14 @@ class Modalidad extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $fillable = [
+        'nombre'
+    ];
+
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'nombre' => 'string'
+    ];
 }
