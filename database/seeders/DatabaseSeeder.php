@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\PeriodoLectivo;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +14,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call(UserSeeder::class);
+        $this->call(CarreraSeeder::class);
+        $this->call(ModalidadSeeder::class);
+        $this->call(PeriodoAcademicoSeeder::class);
+        $this->call(TipoAsignaturaSeeder::class);
+        $this->call(PeriodoLectivoSeeder::class);
+        $this->call(DocenteSeeder::class);
+        $this->call(MateriaSeeder::class);
+        $this->call(MateriaPlanEstudioSeeder::class);
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ModalidadSeeder extends Seeder
 {
@@ -13,6 +14,14 @@ class ModalidadSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('modalidads')->insert([
+            'nombre' => 'Presencial'
+        ]);
+        DB::table('modalidads')->insert([
+            'nombre' => 'Virtual'
+        ]);
+        DB::table('modalidads')->insert([
+            'nombre' => 'Mixta'
+        ]);
     }
 }

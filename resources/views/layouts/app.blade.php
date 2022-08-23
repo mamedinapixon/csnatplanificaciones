@@ -10,28 +10,25 @@
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
+        <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+
         <!-- Styles -->
-        <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link type="text/css" rel="stylesheet" href="{{ asset('css/app.css') }}">
         @livewireStyles
 
         <!-- Scripts -->
         <!--@vite(['resources/css/app.css', 'resources/js/app.js'])-->
     </head>
     <body class="font-sans antialiased">
-        <x-jet-banner />
+
+        @livewire('navigation-menu')
 
         <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
-
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
+            @if (session('status'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('status') }}
+                </div>
             @endif
-
             <!-- Page Content -->
             <main>
                 {{ $slot }}
@@ -41,5 +38,6 @@
         @stack('modals')
 
         @livewireScripts
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>

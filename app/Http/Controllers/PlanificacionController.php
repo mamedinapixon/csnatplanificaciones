@@ -15,7 +15,8 @@ class PlanificacionController extends Controller
      */
     public function index()
     {
-        //
+        $planificaciones = Planificacion::get();
+        return view('planificacion.index',compact('planificaciones'));
     }
 
     /**
@@ -25,7 +26,7 @@ class PlanificacionController extends Controller
      */
     public function create()
     {
-        //
+        return view('planificacion.create');
     }
 
     /**

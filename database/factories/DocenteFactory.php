@@ -14,7 +14,11 @@ class DocenteFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id' => null,
+            'Apellido' => $this->faker->name(),
+            'Nombre' => $this->faker->name(),
+            'tipo_documento_id' => 1,
+            'nro_documento' => $this->faker->randomNumber(5, true)
         ];
     }
 }

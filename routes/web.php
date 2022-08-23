@@ -2,6 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\CarreraController;
+use App\Http\Controllers\DocenteController;
+use App\Http\Controllers\MateriaController;
+use App\Http\Controllers\MateriaPlanEstudioController;
+use App\Http\Controllers\PeriodoLectivoController;
+use App\Http\Controllers\PlanificacionController;
+use App\Http\Controllers\SalidaController;
+//use App\Http\Controllers\DocentePlanificacionController;
+//use App\Http\Controllers\ModalidadController;
+//use App\Http\Controllers\PeriodoAcademicoController;
+//use App\Http\Controllers\TipoAsignaturaController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,17 +24,23 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
+    Route::get('/', function () {
+        return view('dashboard');
+    });
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::resource('/planificacion', PlanificacionController::class);
+    Route::resource('/admin/carrera', CarreraController::class);
+    Route::resource('/admin/docente', DocenteController::class);
+    Route::resource('/admin/materia', MateriaController::class);
+    Route::resource('/admin/salida', SalidaController::class);
+    Route::resource('/admin/periodoLectivo', PeriodoLectivoController::class);
+    Route::resource('/admin/materiaplanestudio', MateriaPlanEstudioController::class);
+
 });

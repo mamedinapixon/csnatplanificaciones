@@ -1,5 +1,4 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
-const withMT = require("@material-tailwind/html/utils/withMT");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -9,7 +8,6 @@ module.exports = {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
     ],
-
     theme: {
         extend: {
             fontFamily: {
@@ -17,6 +15,10 @@ module.exports = {
             },
         },
     },
-
-    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography'), require("daisyui")],
+    safelist: [
+        {
+          pattern: /./
+        },
+    ],
+    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography'), require('daisyui')],
 };
