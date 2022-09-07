@@ -8,16 +8,18 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@2.24.0/dist/full.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
-        <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
 
         <!-- Styles -->
         <link type="text/css" rel="stylesheet" href="{{ asset('css/app.css') }}">
         @livewireStyles
 
         <!-- Scripts -->
-        <!--@vite(['resources/css/app.css', 'resources/js/app.js'])-->
+        <link rel="stylesheet" href="//cdn.quilljs.com/1.3.6/quill.bubble.css">
+        <style>
+            [x-cloak] { display: none !important; }
+        </style>
     </head>
     <body class="font-sans antialiased">
 
@@ -38,6 +40,7 @@
         @stack('modals')
 
         @livewireScripts
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>

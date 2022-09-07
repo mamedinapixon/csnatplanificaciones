@@ -4,7 +4,7 @@
     </div>
     <div class="flex-none">
       <ul class="p-0 menu menu-horizontal">
-        <li><a>Item 1</a></li>
+        <li><a href="{{ route('planificacion.index') }}">Planificaciones</a></li>
         <div class="dropdown dropdown-end">
             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                 <label tabindex="0" class="btn btn-ghost btn-circle avatar">
@@ -24,8 +24,8 @@
                     </a>
                 </li>
                 <li>
-                    <a class="justify-between" href="{{ route('profile.show') }}">
-                        Perfil
+                    <a class="justify-between" href="{{ route('planificacion.index') }}">
+                        Planificaciones
                     </a>
                 </li>
                 <form method="POST" action="{{ route('logout') }}"  @click.prevent="$root.submit();" x-data>

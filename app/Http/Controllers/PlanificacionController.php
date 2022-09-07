@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Planificacion;
 use App\Http\Requests\StorePlanificacionRequest;
 use App\Http\Requests\UpdatePlanificacionRequest;
+use Illuminate\Http\Request;
 
 class PlanificacionController extends Controller
 {
@@ -16,6 +17,7 @@ class PlanificacionController extends Controller
     public function index()
     {
         $planificaciones = Planificacion::get();
+        //dd($planificaciones);
         return view('planificacion.index',compact('planificaciones'));
     }
 
@@ -35,9 +37,12 @@ class PlanificacionController extends Controller
      * @param  \App\Http\Requests\StorePlanificacionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePlanificacionRequest $request)
+    public function store(Request $request)
     {
-        //
+        //dd($request->all());
+        //$pregunta = Pregunta::create($request->all());
+        //Retorno
+        //return back()->with('status', 'Pregunta creada con éxitos');
     }
 
     /**
@@ -59,7 +64,12 @@ class PlanificacionController extends Controller
      */
     public function edit(Planificacion $planificacion)
     {
-        //
+        $planificacion = Planificacion::with(['materiaPlanEstudio.materia','materiaPlanEstudio.carrera','docenteCargo','periodoLectivo','periodoLectivo.periodoAcademico'])->where("id",$planificacion->id)->first();
+        $asigantura = $planificacion->materiaPlanEstudio->anio_curdada."º año - ".$planificacion->materiaPlanEstudio->materia->nombre;
+        $carrera = $planificacion->materiaPlanEstudio->carrera->codigo_siu;
+        $periodo_lectivo = $planificacion->periodoLectivo->periodoAcademico->nombre." ".$planificacion->periodoLectivo->anio_academico;
+        $docente = "";//$planificacion->docenteCargo->apellido." ".$planificacion->docenteCargo->nombre;
+        return view('planificacion.edit', compact('planificacion','asigantura','carrera','periodo_lectivo','docente'));
     }
 
     /**

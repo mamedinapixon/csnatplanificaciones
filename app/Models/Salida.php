@@ -12,7 +12,7 @@ class Salida extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'planificaicon_id',
+        'planificacion_id',
         'nombre',
         'dias_tentativos',
         'fecha_tentativa'
@@ -21,7 +21,7 @@ class Salida extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'planificaicon_id' => 'integer',
+        'planificacion_id' => 'integer',
         'nombre' => 'string',
         'dias_tentativos' => 'integer',
         'fecha_tentativa' => 'string'

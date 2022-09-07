@@ -13,8 +13,8 @@ class Docente extends Model
 
     protected $fillable = [
         'user_id',
-        'Apellido',
-        'Nombre',
+        'apellido',
+        'nombre',
         'tipo_documento_id',
         'nro_documento'
     ];
@@ -23,11 +23,16 @@ class Docente extends Model
 
     protected $casts = [
         'user_id' => 'integer',
-        'Apellido' => 'string',
-        'Nombre' => 'string',
+        'apellido' => 'string',
+        'nombre' => 'string',
         'tipo_documento_id' => 'integer',
         'nro_documento' => 'string'
     ];
+
+    public function getFullNameAttribute()
+{
+    return "{$this->apellido}, {$this->nombre}";
+}
 
     /**
      * Get all of the planificaciones for the Docente

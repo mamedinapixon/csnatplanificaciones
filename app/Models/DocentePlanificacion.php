@@ -24,4 +24,13 @@ class DocentePlanificacion extends Model
         'docente_id' => 'integer',
         'cargo_id' => 'integer'
     ];
+
+    public function docente()
+    {
+        return $this->belongsTo(Docente::class);
+    }
+    public function cargo()
+    {
+        return $this->belongsTo(Cargo::class);
+    }
 }

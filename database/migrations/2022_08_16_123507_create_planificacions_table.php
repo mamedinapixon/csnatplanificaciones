@@ -32,7 +32,7 @@ class CreatePlanificacionsTable extends Migration
             $table->integer('modalidad_parciales_id')->nullable();
             $table->boolean('salida_campo')->default(0);
             $table->integer('salida_campo_cantidad')->default(0);
-            $table->string('salida_campo_conjuntas')->default(0);
+            $table->boolean('salida_campo_conjuntas')->default(0);
             $table->text('salida_campo_catedras')->nullable();
             $table->boolean('actividades_conjuntas')->default(0);
             $table->text('actividades_conjuntas_catedras')->nullable();
@@ -43,6 +43,7 @@ class CreatePlanificacionsTable extends Migration
             $table->boolean('aula_virtual_complemento_dictado')->default(0);
             $table->boolean('herramientas_virtuales')->default(0);
             $table->text('herramientas_virtuales_previstas')->nullable();
+            $table->text('necesidades')->nullable();
             $table->text('observacioens_sugerencias')->nullable();
             $table->softDeletes();
             $table->timestamps();

@@ -40,6 +40,7 @@ class Planificacion extends Model
         'aula_virtual_complemento_dictado',
         'herramientas_virtuales',
         'herramientas_virtuales_previstas',
+        'necesidades',
         'observacioens_sugerencias'
     ];
 
@@ -63,7 +64,7 @@ class Planificacion extends Model
         'modalidad_parciales_id' => 'integer',
         'salida_campo' => 'boolean',
         'salida_campo_cantidad' => 'integer',
-        'salida_campo_conjuntas' => 'string',
+        'salida_campo_conjuntas' => 'boolean',
         'salida_campo_catedras' => 'string',
         'actividades_conjuntas' => 'boolean',
         'actividades_conjuntas_catedras' => 'string',
@@ -74,6 +75,7 @@ class Planificacion extends Model
         'aula_virtual_complemento_dictado' => 'boolean',
         'herramientas_virtuales' => 'boolean',
         'herramientas_virtuales_previstas' => 'string',
+        'necesidades' => 'string',
         'observacioens_sugerencias' => 'string'
     ];
 

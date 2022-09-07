@@ -15,7 +15,7 @@ class CreateSalidasTable extends Migration
     {
         Schema::create('salidas', function (Blueprint $table) {
             $table->id();
-            $table->integer('planificaicon_id');
+            $table->integer('planificacion_id');
             $table->string('nombre');
             $table->integer('dias_tentativos')->default(0);
             $table->string('fecha_tentativa')->default('');
