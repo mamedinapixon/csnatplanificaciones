@@ -1,0 +1,153 @@
+<x-app-layout>
+    <div class="py-12">
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <x-pixonui.heading.h1><small class="font-light">{{ $periodo_lectivo }} |
+                    {{ $carrera }}</small><br>{{ $asigantura }}</x-pixonui.heading.h1>
+            <div class="overflow-hidden bg-white sm:rounded-lg">
+                <div class="p-6 space-y-2 bg-white border-b border-gray-200 sm:px-20">
+                    <x-pixonui.heading.h2 class="pt-8">Docentes</x-pixonui.heading.h2>
+                    <x-pixonui.show.labeltext caption="Docente a cargo">
+                        {{ $planificacion->docenteCargo->apellido }},  {{ $planificacion->docenteCargo->nombre }}
+                    </x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Docentes que participarán en el dictado">
+                    </x-pixonui.show.labeltext>
+                    <table class="table w-full table-zebra">
+                        <!-- head -->
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Docente</th>
+                                <th>Cargo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- rows-->
+                            @if (!empty($docentesPartipan))
+                                @foreach ($docentesPartipan as $docentePartipan)
+                                    <tr wire:key="docente-partipan-{{ $docentePartipan->id }}">
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <th>{{ $docentePartipan->docente->apellido }},
+                                            {{ $docentePartipan->docente->nombre }}</th>
+                                        <td>{{ $docentePartipan->cargo->nombre }}</td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                    <x-pixonui.show.labelsino caption="¿Prevé docentes invitados?" :value="$planificacion->doc_invitados" />
+
+                    <!-- Asignatura -->
+                    <x-pixonui.heading.h2 class="pt-8">Asignatura</x-pixonui.heading.h2>
+                    <x-pixonui.show.labeltext caption="Tipo de asignatura">{{ $planificacion->tipoAsignatura != null ? $planificacion->tipoAsignatura->nombre : "" }}</x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Carga horaria total">{{ $planificacion->carga_horaria }}</x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Modalidad de dictado teoricas">{{ $planificacion->modalidadDictadoTeorica != null ? $planificacion->modalidadDictadoTeorica->nombre : "" }}</x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Modalidad de dictado practicas">{{ $planificacion->modalidadDictadoPractica != null ? $planificacion->modalidadDictadoPractica->nombre : "" }}</x-pixonui.show.labeltext>
+
+
+                    <!-- Carga horaria -->
+                    <x-pixonui.heading.h2 class="pt-8">Carga Horaria Semanal</x-pixonui.heading.h2>
+                    <x-pixonui.show.labeltext caption="Carga horaria semanal de practica">{{ $planificacion->carga_horaria_semanal_practica }}</x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Carga horaria semanal de practica-teorica">{{ $planificacion->carga_horaria_semanal_practica_teorica }}</x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Carga horaria semanal de teorica">{{ $planificacion->carga_horaria_semanal_teorica }}</x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Carga horaria semanal (teóricas + teórico prácticas + prácticas)">{{ $planificacion->carga_horaria_semanal_practica+$planificacion->carga_horaria_semanal_practica_teorica+$planificacion->carga_horaria_semanal_teorica }}</x-pixonui.show.labeltext>
+
+                    <!-- Parciales -->
+                    <x-pixonui.heading.h2 class="pt-8">Parciales</x-pixonui.heading.h2>
+                    <x-pixonui.show.labeltext caption="Cantidad de parciales previstos">{{ $planificacion->cantidad_parciales }}</x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Modalidad prevista para los parciales">{{ $planificacion->modalidadParcial != null ? $planificacion->modalidadParcial->nombre : "" }}</x-pixonui.show.labeltext>
+
+                    <!-- Salidas -->
+                    <x-pixonui.heading.h2 class="pt-8">Salidas</x-pixonui.heading.h2>
+                    <x-pixonui.show.labelsino :value="$planificacion->salida_campo" caption="¿El dictado incluirá salidas al campo (incluye visitas a laboratorios, museos, empresas, etc.)?"></x-pixonui.show.labeltext>
+                    @if ($planificacion->salida_campo)
+                        <x-pixonui.show.labeltext caption="Salidas de campo previstas"></x-pixonui.show.labeltext>
+                        <table class="table w-full table-zebra">
+                            <!-- head -->
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Lugar</th>
+                                <th>Días aproximados</th>
+                                <th>Fecha Tentativa</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- rows-->
+                            @if(!empty($salidas))
+                                @foreach ($salidas as $salida)
+                                <tr wire:key="salida-{{ $salida->id }}">
+                                    <td>{{ $loop->index+1 }}</td>
+                                    <th>{{ $salida->nombre }}</th>
+                                    <td>{{ $salida->dias_tentativos }}</td>
+                                    <td>{{ $salida->fecha_tentativa }}</td>
+                                </tr>
+                                @endforeach
+                            @endif
+                            </tbody>
+                        </table>
+                    @endif
+                    <x-pixonui.show.labelsino :value="$planificacion->salida_campo_conjuntas" caption="¿Prevé salidas en conjunto con otra/s cátedras?"></x-pixonui.show.labeltext>
+                    @if($planificacion->salida_campo_conjuntas)
+                        <x-pixonui.show.labeltext caption="Indique con cuál o cuáles cátedras prevé salidas conjuntas">
+                            <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                {!! $planificacion->salida_campo_catedras !!}
+                            </div>
+                        </x-pixonui.show.labeltext>
+                    @endif
+
+                    <!-- Actividades conjuntas -->
+                    <x-pixonui.heading.h2 class="pt-8">Actividades</x-pixonui.heading.h2>
+                    <x-pixonui.show.labelsino :value="$planificacion->actividades_conjuntas" caption="¿Prevé actividades conjuntas con otras cátedras?"></x-pixonui.show.labeltext>
+                    @if($planificacion->actividades_conjuntas)
+                        <x-pixonui.show.labeltext caption="Indique con cuál o cuáles cátedras prevé actividades conjuntas">
+                        <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                            {!! $planificacion->actividades_conjuntas_catedras !!}
+                        </div>
+                        </x-pixonui.show.labeltext>
+                        <x-pixonui.show.labeltext caption="Indique las actividades previstas">
+                            <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                {!! $planificacion->actividades_conjuntas_tipo !!}
+                            </div>
+                        </x-pixonui.show.labeltext>
+                    @endif
+                    <x-pixonui.show.labelsino :value="$planificacion->actividades_complementarias" caption="¿Prevé actividades académicas complementarias como charlas, seminarios, talleres, etc.?"></x-pixonui.show.labeltext>
+                    @if($planificacion->actividades_complementarias)
+                        <x-pixonui.show.labeltext caption="Indique el tipo de actividades complmentarias">
+                            <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                {!! $planificacion->actividades_complementarias_tipo !!}
+                            </div>
+                        </x-pixonui.show.labeltext>
+                    @endif
+
+                    <!-- Herramientas virtuales -->
+                    <x-pixonui.heading.h2 class="pt-8">Herramientas virtuales</x-pixonui.heading.h2>
+                    <x-pixonui.show.labelsino :value="$planificacion->aula_virtual" caption="¿La asignatura cuenta con aula virtual?"></x-pixonui.show.labeltext>
+                    @if($planificacion->aula_virtual)
+                        <x-pixonui.show.labelsino :value="$planificacion->aula_virtual_complemento_dictado" caption="¿Hará uso del aula virtual como complemento al dictado?"></x-pixonui.show.labeltext>
+                    @endif
+                    <x-pixonui.show.labelsino :value="$planificacion->herramientas_virtuales" caption="¿Se prevé en el dictado el uso de otras herramientas virtuales como laboratorios virtuales, aulas invertidas, softwares específicos, etc.?"></x-pixonui.show.labeltext>
+                    @if($planificacion->herramientas_virtuales)
+                        <x-pixonui.show.labeltext caption="Indique las herramientas virtuales a utilizar">
+                            <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                {!! $planificacion->herramientas_virtuales_previstas !!}
+                            </div>
+                        </x-pixonui.show.labeltext>
+                    @endif
+
+                    <!-- Observaciones -->
+                    <x-pixonui.heading.h2 class="pt-8">Observaciones</x-pixonui.heading.h2>
+                    <x-pixonui.show.labeltext caption="Con el objetivo de poder mejorar y/o potenciar el dictado de su asignatura y a partir de su experiencia en años anteriores (cantidad de alumnos promedio que cursan, problemas recurrentes, etc.) señale aquellas necesidades que podrían ayudarle o facilitarle en el dictado (algún aula en especial, algún material didáctico, insumos, etc.)">
+                        <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                            {!! $planificacion->necesidades !!}
+                        </div>
+                    </x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Observaciones o sugerencias que quisiera mencionar">
+                        <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                            {!! $planificacion->observacioens_sugerencias !!}
+                        </div>
+                    </x-pixonui.show.labeltext>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>

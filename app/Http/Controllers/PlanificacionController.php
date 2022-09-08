@@ -6,6 +6,8 @@ use App\Models\Planificacion;
 use App\Http\Requests\StorePlanificacionRequest;
 use App\Http\Requests\UpdatePlanificacionRequest;
 use Illuminate\Http\Request;
+use App\Models\DocentePlanificacion;
+use App\Models\Salida;
 
 class PlanificacionController extends Controller
 {
@@ -53,7 +55,28 @@ class PlanificacionController extends Controller
      */
     public function show(Planificacion $planificacion)
     {
-        //
+        /*
+        $planificacion = Planificacion::with(['materiaPlanEstudio.materia','materiaPlanEstudio.carrera','docenteCargo','periodoLectivo','periodoLectivo.periodoAcademico'])->where("id",$planificacion->id)->first();
+        $asigantura = $planificacion->materiaPlanEstudio->anio_curdada."º año - ".$planificacion->materiaPlanEstudio->materia->nombre;
+        $carrera = $planificacion->materiaPlanEstudio->carrera->codigo_siu;
+        $periodo_lectivo = $planificacion->periodoLectivo->periodoAcademico->nombre." ".$planificacion->periodoLectivo->anio_academico;
+        */
+        $planificacion = Planificacion::with(['materiaPlanEstudio.materia',
+                                            'materiaPlanEstudio.carrera',
+                                            'docenteCargo',
+                                            'periodoLectivo',
+                                            'periodoLectivo.periodoAcademico',
+                                            'modalidadParcial'])
+                                        ->where("id",$planificacion->id)
+                                        ->first();
+        $asigantura = $planificacion->materiaPlanEstudio->anio_curdada."º año - ".$planificacion->materiaPlanEstudio->materia->nombre;
+        $carrera = $planificacion->materiaPlanEstudio->carrera->codigo_siu;
+        $periodo_lectivo = $planificacion->periodoLectivo->periodoAcademico->nombre." ".$planificacion->periodoLectivo->anio_academico;
+        $docentesPartipan = DocentePlanificacion::with("docente", "cargo")->where("planificacion_id",$planificacion->id)->get();
+        $salidas = Salida::where("planificacion_id", $planificacion->id)->get();
+        //dd($planificacion);
+        //$docente = $planificacion->docenteCargo->apellido." ".$planificacion->docenteCargo->nombre;
+        return view('planificacion.show', compact('planificacion','asigantura','carrera','periodo_lectivo','docentesPartipan', 'salidas'));
     }
 
     /**

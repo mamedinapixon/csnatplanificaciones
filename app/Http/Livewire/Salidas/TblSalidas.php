@@ -39,7 +39,7 @@ class TblSalidas extends Component
     {
         return view('livewire.salidas.tbl-salidas');
     }
-    
+
     public function store()
     {
         //dd("store");

@@ -16,7 +16,7 @@ class PlanificacionTable extends DataTableComponent
     {
         $this->setPrimaryKey('id')
             ->setTableRowUrl(function($row) {
-                return route('planificacion.edit', $row);
+                return route('planificacion.show', $row);
             });
     }
 

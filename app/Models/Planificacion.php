@@ -95,7 +95,7 @@ class Planificacion extends Model
      */
     public function docenteCargo()
     {
-        return $this->belongsTo(Docente::class);
+        return $this->belongsTo(Docente::class, "docente_id");
     }
     /**
      * Get the TipoAsignatura that owns the Planificacion
