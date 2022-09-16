@@ -86,5 +86,6 @@ class Create extends Component
     {
         //session()->flash('message', 'Post successfully updated.');
         return redirect()->to('/planificacion/'.$planificacion_id.'/edit');
+
     }
 }

@@ -41,7 +41,8 @@ class Planificacion extends Model
         'herramientas_virtuales',
         'herramientas_virtuales_previstas',
         'necesidades',
-        'observacioens_sugerencias'
+        'observacioens_sugerencias',
+        'estado_id'
     ];
 
     protected $guarded = ['id'];
@@ -76,7 +77,8 @@ class Planificacion extends Model
         'herramientas_virtuales' => 'boolean',
         'herramientas_virtuales_previstas' => 'string',
         'necesidades' => 'string',
-        'observacioens_sugerencias' => 'string'
+        'observacioens_sugerencias' => 'string',
+        'estado_id' => 'integer',
     ];
 
     /**
@@ -159,6 +161,11 @@ class Planificacion extends Model
     public function periodoLectivo()
     {
         return $this->belongsTo(PeriodoLectivo::class);
+    }
+
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class);
     }
 
 }

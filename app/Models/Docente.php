@@ -16,7 +16,8 @@ class Docente extends Model
         'apellido',
         'nombre',
         'tipo_documento_id',
-        'nro_documento'
+        'nro_documento',
+        'email'
     ];
 
     protected $guarded = ['id'];
@@ -26,7 +27,8 @@ class Docente extends Model
         'apellido' => 'string',
         'nombre' => 'string',
         'tipo_documento_id' => 'integer',
-        'nro_documento' => 'string'
+        'nro_documento' => 'string',
+        'email' => 'string'
     ];
 
     public function getFullNameAttribute()

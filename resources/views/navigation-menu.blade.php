@@ -1,6 +1,6 @@
 <nav class="navbar bg-base-100">
     <div class="flex-1">
-      <a href="{{ route('dashboard') }}" class="text-xl normal-case btn btn-ghost">Dashboard</a>
+      <a href="{{ route('planificacion.index') }}" class="text-xl normal-case btn btn-ghost">Planificaciones</a>
     </div>
     <div class="flex-none">
       <ul class="p-0 menu menu-horizontal">

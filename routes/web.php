@@ -9,6 +9,7 @@ use App\Http\Controllers\MateriaPlanEstudioController;
 use App\Http\Controllers\PeriodoLectivoController;
 use App\Http\Controllers\PlanificacionController;
 use App\Http\Controllers\SalidaController;
+use App\Http\Controllers\GoogleController;
 //use App\Http\Controllers\DocentePlanificacionController;
 //use App\Http\Controllers\ModalidadController;
 //use App\Http\Controllers\PeriodoAcademicoController;
@@ -29,12 +30,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/', function () {
-        return view('dashboard');
-    });
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/', [PlanificacionController::class, 'index']);
     Route::resource('/planificacion', PlanificacionController::class);
     Route::resource('/admin/carrera', CarreraController::class);
     Route::resource('/admin/docente', DocenteController::class);
@@ -42,5 +38,7 @@ Route::middleware([
     Route::resource('/admin/salida', SalidaController::class);
     Route::resource('/admin/periodoLectivo', PeriodoLectivoController::class);
     Route::resource('/admin/materiaplanestudio', MateriaPlanEstudioController::class);
-
 });
+
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);

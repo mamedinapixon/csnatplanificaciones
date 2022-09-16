@@ -70,12 +70,6 @@ class Edit extends Component
 
     }
 
-    private function asignarVariables()
-    {
-
-    }
-
-
     public function render()
     {
         return view('livewire.planificacion.edit');
@@ -83,26 +77,26 @@ class Edit extends Component
 
     public function updated($propertyName, $value)
     {
-        // TODO: Mantener actualizado
-        //$this->validateOnly("form".$propertyName);
-        //dd($this->planificacion);
         $this->validateOnly($propertyName);
         $this->planificacion->update([str_replace("form.","",$propertyName) => $value]);
-        //dd($propertyName);
-        //$this->planificacion[$propertyName] = $value;
-        //$this->planificacion->save();
         $this->form[$propertyName] = $value;
 
         if($propertyName == "form.carga_horaria_semanal_practica" || $propertyName == "form.carga_horaria_semanal_practica_teorica" || $propertyName == "form.carga_horaria_semanal_teorica")
         {
             $this->CalcularCargaHorariaSemanal();
         }
-
-        //dd($value);
     }
 
     public function CalcularCargaHorariaSemanal()
     {
         $this->cargaHorariaSemanal = $this->planificacion->carga_horaria_semanal_practica + $this->planificacion->carga_horaria_semanal_practica_teorica + $this->planificacion->carga_horaria_semanal_teorica;
+    }
+
+    public function OnPresentar()
+    {
+        $this->planificacion->update(["estado_id" => 2]);
+        $this->form["estado_id"] = 2;
+        session()->flash('message', 'Planificación presentada!');
+        redirect()->to('planificacion/'.$this->planificacion->id);
     }
 }

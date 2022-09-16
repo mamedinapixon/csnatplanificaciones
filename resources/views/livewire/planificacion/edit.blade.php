@@ -215,6 +215,22 @@
         <x-pixonui.wire.loading.spinner wire:target="form.observacioens_sugerencias"></x-pixonui.wire.loading.spinner>
         <x-pixonui.form.error for="form.observacioens_sugerencias"></x-pixonui.form.error>
     </div>
+    <div class="flex justify-end space-x-4 py-4" x-data="{}">
+        <a class="btn max-w-md" href="{{ route('planificacion.index') }}"  >
+            Volver
+        </a>
+        <a class="btn btn-wide btn-primary" x-on:click="
+                aletWarning('¿Desea presentar la planificación?', 'Una vez presentada <b>no podra editarla</b>.', 'Si, continuar', 'Cancelar', function() {
+                    $wire.OnPresentar();
+                });
+            ">
+            Presentar
+        </a>
+    </div>
+
+    @push('scripts')
+
+    @endpush
 
 
 </div>

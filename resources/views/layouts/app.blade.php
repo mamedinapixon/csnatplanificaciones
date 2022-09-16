@@ -41,6 +41,28 @@
 
         @livewireScripts
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="{{ asset('js/app.js') }}"></script>
+        @stack('scripts')
+        <script>
+            function aletWarning(title, text, confirmButtonText, cancelButtonText, callback)
+            {
+                Swal.fire({
+                    title: title,
+                    html: text,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: confirmButtonText,
+                    cancelButtonText: cancelButtonText
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        callback();
+                    }
+                })
+            }
+        </script>
+
     </body>
 </html>

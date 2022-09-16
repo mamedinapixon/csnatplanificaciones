@@ -20,6 +20,7 @@ class CreateDocentesTable extends Migration
             $table->string('nombre');
             $table->integer('tipo_documento_id')->default(1);
             $table->string('nro_documento');
+            $table->string('email');
             $table->softDeletes();
             $table->timestamps();
 

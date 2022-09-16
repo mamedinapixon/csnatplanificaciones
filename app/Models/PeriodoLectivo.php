@@ -44,4 +44,9 @@ class PeriodoLectivo extends Model
     {
         return $this->belongsTo(PeriodoAcademico::class);
     }
+
+    public function getFullPeriodoLectivoAttribute()
+    {
+        return "{$this->anio_academico} {$this->periodo_academico_id}";
+    }
 }

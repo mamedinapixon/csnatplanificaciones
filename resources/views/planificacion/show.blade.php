@@ -1,4 +1,15 @@
 <x-app-layout>
+    @if (session('message'))
+    @push('scripts')
+    <script>
+        Swal.fire(
+                '{{ session("message") }}',
+                '',
+                'success'
+                )
+    </script>
+    @endpush
+    @endif
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <x-pixonui.heading.h1><small class="font-light">{{ $periodo_lectivo }} |
@@ -146,6 +157,34 @@
                             {!! $planificacion->observacioens_sugerencias !!}
                         </div>
                     </x-pixonui.show.labeltext>
+                </div>
+            </div>
+            <div class="flex justify-between space-x-4 p-4 items-center" x-data="{}">
+                <div>
+                    <x-pixonui.form.label>
+                        <span class="text-lg pr-1">Estado actual:</span>
+                        @switch($planificacion->estado_id)
+                            @case(1)
+                                <div class="badge gap-2 text-white">{{ $planificacion->estado->nombre }}</div>
+                                @break
+                            @case(2)
+                            <div class="badge badge-info gap-2 text-white">{{ $planificacion->estado->nombre }}</div>
+                                @break
+                            @case(3)
+                            <div class="badge badge-success gap-2 text-white">{{ $planificacion->estado->nombre }}</div>
+                                @break
+                            @default
+
+                        @endswitch
+                    </x-pixonui.form.label>
+                </div>
+                <div class="flex space-x-4">
+                    <a class="btn max-w-md" href="{{ route('planificacion.index') }}"  >
+                        Volver
+                    </a>
+                    @hasanyrole('gestor|admin')
+                        @livewire('planificacion.cambiar-estado', ['planificacion_id' => $planificacion->id, 'estado_id' => $planificacion->estado_id])
+                    @endhasanyrole
                 </div>
             </div>
         </div>
