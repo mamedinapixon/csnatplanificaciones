@@ -42,7 +42,9 @@ class Planificacion extends Model
         'herramientas_virtuales_previstas',
         'necesidades',
         'observacioens_sugerencias',
-        'estado_id'
+        'estado_id',
+        'presentado_at',
+        'revisado_at'
     ];
 
     protected $guarded = ['id'];
@@ -79,7 +81,10 @@ class Planificacion extends Model
         'necesidades' => 'string',
         'observacioens_sugerencias' => 'string',
         'estado_id' => 'integer',
+        'presentado_at' => 'datetime',
+        'revisado_at' => 'datetime'
     ];
+
 
     /**
      * Get the MateriaPlanEstudio that owns the Planificacion

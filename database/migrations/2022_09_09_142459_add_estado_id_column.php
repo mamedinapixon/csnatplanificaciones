@@ -25,6 +25,9 @@ class AddEstadoIdColumn extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('planificacions', function ($table) {
+            $table->dropColumn('estado_id');
+        });
+
     }
 }

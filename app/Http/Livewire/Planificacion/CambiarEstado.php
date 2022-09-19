@@ -3,17 +3,16 @@
 namespace App\Http\Livewire\Planificacion;
 
 use Livewire\Component;
+use Carbon\Carbon;
 use App\Models\Planificacion;
 
 class CambiarEstado extends Component
 {
-    public $planificacion_id;
-    public $estado_id;
+    public $planificacion;
 
-    public function mount($planificacion_id, $estado_id)
+    public function mount($planificacion)
     {
-        $this->planificacion_id = $planificacion_id;
-        $this->estado_id = $estado_id;
+        $this->planificacion = $planificacion;
     }
 
     public function render()
@@ -23,19 +22,35 @@ class CambiarEstado extends Component
 
     public function OnQuitarPresentada()
     {
-        $planificacion = Planificacion::find($this->planificacion_id);
-        $planificacion->update(["estado_id" => 1]);
-        $this->estado_id = 1;
+        $planificacion = Planificacion::find($this->planificacion->id);
+        $planificacion->update([
+            "estado_id" => 1,
+            "presentado_at" => null,
+            "revisado_at" => null,
+        ]);
+        $this->planificacion = $planificacion;
         session()->flash('message', 'Planificación habilitada para edición!');
-        //redirect()->to('planificacion/'.$this->planificacion->id);
     }
 
     public function OnRevisado()
     {
-        $planificacion = Planificacion::find($this->planificacion_id);
-        $planificacion->update(["estado_id" => 3]);
-        $this->estado_id = 3;
+        $planificacion = Planificacion::find($this->planificacion->id);
+        $planificacion->update([
+            "estado_id" => 3,
+            "revisado_at" => Carbon::now()->timestamp
+        ]);
+        $this->planificacion = $planificacion;
         session()->flash('message', 'Planificación revisada!');
-        //redirect()->to('planificacion/'.$this->planificacion->id);
+    }
+
+    public function OnPresentar()
+    {
+        $planificacion = Planificacion::find($this->planificacion->id);
+        $planificacion->update([
+            "estado_id" => 2,
+            "presentado_at" => Carbon::now()->timestamp
+        ]);
+        $this->planificacion = $planificacion;
+        session()->flash('message', 'Planificación presentada!');
     }
 }

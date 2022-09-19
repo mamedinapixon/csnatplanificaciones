@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Planificacion;
 
 use Livewire\Component;
+use Carbon\Carbon;
+
 use App\Models\Docente;
 use App\Models\Planificacion;
 use App\Models\TipoAsignatura;
@@ -94,8 +96,12 @@ class Edit extends Component
 
     public function OnPresentar()
     {
-        $this->planificacion->update(["estado_id" => 2]);
+        $this->planificacion->update([
+            "estado_id" => 2,
+            "presentado_at" => Carbon::now()->timestamp
+        ]);
         $this->form["estado_id"] = 2;
+
         session()->flash('message', 'Planificación presentada!');
         redirect()->to('planificacion/'.$this->planificacion->id);
     }

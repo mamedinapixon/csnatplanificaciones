@@ -26,6 +26,9 @@ class AddGoogleIdColumn extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('users', function ($table) {
+            $table->dropColumn('google_id');
+            $table->dropColumn('google_token');
+        });
     }
 }

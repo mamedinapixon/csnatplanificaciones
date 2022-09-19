@@ -46,14 +46,22 @@ class PlanificacionTable extends DataTableComponent
     {
         return [
             Column::make("Id", "id")->sortable(),
-            Column::make("Anio Academico", "periodoLectivo.anio_academico")->sortable(),
-            Column::make("Periodo", "periodoLectivo.periodoAcademico.nombre")->sortable(),
-            Column::make("Periodo Lectivo", "periodoLectivo.id")->sortable(),
+            Column::make('Periodo Lectivo', 'periodo_lectivo_id')
+                ->eagerLoadRelations()
+                ->format(
+                    fn($value, $row, Column $column) => $row->periodoLectivo->anio_academico . ' ' . $row->periodoLectivo->periodoAcademico->nombre
+                )
+                ->sortable(),
             Column::make("Carrera", "materiaPlanEstudio.carrera.nombre_reducido")->sortable(),
             Column::make("Asignatura", "materiaPlanEstudio.materia.nombre")->searchable()->sortable(),
+            Column::make("Presentado", "presentado_at")
+                ->format(
+                    fn($value, $row, Column $column) => $row->presentado_at == null ? '' : \Carbon\Carbon::parse($row->presentado_at)->diffForHumans()
+                )
+                ->sortable(),
             Column::make('Estado', 'estado_id')
                 ->format(
-                    fn($value, $row, Column $column) => $row->estado_id == 2 ? '<div class="badge badge-info gap-2 text-white">'.$row->estado->nombre.'</div>' : ($row->estado_id == 3 ? '<div class="badge badge-success gap-2 text-white">'.$row->estado->nombre.'</div>' : '<div class="badge gap-2 text-white">'.$row->estado->nombre.'</div>')
+                    fn($value, $row, Column $column) => $row->estado_id == 2 ? '<div class="gap-2 text-white badge badge-info">'.$row->estado->nombre.'</div>' : ($row->estado_id == 3 ? '<div class="gap-2 text-white badge badge-success">'.$row->estado->nombre.'</div>' : '<div class="gap-2 text-white badge">'.$row->estado->nombre.'</div>')
                 )
                 ->html(),
         ];
