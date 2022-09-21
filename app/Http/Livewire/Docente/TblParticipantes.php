@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Docentes;
+namespace App\Http\Livewire\Docente;
 
 use Livewire\Component;
 use App\Models\DocentePlanificacion;
@@ -38,7 +38,7 @@ class TblParticipantes extends Component
 
     public function render()
     {
-        return view('livewire.docentes.tbl-participantes');
+        return view('livewire.docente.tbl-participantes');
     }
 
     public function load()

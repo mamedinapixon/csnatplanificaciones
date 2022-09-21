@@ -13,7 +13,7 @@ class StoreDocenteRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class StoreDocenteRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'apellido' => 'required',
+            'nombre' => 'required',
+            'nro_documento' => 'required',
+            'email' => 'required'
         ];
     }
 }

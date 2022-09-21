@@ -62,36 +62,11 @@
                 </div>
             </div>
         @endif
-        <div class="w-full max-w-xs form-control">
+        <div class="flex flex-row space-x-4 form-control">
+            <a class="max-w-xs btn" href="{{ route('planificacion.index') }}"  >
+                Volver
+            </a>
             <button class="btn btn-primary" wire:click="store">Crear planificaicon y continuar</button>
         </div>
-
-
-
-
-
-
-
-
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <hr>
-        Log:
-        <ul>
-            <li>Periodo_lectivo_id: {{ $periodo_lectivo_id }}</li>
-            <li>Carrera_id: {{ $carrera_id }}</li>
-
-
-        </ul>
-
     </div>
 </div>

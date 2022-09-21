@@ -16,6 +16,8 @@ class DocenteController extends Controller
     public function index()
     {
         //
+        return view('admin.docente.index');
+
     }
 
     /**
@@ -26,6 +28,7 @@ class DocenteController extends Controller
     public function create()
     {
         //
+        return view('admin.docente.create');
     }
 
     /**
@@ -37,6 +40,11 @@ class DocenteController extends Controller
     public function store(StoreDocenteRequest $request)
     {
         //
+        $docente = Docente::create($request->all());
+
+        //Retorno
+        session()->flash('message', 'Docente '.$docente->apellido.', '.$docente->nombre.' creado satisfactoriamente!');
+        return view('admin.docente.index');
     }
 
     /**
@@ -59,6 +67,7 @@ class DocenteController extends Controller
     public function edit(Docente $docente)
     {
         //
+        return view('admin.docente.edit', compact('docente'));
     }
 
     /**
@@ -71,6 +80,11 @@ class DocenteController extends Controller
     public function update(UpdateDocenteRequest $request, Docente $docente)
     {
         //
+        $docente->update($request->all());
+
+        //Retorno
+        session()->flash('message', 'Docente '.$docente->apellido.', '.$docente->nombre.' actualizado satisfactoriamente!');
+        return redirect()->route('docente.index');
     }
 
     /**

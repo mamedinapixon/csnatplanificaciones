@@ -8,7 +8,7 @@
         </div>
     </div>
     <!-- DOCENTES QUE PARTICIPAN DEL DICTADO -->
-    <livewire:docentes.tbl-participantes :planificacion_id="$planificacion_id" />
+    <livewire:docente.tbl-participantes :planificacion_id="$planificacion_id" />
     <!----------------------------------------->
     <div class=" form-control">
         <x-pixonui.form.label>¿Prevé docentes invitados?</x-pixonui.form.label>
@@ -215,8 +215,8 @@
         <x-pixonui.wire.loading.spinner wire:target="form.observacioens_sugerencias"></x-pixonui.wire.loading.spinner>
         <x-pixonui.form.error for="form.observacioens_sugerencias"></x-pixonui.form.error>
     </div>
-    <div class="flex justify-end space-x-4 py-4" x-data="{}">
-        <a class="btn max-w-md" href="{{ route('planificacion.index') }}"  >
+    <div class="flex justify-end py-4 space-x-4" x-data="{}">
+        <a class="max-w-md btn" href="{{ route('planificacion.index') }}"  >
             Volver
         </a>
         <a class="btn btn-wide btn-primary" x-on:click="

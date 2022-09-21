@@ -1,4 +1,6 @@
-<nav class="bg-green-800 text-base-100 navbar">
+<nav class="bg-gradient-to-r from-emerald-800 to-emerald-600 text-base-100 navbar">
+
+
     <div class="flex-1">
         <a href="{{ route('planificacion.index') }}" class="text-xl normal-case btn btn-ghost">
             <img src="https://csnat.unt.edu.ar/templates/jux_times/images/logo.png" style="width: 9rem;" alt="Logo Facultad Ciencias Naturales UNT">
@@ -8,6 +10,7 @@
       <ul class="p-0 px-4 space-x-4 menu menu-horizontal">
         @hasanyrole('gestor|admin')
         <li><a href="{{ route('planificacion.index') }}">Planificaciones</a></li>
+        <li><a href="{{ route('docente.index') }}">Docentes</a></li>
         @else
         <li><a href="{{ route('planificacion.index') }}">Mis Planificaciones</a></li>
         @endhasanyrole
