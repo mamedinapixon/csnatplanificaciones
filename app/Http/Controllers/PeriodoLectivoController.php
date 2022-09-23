@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PeriodoLectivo;
+use App\Models\PeriodoAcademico;
 use App\Http\Requests\StorePeriodoLectivoRequest;
 use App\Http\Requests\UpdatePeriodoLectivoRequest;
 
@@ -15,7 +16,7 @@ class PeriodoLectivoController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.periodoLectivo.index');
     }
 
     /**
@@ -25,7 +26,8 @@ class PeriodoLectivoController extends Controller
      */
     public function create()
     {
-        //
+        $periodosAcademicos  = PeriodoAcademico::get();
+        return view('admin.periodoLectivo.create', compact('periodosAcademicos'));
     }
 
     /**
@@ -36,7 +38,21 @@ class PeriodoLectivoController extends Controller
      */
     public function store(StorePeriodoLectivoRequest $request)
     {
-        //
+        $request = $request->all();
+        $periodoLectivo = PeriodoLectivo::where('anio_academico',$request['anio_academico'])
+                                        ->where('periodo_academico_id',$request['periodo_academico_id'])
+                                        ->first();
+        if($periodoLectivo)
+        {
+            //Retorno
+            session()->flash('error', 'El Periodo lectivo ya existe!');
+            return back()->withInput();
+        }
+
+        $periodoLectivo = PeriodoLectivo::create($request);
+        //Retorno
+        session()->flash('message', 'Periodo lectivo creado satisfactoriamente!');
+        return view('admin.periodoLectivo.index');
     }
 
     /**
@@ -58,7 +74,8 @@ class PeriodoLectivoController extends Controller
      */
     public function edit(PeriodoLectivo $periodoLectivo)
     {
-        //
+        $periodosAcademicos = PeriodoAcademico::get();
+        return view('admin.periodoLectivo.edit', compact('periodoLectivo','periodosAcademicos'));
     }
 
     /**
@@ -70,7 +87,12 @@ class PeriodoLectivoController extends Controller
      */
     public function update(UpdatePeriodoLectivoRequest $request, PeriodoLectivo $periodoLectivo)
     {
-        //
+        //dd($request->all());
+        $periodoLectivo->update($request->all());
+
+        //Retorno
+        session()->flash('message', 'Periodo lectivo #'.$periodoLectivo->id.' actualizado satisfactoriamente!');
+        return view('admin.periodoLectivo.index');
     }
 
     /**

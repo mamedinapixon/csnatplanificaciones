@@ -13,7 +13,7 @@ class StorePeriodoLectivoRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class StorePeriodoLectivoRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'anio_academico' => 'required|integer',
+            'periodo_academico_id' => 'required|integer',
+            'fecha_inicio_activo' => 'required|date',
+            'fecha_fin_activo' => 'required|date'
         ];
     }
 }

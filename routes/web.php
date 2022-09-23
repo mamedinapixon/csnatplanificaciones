@@ -41,10 +41,11 @@ Route::middleware([
     'role:admin|gestor'
 ])->group(function () {
     Route::resource('/admin/docente', DocenteController::class);
+    Route::resource('/admin/periodoLectivo', PeriodoLectivoController::class);
     //Route::resource('/admin/carrera', CarreraController::class);
     //Route::resource('/admin/materia', MateriaController::class);
     //Route::resource('/admin/salida', SalidaController::class);
-    //Route::resource('/admin/periodoLectivo', PeriodoLectivoController::class);
+    //
     //Route::resource('/admin/materiaplanestudio', MateriaPlanEstudioController::class);
 });
 

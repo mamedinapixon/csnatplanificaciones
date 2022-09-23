@@ -23,9 +23,13 @@ class PeriodoLectivo extends Model
     protected $casts = [
         'anio_academico' => 'integer',
         'periodo_academico_id' => 'integer',
-        'fecha_inicio_activo' => 'dateTime',
-        'fecha_fin_activo' => 'dateTime'
+        'fecha_inicio_activo' => 'date',
+        'fecha_fin_activo' => 'date'
     ];
+
+    protected $dates = ['fecha_inicio_activo','fecha_fin_activo'];
+
+
     /**
      * Get all of the planificaciones for the PeriodoLectivo
      *

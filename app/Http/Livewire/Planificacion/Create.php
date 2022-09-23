@@ -9,6 +9,7 @@ use App\Models\PeriodoLectivo;
 use App\Models\Materia;
 use App\Models\MateriaPlanEstudio;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class Create extends Component
 {
@@ -28,7 +29,12 @@ class Create extends Component
 
     public function mount()
     {
-        $this->periodosLectivos = PeriodoLectivo::with("periodoAcademico")->get();
+        $this->periodosLectivos = PeriodoLectivo::with("periodoAcademico")
+                ->whereDate('fecha_inicio_activo','<=', Carbon::now()->toDateTimeString())
+                ->whereDate('fecha_fin_activo','>=', Carbon::now()->toDateTimeString())
+                ->get();
+        //dd(Carbon::now()->toDateTimeString());
+        //dd($this->periodosLectivos);
         $this->carreras = Carrera::get();
     }
 
