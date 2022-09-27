@@ -26,6 +26,6 @@ class UserSeeder extends Seeder
             'email' => 'preuba@csnat.unt.edu.ar',
             'password' => Hash::make('cambiar123'),
         ]);
-        \App\Models\User::factory(10)->create();
+        //\App\Models\User::factory(10)->create();
     }
 }

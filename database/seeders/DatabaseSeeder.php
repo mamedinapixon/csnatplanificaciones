@@ -19,11 +19,11 @@ class DatabaseSeeder extends Seeder
         $this->call(ModalidadSeeder::class);
         $this->call(PeriodoAcademicoSeeder::class);
         $this->call(TipoAsignaturaSeeder::class);
-        $this->call(PeriodoLectivoSeeder::class);
-        $this->call(DocenteSeeder::class);
-        $this->call(MateriaSeeder::class);
-        $this->call(MateriaPlanEstudioSeeder::class);
         $this->call(RoleAndPermissionSeeder::class);
         $this->call(EstadoSeeder::class);
+        //$this->call(PeriodoLectivoSeeder::class);
+        //$this->call(DocenteSeeder::class);
+        //$this->call(MateriaSeeder::class);
+        //$this->call(MateriaPlanEstudioSeeder::class);
     }
 }
