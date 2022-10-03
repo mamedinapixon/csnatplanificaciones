@@ -14,7 +14,8 @@ class Materia extends Model
     protected $fillable = [
         'codigo_siu',
         'nombre',
-        'nombre_reducido'
+        'nombre_reducido',
+        'tipo_materia'
     ];
 
     protected $guarded = ['id'];
@@ -22,7 +23,8 @@ class Materia extends Model
     protected $casts = [
         'codigo_siu' => 'string',
         'nombre' => 'string',
-        'nombre_reducido' => 'string'
+        'nombre_reducido' => 'string',
+        'tipo_materia' => 'string'
     ];
 
     /**

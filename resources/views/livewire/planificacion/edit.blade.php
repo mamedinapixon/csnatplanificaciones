@@ -20,6 +20,18 @@
 
     <!-- Asignatura -->
     <x-pixonui.heading.h2 class="pt-8">Asignatura</x-pixonui.heading.h2>
+
+    @if ($planificacion->materiaPlanEstudio->materia->tipo_materia == "G")
+        <div class="w-full form-control">
+            <x-pixonui.form.label>Nombre de la materia electiva</x-pixonui.form.label>
+            <div class="flex items-center w-48 min-w-full space-x-2">
+                <x-pixonui.form.input type="text" maxlength="255" for="form.electiva_nombre" wire:model.lazy="form.electiva_nombre"></x-pixonui.form.input>
+                <x-pixonui.wire.loading.spinner wire:target="form.electiva_nombre"></x-pixonui.wire.loading.spinner>
+            </div>
+            <x-pixonui.form.error for="form.electiva_nombre"></x-pixonui.form.error>
+        </div>
+    @endif
+
     <div class="w-full form-control">
         <x-pixonui.form.label>Tipo de asignatura</x-pixonui.form.label>
         <div class="flex items-center space-x-2">

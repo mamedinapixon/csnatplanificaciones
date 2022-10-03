@@ -49,6 +49,9 @@
 
                     <!-- Asignatura -->
                     <x-pixonui.heading.h2 class="pt-8">Asignatura</x-pixonui.heading.h2>
+                    @if ($planificacion->materiaPlanEstudio->materia->tipo_materia == "G")
+                    <x-pixonui.show.labeltext caption="Nombre de la materia electiva">{{ $planificacion->electiva_nombre }}</x-pixonui.show.labeltext>
+                    @endif
                     <x-pixonui.show.labeltext caption="Tipo de asignatura">{{ $planificacion->tipoAsignatura != null ? $planificacion->tipoAsignatura->nombre : "" }}</x-pixonui.show.labeltext>
                     <x-pixonui.show.labeltext caption="Carga horaria total">{{ $planificacion->carga_horaria }}</x-pixonui.show.labeltext>
                     <x-pixonui.show.labeltext caption="Modalidad de dictado teoricas">{{ $planificacion->modalidadDictadoTeorica != null ? $planificacion->modalidadDictadoTeorica->nombre : "" }}</x-pixonui.show.labeltext>
