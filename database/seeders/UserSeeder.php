@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
         ]);
         DB::table('users')->insert([
             'name' => 'prueba',
-            'email' => 'preuba@csnat.unt.edu.ar',
+            'email' => 'prueba@csnat.unt.edu.ar',
             'password' => Hash::make('cambiar123'),
         ]);
         //\App\Models\User::factory(10)->create();
