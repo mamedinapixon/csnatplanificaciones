@@ -62,7 +62,7 @@ class PlanificacionController extends Controller
         }
         if($planificacion->user_id != Auth::user()->id)
         {
-            if(!Auth::user()->hasRole(['gestor','admin']))
+            if(!Auth::user()->can('ver planificaciones'))
             {
                 session()->flash('message', 'No tiene permiso para ver la planificacion');
                 return redirect()->route('planificacion.index');
@@ -95,14 +95,18 @@ class PlanificacionController extends Controller
      */
     public function edit(Planificacion $planificacion)
     {
-        if($planificacion->estado_id != 1) // Si estado es diferente a iniciado, no puede editar
+        if(!Auth::user()->can('editar planificaciones'))
         {
-            return redirect()->route('planificacion.show', $planificacion);
+           if($planificacion->estado_id != 1) // Si estado es diferente a iniciado, no puede editar
+            {
+                return redirect()->route('planificacion.show', $planificacion);
+            }
+            if($planificacion->user_id != Auth::user()->id) // Si el usuario es diferente, no puede editar.
+            {
+                return redirect()->route('planificacion.show', $planificacion);
+            }
         }
-        if($planificacion->user_id != Auth::user()->id) // Si el usuario es diferente, no puede editar.
-        {
-            return redirect()->route('planificacion.show', $planificacion);
-        }
+
         $planificacion = Planificacion::with(['materiaPlanEstudio.materia','materiaPlanEstudio.carrera','docenteCargo','periodoLectivo','periodoLectivo.periodoAcademico'])->where("id",$planificacion->id)->first();
         $asigantura = $planificacion->materiaPlanEstudio->anio_curdada."º año - ".$planificacion->materiaPlanEstudio->materia->nombre;
         $carrera = $planificacion->materiaPlanEstudio->carrera->codigo_siu;

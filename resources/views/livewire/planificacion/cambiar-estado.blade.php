@@ -21,7 +21,7 @@
         <a class="btn max-w-md" href="{{ route('planificacion.index') }}"  >
             Volver
         </a>
-        @hasanyrole('gestor|admin')
+        @can('cambiar estado planificaciones')
             @if ($planificacion->estado_id == 3)
                 <a class="btn btn-wide btn-primary" x-on:click="
                     aletWarning('¿Desea quitar de la planificación el estado de <b>presentado</b>?', 'El docente tendrá nuevamente permiso de edición.', 'Si, continuar', 'Cancelar', function() {

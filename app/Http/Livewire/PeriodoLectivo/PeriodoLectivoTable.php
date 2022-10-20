@@ -5,6 +5,7 @@ namespace App\Http\Livewire\PeriodoLectivo;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\PeriodoLectivo;
+use Illuminate\Support\Facades\Auth;
 
 class PeriodoLectivoTable extends DataTableComponent
 {
@@ -12,10 +13,13 @@ class PeriodoLectivoTable extends DataTableComponent
 
     public function configure(): void
     {
-        $this->setPrimaryKey('id')
-            ->setTableRowUrl(function($row) {
+        $this->setPrimaryKey('id');
+        if(Auth::user()->can('editar periodos lectivos'))
+        {
+            $this->setTableRowUrl(function($row) {
                 return route('periodoLectivo.edit', $row);
             });
+        }
     }
 
     public function columns(): array

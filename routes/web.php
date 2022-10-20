@@ -10,6 +10,7 @@ use App\Http\Controllers\PeriodoLectivoController;
 use App\Http\Controllers\PlanificacionController;
 use App\Http\Controllers\SalidaController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\UserController;
 //use App\Http\Controllers\DocentePlanificacionController;
 //use App\Http\Controllers\ModalidadController;
 //use App\Http\Controllers\PeriodoAcademicoController;
@@ -38,17 +39,28 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-    'role:admin|gestor'
+    'can:ver docentes'
 ])->group(function () {
     Route::resource('/admin/docente', DocenteController::class);
-    Route::resource('/admin/periodoLectivo', PeriodoLectivoController::class);
-    //Route::resource('/admin/carrera', CarreraController::class);
-    //Route::resource('/admin/materia', MateriaController::class);
-    //Route::resource('/admin/salida', SalidaController::class);
-    //
-    //Route::resource('/admin/materiaplanestudio', MateriaPlanEstudioController::class);
 });
 
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+    'can:ver periodos lectivos'
+])->group(function () {
+    Route::resource('/admin/periodoLectivo', PeriodoLectivoController::class);
+});
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+    'can:ver usuarios'
+])->group(function () {
+    Route::resource('/admin/user', UserController::class);
+});
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);

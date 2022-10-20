@@ -2,9 +2,12 @@
 
 namespace App\Http\Livewire\Planificacion;
 
+use App\Mail\MailNotificarRevisado;
 use Livewire\Component;
 use Carbon\Carbon;
 use App\Models\Planificacion;
+use Illuminate\Support\Facades\Auth;
+use Mail;
 
 class CambiarEstado extends Component
 {
@@ -22,35 +25,50 @@ class CambiarEstado extends Component
 
     public function OnQuitarPresentada()
     {
-        $planificacion = Planificacion::find($this->planificacion->id);
-        $planificacion->update([
-            "estado_id" => 1,
-            "presentado_at" => null,
-            "revisado_at" => null,
-        ]);
-        $this->planificacion = $planificacion;
-        session()->flash('message', 'Planificación habilitada para edición!');
+        if(Auth::user()->can('cambiar estado planificaciones'))
+        {
+           $planificacion = Planificacion::find($this->planificacion->id);
+            $planificacion->update([
+                "estado_id" => 1,
+                "presentado_at" => null,
+                "revisado_at" => null,
+            ]);
+            $this->planificacion = $planificacion;
+            session()->flash('message', 'Planificación habilitada para edición!');
+        }
+
     }
 
     public function OnRevisado()
     {
-        $planificacion = Planificacion::find($this->planificacion->id);
-        $planificacion->update([
-            "estado_id" => 3,
-            "revisado_at" => Carbon::now()->timestamp
-        ]);
-        $this->planificacion = $planificacion;
-        session()->flash('message', 'Planificación revisada!');
+        if(Auth::user()->can('cambiar estado planificaciones'))
+        {
+            $planificacion = Planificacion::find($this->planificacion->id);
+            //dd($planificacion->user->email);
+            $planificacion->update([
+                "estado_id" => 3,
+                "revisado_at" => Carbon::now()->timestamp
+            ]);
+            $this->planificacion = $planificacion;
+            session()->flash('message', 'Planificación revisada!');
+
+            Mail::to($planificacion->user)
+            ->queue(new MailNotificarRevisado($this->planificacion));
+        }
+
     }
 
     public function OnPresentar()
     {
-        $planificacion = Planificacion::find($this->planificacion->id);
-        $planificacion->update([
-            "estado_id" => 2,
-            "presentado_at" => Carbon::now()->timestamp
-        ]);
-        $this->planificacion = $planificacion;
-        session()->flash('message', 'Planificación presentada!');
+        if(Auth::user()->can('cambiar estado planificaciones'))
+        {
+            $planificacion = Planificacion::find($this->planificacion->id);
+            $planificacion->update([
+                "estado_id" => 2,
+                "presentado_at" => Carbon::now()->timestamp
+            ]);
+            $this->planificacion = $planificacion;
+            session()->flash('message', 'Planificación presentada!');
+        }
     }
 }

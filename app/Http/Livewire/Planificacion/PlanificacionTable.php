@@ -29,6 +29,7 @@ class PlanificacionTable extends DataTableComponent
     public function builder(): Builder
     {
 
+        /*
         if(Auth::user()->hasRole(['gestor','admin']))
         {
             $planificacion = Planificacion::query()
@@ -38,6 +39,18 @@ class PlanificacionTable extends DataTableComponent
                             ->where("user_id","=",Auth::user()->id)
                             ->with("materiaPlanEstudio.materia","materiaPlanEstudio.carrera","docenteCargo","periodoLectivo","periodoLectivo.periodoAcademico","estado");
         }
+        */
+
+        if(Auth::user()->can('ver planificaciones'))
+        {
+            $planificacion = Planificacion::query()
+                            ->with("materiaPlanEstudio.materia","materiaPlanEstudio.carrera","docenteCargo","periodoLectivo","periodoLectivo.periodoAcademico","estado");
+        } else {
+            $planificacion = Planificacion::query()
+                            ->where("user_id","=",Auth::user()->id)
+                            ->with("materiaPlanEstudio.materia","materiaPlanEstudio.carrera","docenteCargo","periodoLectivo","periodoLectivo.periodoAcademico","estado");
+        }
+
 
         return $planificacion;
     }

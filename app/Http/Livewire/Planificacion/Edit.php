@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Planificacion;
 
+use App\Mail\MailNotificarPresentado;
 use Livewire\Component;
 use Carbon\Carbon;
 
@@ -9,6 +10,8 @@ use App\Models\Docente;
 use App\Models\Planificacion;
 use App\Models\TipoAsignatura;
 use App\Models\Modalidad;
+use App\Models\User;
+use Mail;
 
 class Edit extends Component
 {
@@ -101,6 +104,12 @@ class Edit extends Component
             "presentado_at" => Carbon::now()->timestamp
         ]);
         $this->form["estado_id"] = 2;
+
+        //Notificar por mail
+        $gestores = User::role('gestor')->get();
+
+        Mail::to($gestores)
+            ->queue(new MailNotificarPresentado($this->planificacion));
 
         session()->flash('message', 'Planificación presentada!');
         redirect()->to('planificacion/'.$this->planificacion->id);

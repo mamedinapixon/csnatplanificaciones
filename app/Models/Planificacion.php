@@ -173,4 +173,9 @@ class Planificacion extends Model
         return $this->belongsTo(Estado::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

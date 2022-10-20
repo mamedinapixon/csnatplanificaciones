@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Docente;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Docente;
+use Illuminate\Support\Facades\Auth;
 
 class DocenteTable extends DataTableComponent
 {
@@ -12,10 +13,14 @@ class DocenteTable extends DataTableComponent
 
     public function configure(): void
     {
-        $this->setPrimaryKey('id')
-             ->setTableRowUrl(function($row) {
+        $this->setPrimaryKey('id');
+        if(Auth::user()->can('editar docentes'))
+        {
+            $this->setTableRowUrl(function($row) {
                 return route('docente.edit', $row);
              });
+        }
+
     }
 
     public function columns(): array
