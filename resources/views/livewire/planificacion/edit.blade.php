@@ -65,22 +65,6 @@
     <!-- Carga horaria -->
     <x-pixonui.heading.h2 class="pt-8">Carga Horaria Semanal</x-pixonui.heading.h2>
     <div class="w-full form-control">
-        <x-pixonui.form.label>Carga horaria semanal de practica</x-pixonui.form.label>
-        <div class="flex items-center w-20 min-w-full space-x-2">
-            <x-pixonui.form.input type="number" for="form.carga_horaria_semanal_practica" wire:model.lazy="form.carga_horaria_semanal_practica"></x-pixonui.form.input>
-            <x-pixonui.wire.loading.spinner wire:target="form.carga_horaria_semanal_practica"></x-pixonui.wire.loading.spinner>
-        </div>
-        <x-pixonui.form.error for="form.carga_horaria_semanal_practica"></x-pixonui.form.error>
-    </div>
-    <div class="w-full form-control">
-        <x-pixonui.form.label>Carga horaria semanal de practica-teorica</x-pixonui.form.label>
-        <div class="flex items-center w-20 min-w-full space-x-2">
-            <x-pixonui.form.input type="number" for="form.carga_horaria_semanal_practica_teorica" wire:model.lazy="form.carga_horaria_semanal_practica_teorica"></x-pixonui.form.input>
-            <x-pixonui.wire.loading.spinner wire:target="form.carga_horaria_semanal_practica_teorica"></x-pixonui.wire.loading.spinner>
-        </div>
-        <x-pixonui.form.error for="form.carga_horaria_semanal_practica_teorica"></x-pixonui.form.error>
-    </div>
-    <div class="w-full form-control">
         <x-pixonui.form.label>Carga horaria semanal de teorica</x-pixonui.form.label>
         <div class="flex items-center w-20 min-w-full space-x-2">
             <x-pixonui.form.input type="number" for="form.carga_horaria_semanal_teorica" wire:model.lazy="form.carga_horaria_semanal_teorica"></x-pixonui.form.input>
@@ -89,7 +73,23 @@
         <x-pixonui.form.error for="form.carga_horaria_semanal_teorica"></x-pixonui.form.error>
     </div>
     <div class="w-full form-control">
-        <x-pixonui.form.label>Carga horaria semanal (teóricas + teórico prácticas + prácticas): {{ $cargaHorariaSemanal }}</x-pixonui.form.label>
+        <x-pixonui.form.label>Carga horaria semanal de teorica-practica</x-pixonui.form.label>
+        <div class="flex items-center w-20 min-w-full space-x-2">
+            <x-pixonui.form.input type="number" for="form.carga_horaria_semanal_practica_teorica" wire:model.lazy="form.carga_horaria_semanal_practica_teorica"></x-pixonui.form.input>
+            <x-pixonui.wire.loading.spinner wire:target="form.carga_horaria_semanal_practica_teorica"></x-pixonui.wire.loading.spinner>
+        </div>
+        <x-pixonui.form.error for="form.carga_horaria_semanal_practica_teorica"></x-pixonui.form.error>
+    </div>
+    <div class="w-full form-control">
+        <x-pixonui.form.label>Carga horaria semanal de practica</x-pixonui.form.label>
+        <div class="flex items-center w-20 min-w-full space-x-2">
+            <x-pixonui.form.input type="number" for="form.carga_horaria_semanal_practica" wire:model.lazy="form.carga_horaria_semanal_practica"></x-pixonui.form.input>
+            <x-pixonui.wire.loading.spinner wire:target="form.carga_horaria_semanal_practica"></x-pixonui.wire.loading.spinner>
+        </div>
+        <x-pixonui.form.error for="form.carga_horaria_semanal_practica"></x-pixonui.form.error>
+    </div>
+    <div class="w-full form-control">
+        <x-pixonui.form.label>Carga horaria semanal (teóricas + teórico-prácticas + prácticas): {{ $cargaHorariaSemanal }}</x-pixonui.form.label>
     </div>
 
     <!-- Parciales -->
