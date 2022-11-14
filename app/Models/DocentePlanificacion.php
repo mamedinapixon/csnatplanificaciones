@@ -14,7 +14,8 @@ class DocentePlanificacion extends Model
     protected $fillable = [
         'planificacion_id',
         'docente_id',
-        'cargo_id'
+        'cargo_id',
+        'dedicacion_id'
     ];
 
     protected $guarded = ['id'];
@@ -22,7 +23,8 @@ class DocentePlanificacion extends Model
     protected $casts = [
         'planificacion_id' => 'integer',
         'docente_id' => 'integer',
-        'cargo_id' => 'integer'
+        'cargo_id' => 'integer',
+        'dedicacion_id' => 'integer',
     ];
 
     public function docente()
@@ -32,5 +34,9 @@ class DocentePlanificacion extends Model
     public function cargo()
     {
         return $this->belongsTo(Cargo::class);
+    }
+    public function dedicacion()
+    {
+        return $this->belongsTo(Dedicacion::class);
     }
 }

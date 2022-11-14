@@ -80,7 +80,7 @@ class PlanificacionController extends Controller
         $asigantura = $planificacion->materiaPlanEstudio->anio_curdada."º año - ".$planificacion->materiaPlanEstudio->materia->nombre;
         $carrera = $planificacion->materiaPlanEstudio->carrera->codigo_siu;
         $periodo_lectivo = $planificacion->periodoLectivo->periodoAcademico->nombre." ".$planificacion->periodoLectivo->anio_academico;
-        $docentesPartipan = DocentePlanificacion::with("docente", "cargo")->where("planificacion_id",$planificacion->id)->get();
+        $docentesPartipan = DocentePlanificacion::with("docente", "cargo", "dedicacion")->where("planificacion_id",$planificacion->id)->get();
         $salidas = Salida::where("planificacion_id", $planificacion->id)->get();
         //dd($planificacion);
         //$docente = $planificacion->docenteCargo->apellido." ".$planificacion->docenteCargo->nombre;

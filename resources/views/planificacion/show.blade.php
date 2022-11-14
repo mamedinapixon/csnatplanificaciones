@@ -29,6 +29,7 @@
                                 <th>#</th>
                                 <th>Docente</th>
                                 <th>Cargo</th>
+                                <th>Dedicación</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,6 +41,7 @@
                                         <th>{{ $docentePartipan->docente->apellido }},
                                             {{ $docentePartipan->docente->nombre }}</th>
                                         <td>{{ $docentePartipan->cargo->nombre }}</td>
+                                        <td>{{ $docentePartipan->dedicacion->nombre }}</td>
                                     </tr>
                                 @endforeach
                             @endif

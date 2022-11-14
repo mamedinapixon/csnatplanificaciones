@@ -6,20 +6,24 @@ use Livewire\Component;
 use App\Models\DocentePlanificacion;
 use App\Models\Docente;
 use App\Models\Cargo;
+use App\Models\Dedicacion;
 
 class TblParticipantes extends Component
 {
     public $docentesPartipan = [];
     public $docentes = [];
     public $cargos = [];
+    public $dedicaciones = [];
 
     public  $docente_id = null,
             $cargo_id = null,
-            $planificacion_id = null;
+            $planificacion_id = null,
+            $dedicacion_id = null;
 
     protected $rules = [
         'docente_id' => 'required',
         'cargo_id' => 'required',
+        'dedicacion_id' => 'required'
     ];
     protected $messages = [
         'docente_id.required' => 'Debe seleccionar un docente.',
@@ -34,6 +38,7 @@ class TblParticipantes extends Component
         //dd($this->docentesPartipan);
         $this->docentes = Docente::Get();
         $this->cargos = Cargo::Get();
+        $this->dedicaciones = Dedicacion::Get();
     }
 
     public function render()
@@ -43,7 +48,7 @@ class TblParticipantes extends Component
 
     public function load()
     {
-        $this->docentesPartipan = DocentePlanificacion::with("docente", "cargo")->where("planificacion_id",$this->planificacion_id)->get();
+        $this->docentesPartipan = DocentePlanificacion::with("docente", "cargo", "dedicacion")->where("planificacion_id",$this->planificacion_id)->get();
     }
 
     public function store()
@@ -61,13 +66,15 @@ class TblParticipantes extends Component
             $docente = DocentePlanificacion::Create([
                 "planificacion_id" => $this->planificacion_id,
                 "docente_id" => $this->docente_id,
-                "cargo_id" => $this->cargo_id
+                "cargo_id" => $this->cargo_id,
+                "dedicacion_id" => $this->dedicacion_id
             ]);
         }
 
         $this->load();
         $this->docente_id = null;
         $this->cargo_id = null;
+        $this->dedicacion_id = null;
     }
 
     public function destroy($docente_id)

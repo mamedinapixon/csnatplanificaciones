@@ -9,6 +9,7 @@
                   <th>#</th>
                   <th>Docente</th>
                   <th>Cargo</th>
+                  <th>Dedicación</th>
                   <th></th>
                 </tr>
               </thead>
@@ -20,6 +21,7 @@
                         <td>{{ $loop->index+1 }}</td>
                         <th>{{ $docentePartipan->docente->apellido }}, {{ $docentePartipan->docente->nombre }}</th>
                         <td>{{ $docentePartipan->cargo->nombre }}</td>
+                        <td>{{ $docentePartipan->dedicacion->nombre }}</td>
                         <td>
                             <button class="btn btn-ghost" wire:click="destroy({{$docentePartipan->id}})" wire:loading.attr="disabled" wire:key="btn-docente-remove-{{ $docentePartipan->id }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -50,6 +52,14 @@
                 @foreach ($cargos as $cargo)
                     <option value="{{ $cargo->id }}"  wire:key="cargo-{{ $cargo->id }}">
                         {{ $cargo->nombre }}
+                    </option>
+                @endforeach
+            </select>
+            <select class="select select-bordered" wire:model.defer="dedicacion_id">
+                <option value="null" disabled>Seleccione la dedicación</option>
+                @foreach ($dedicaciones as $dedicacion)
+                    <option value="{{ $dedicacion->id }}"  wire:key="dedicacion-{{ $dedicacion->id }}">
+                        {{ $dedicacion->nombre }}
                     </option>
                 @endforeach
             </select>
