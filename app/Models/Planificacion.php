@@ -44,7 +44,8 @@ class Planificacion extends Model
         'observacioens_sugerencias',
         'estado_id',
         'presentado_at',
-        'revisado_at'
+        'revisado_at',
+        'urlprograma'
     ];
 
     protected $guarded = ['id'];
@@ -82,7 +83,8 @@ class Planificacion extends Model
         'observacioens_sugerencias' => 'string',
         'estado_id' => 'integer',
         'presentado_at' => 'datetime',
-        'revisado_at' => 'datetime'
+        'revisado_at' => 'datetime',
+        'urlprograma' => 'string',
     ];
 
 

@@ -11,10 +11,14 @@ use App\Models\Planificacion;
 use App\Models\TipoAsignatura;
 use App\Models\Modalidad;
 use App\Models\User;
+use Livewire\WithFileUploads;
 use Mail;
 
 class Edit extends Component
 {
+    use WithFileUploads;
+
+    public $file;
     public $planificacion;
     public $docentes = [];
     public $docetnesDictado = [];
@@ -63,7 +67,8 @@ class Edit extends Component
             'herramientas_virtuales'=> $planificacion->herramientas_virtuales,
             'herramientas_virtuales_previstas'=> $planificacion->herramientas_virtuales_previstas,
             'necesidades'=> $planificacion->necesidades,
-            'observacioens_sugerencias'=> $planificacion->observacioens_sugerencias
+            'observacioens_sugerencias'=> $planificacion->observacioens_sugerencias,
+            'urlprograma' => $planificacion->urlprograma
         ];
         //dd($this->planificacion);
 
@@ -99,11 +104,31 @@ class Edit extends Component
 
     public function OnPresentar()
     {
+        //dd($this->file);
+
+        if($this->form['urlprograma'] == null || $this->file !=null)
+        {
+            $this->validate([
+                'file' => 'required|mimes:pdf|max:10240', // 1MB Max
+            ]);
+
+            $urlFile = $this->file->storePubliclyAs('programas','planificacion_'.$this->planificacion_id.'.pdf');
+
+            $this->planificacion->update([
+                "urlprograma" => $urlFile
+            ]);
+        }
+
+
+
+
         $this->planificacion->update([
             "estado_id" => 2,
             "presentado_at" => Carbon::now()->timestamp
         ]);
         $this->form["estado_id"] = 2;
+
+
 
         //Notificar por mail
         $gestores = User::role('gestor')->get();
@@ -111,7 +136,10 @@ class Edit extends Component
         Mail::to($gestores)
             ->queue(new MailNotificarPresentado($this->planificacion));
 
+
+
         session()->flash('message', 'Planificación presentada!');
+
         redirect()->to('planificacion/'.$this->planificacion->id);
     }
 }

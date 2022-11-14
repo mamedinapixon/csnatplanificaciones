@@ -227,6 +227,23 @@
         <x-pixonui.wire.loading.spinner wire:target="form.observacioens_sugerencias"></x-pixonui.wire.loading.spinner>
         <x-pixonui.form.error for="form.observacioens_sugerencias"></x-pixonui.form.error>
     </div>
+
+    <!-- Adjuntar programa -->
+    <x-pixonui.heading.h2 class="pt-8">Adjuntar programa</x-pixonui.heading.h2>
+    @if ($form['urlprograma']!=null)
+        <div class="flex justify-start items-center">
+            <img src="{{asset('img/icon-pdf.png')}}">
+            <div><a target="_back" href="{{asset($form['urlprograma'])}}">ver programa</a></div>
+        </div>
+    @endif
+    <div class="w-full form-control space-y-2">
+        <input type="file" wire:model="file" accept="application/pdf">
+        <div wire:loading wire:target="file">Subiendo archivo...</div>
+        @error('file') <span class="error text-red-500">{{ $message }}</span> @enderror
+        <div class="text-blue-500">* Solos documentos PDF hasta 10mb.</div>
+    </div>
+
+    <!-- Botones -->
     <div class="flex justify-end py-4 space-x-4" x-data="{}">
         <a class="max-w-md btn" href="{{ route('planificacion.index') }}"  >
             Volver

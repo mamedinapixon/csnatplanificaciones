@@ -162,6 +162,15 @@
                             {!! $planificacion->observacioens_sugerencias !!}
                         </div>
                     </x-pixonui.show.labeltext>
+
+                    <!-- Adjuntar programa -->
+                    <x-pixonui.heading.h2 class="pt-8">Programa adjunto</x-pixonui.heading.h2>
+                    @if ($planificacion->urlprograma!=null)
+                        <div class="flex justify-start items-center">
+                            <img src="{{asset('img/icon-pdf.png')}}">
+                            <div><a target="_back" href="{{asset($planificacion->urlprograma)}}">ver programa</a></div>
+                        </div>
+                    @endif
                 </div>
             </div>
             @livewire('planificacion.cambiar-estado', ['planificacion' => $planificacion])
