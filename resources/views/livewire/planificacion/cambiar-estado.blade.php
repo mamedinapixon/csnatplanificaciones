@@ -1,4 +1,4 @@
-<div class="flex justify-between space-x-4 p-4 items-center print:hidden" x-data="{}">
+<div class="flex justify-between space-x-4 p-4 items-center print:hidden no-print" x-data="{}">
     <div>
         <x-pixonui.form.label>
             <span class="text-lg pr-1">Estado actual:</span>

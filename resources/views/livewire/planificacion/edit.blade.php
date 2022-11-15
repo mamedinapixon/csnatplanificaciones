@@ -231,15 +231,15 @@
     <!-- Adjuntar programa -->
     <x-pixonui.heading.h2 class="pt-8">Adjuntar programa</x-pixonui.heading.h2>
     @if ($form['urlprograma']!=null)
-        <div class="flex justify-start items-center">
+        <div class="flex items-center justify-start">
             <img src="{{asset('img/icon-pdf.png')}}">
             <div><a target="_back" href="{{asset($form['urlprograma'])}}">ver programa</a></div>
         </div>
     @endif
-    <div class="w-full form-control space-y-2">
-        <input type="file" wire:model="file" accept="application/pdf">
+    <div class="w-full space-y-2 form-control">
+        <input type="file" wire:model="file" accept="application/pdf" class="w-full max-w-xs border-2 rounded-md border-primary file-input file-input-bordered file-input-primary">
         <div wire:loading wire:target="file">Subiendo archivo...</div>
-        @error('file') <span class="error text-red-500">{{ $message }}</span> @enderror
+        @error('file') <span class="text-red-500 error">{{ $message }}</span> @enderror
         <div class="text-blue-500">* Solos documentos PDF hasta 10mb.</div>
     </div>
 

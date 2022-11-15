@@ -31,7 +31,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/', [PlanificacionController::class, 'index']);
+    //Route::get('/', [PlanificacionController::class, 'index']);
+    Route::view('/', 'home')->name('home');
     Route::resource('/planificacion', PlanificacionController::class);
 });
 

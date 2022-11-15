@@ -1,13 +1,14 @@
-<nav class="bg-gradient-to-r from-emerald-800 to-emerald-600 text-base-100 navbar">
+<nav class="print-bg bg-gradient-to-r from-emerald-800 to-emerald-600 text-base-100 navbar">
 
 
     <div class="flex-1">
-        <a href="{{ route('planificacion.index') }}" class="text-xl normal-case btn btn-ghost">
+        <a href="{{ route('home') }}" class="text-xl normal-case btn btn-ghost">
             <img src="https://csnat.unt.edu.ar/templates/jux_times/images/logo.png" style="width: 9rem;" alt="Logo Facultad Ciencias Naturales UNT">
         </a>
     </div>
-    <div class="flex-none">
+    <div class="flex-none no-print">
       <ul class="p-0 px-4 space-x-4 menu menu-horizontal">
+        <li><a href="{{ route('home') }}">Home</a></li>
         @can(['ver periodos lectivos','ver docentes'])
         <li tabindex="0">
             <a>

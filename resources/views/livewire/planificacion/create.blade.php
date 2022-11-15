@@ -1,9 +1,7 @@
 <div>
-    <div class="space-y-4 form-contro">
+    <div class="space-y-8 form-contro">
         <div class="w-full max-w-xs form-control">
-            <label class="label">
-              <span class="label-text">Periodo lectivo</span>
-            </label>
+            <x-pixonui.form.label>Periodo lectivo</x-pixonui.form.label>
             @empty($periodosLectivos)
                 No hay periodos lectivos habilitados
             @else
@@ -19,9 +17,7 @@
         </div>
 
         <div class="w-full max-w-xs form-control">
-            <label class="label">
-              <span class="label-text">Carrera</span>
-            </label>
+            <x-pixonui.form.label>Carrera</x-pixonui.form.label>
             @empty($carreras)
                 No hay carreras disponibles
             @else
@@ -38,11 +34,9 @@
         </div>
 
         <div class="w-full max-w-xs form-control">
-            <label class="label">
-              <span class="label-text">Asignatura</span>
-            </label>
+            <x-pixonui.form.label>Asignatura</x-pixonui.form.label>
             @empty($materiasPlanDeEstudio)
-                No hay asignaturas disponibles
+                <span class="pl-4"> No hay asignaturas disponibles:</span>
             @else
                 <select class="select select-bordered" wire:model="materia_plan_estudio_id">
                     <option value="null" disabled>Seleccione una opcion</option>
@@ -62,11 +56,16 @@
                 </div>
             </div>
         @endif
+        <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="flex-shrink-0 w-6 h-6 stroke-info"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span>Comuníquese con Académica si no aparece la asignatura.</span>
+          </div>
         <div class="flex flex-row space-x-4 form-control">
             <a class="max-w-xs btn" href="{{ route('planificacion.index') }}"  >
                 Volver
             </a>
             <button class="btn btn-primary" wire:click="store">Crear planificaicon y continuar</button>
         </div>
+
     </div>
 </div>

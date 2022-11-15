@@ -10,12 +10,22 @@
     </script>
     @endpush
     @endif
-    <div class="py-12">
+    <div class="py-12 print-p-0">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div class="no-print">
             <x-pixonui.heading.h1><small class="font-light">{{ $periodo_lectivo }} |
                     {{ $carrera }}</small><br>{{ $asigantura }}</x-pixonui.heading.h1>
+            </div>
+            <div class="print">
+                <h1>
+                    <small class="font-light">{{ $periodo_lectivo }} | {{ $carrera }}</small>
+                    <br>
+                    {{ $asigantura }}
+                </h1>
+            </div>
+
             <div class="overflow-hidden bg-white sm:rounded-lg">
-                <div class="p-6 space-y-2 bg-white border-b border-gray-200 sm:px-20">
+                <div class="print-p-0 p-6 space-y-2 bg-white border-b border-gray-200 sm:px-20">
                     <x-pixonui.heading.h2 class="pt-8">Docentes</x-pixonui.heading.h2>
                     <x-pixonui.show.labeltext caption="Docente a cargo">
                         {{ $planificacion->docenteCargo->apellido }},  {{ $planificacion->docenteCargo->nombre }}
@@ -166,9 +176,13 @@
                     <!-- Adjuntar programa -->
                     <x-pixonui.heading.h2 class="pt-8">Programa adjunto</x-pixonui.heading.h2>
                     @if ($planificacion->urlprograma!=null)
-                        <div class="flex justify-start items-center">
+                        <div class="flex justify-start items-center no-print">
                             <img src="{{asset('img/icon-pdf.png')}}">
                             <div><a target="_back" href="{{asset($planificacion->urlprograma)}}">ver programa</a></div>
+                        </div>
+                        <div class="flex justify-start items-center print">
+                            <img src="{{asset('img/icon-pdf.png')}}">
+                            <a target="_back" href="{{asset($planificacion->urlprograma)}}">{{config('app.test_url').''.asset($planificacion->urlprograma)}}</a>
                         </div>
                     @endif
                 </div>
