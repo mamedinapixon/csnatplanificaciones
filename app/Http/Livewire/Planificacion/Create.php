@@ -68,8 +68,14 @@ class Create extends Component
             if (!empty($planificacion)) {
                 if($planificacion->user_id == Auth::id())
                 {
-                    //TODO: Redireccionar al edit de la planificacion con el id de la misma.
-                    $this->RedireccionarAlEdit($planificacion->id);
+                    //Redireccionar al edit de la planificacion con el id de la misma.
+                    if($planificacion->estado_id == 1)
+                    {
+                        $this->RedireccionarAlEdit($planificacion->id);
+                    } else {
+                        $this->RedireccionarAlVer($planificacion->id);
+                    }
+
                 } else {
                     $asigantura = $planificacion->materiaPlanEstudio->materia->nombre;
                     $carrera = $planificacion->materiaPlanEstudio->carrera->nombre;
@@ -92,6 +98,12 @@ class Create extends Component
     {
         //session()->flash('message', 'Post successfully updated.');
         return redirect()->to('/planificacion/'.$planificacion_id.'/edit');
+
+    }
+    public function RedireccionarAlVer($planificacion_id)
+    {
+        //session()->flash('message', 'Post successfully updated.');
+        return redirect()->to('/planificacion/'.$planificacion_id);
 
     }
 }
