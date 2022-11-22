@@ -1,6 +1,6 @@
 <div class="space-y-4 ">
     <x-pixonui.heading.h2>Planificaciones presentadas</x-pixonui.heading.h2>
-    <div class="flex gap-4">
+    <div class="flex gap-4 flex-wrap">
         @foreach ($carreras as $carrera)
         <div class="shadow stats">
             <div class="stat">
