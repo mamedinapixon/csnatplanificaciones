@@ -15,7 +15,15 @@
                     </a>
                 </x-slot>
             </x-pixonui.heading.h1>
+
+            @can('ver planificaciones')
+            <div class="flex gap-4">
+                <livewire:planificacion.dashboard.stat-planificaciones-x-carrera />
+            </div>
+            @endcan
+
             <livewire:planificacion.planificacion-table />
+
             <div class="text-end">
                 <a  href="{{ route('planificacion.create') }}"  class="btn btn-primary">
                     Nueva Planificación

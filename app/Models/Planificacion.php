@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Planificacion extends Model
 {
@@ -178,6 +179,23 @@ class Planificacion extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function total_por_carrera()
+    {
+        $cantMaterias = DB::table('materia_plan_estudios')
+                   ->select('carrera_id', DB::raw('COUNT(materia_id) as cantidad'))
+                   //->where('is_published', true)
+                   ->groupBy('carrera_id');
+
+        return DB::table('planificacions')
+        ->selectRaw('count(planificacions.id) as cant_presentadas, carreras.nombre_reducido as carrera, cant_materias.cantidad as cant_materias')
+        ->rightJoin('materia_plan_estudios', 'materia_plan_estudios.id', '=', 'planificacions.materia_plan_estudio_id')
+        ->leftJoin('carreras', 'carreras.id', '=', 'materia_plan_estudios.carrera_id')
+        ->joinSub($cantMaterias, 'cant_materias', function ($join) {
+            $join->on('carreras.id', '=', 'cant_materias.carrera_id');
+        })
+        ->groupBy('materia_plan_estudios.carrera_id');
     }
 
 }
