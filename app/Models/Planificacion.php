@@ -195,7 +195,7 @@ class Planificacion extends Model
         ->joinSub($cantMaterias, 'cant_materias', function ($join) {
             $join->on('carreras.id', '=', 'cant_materias.carrera_id');
         })
-        ->groupBy('materia_plan_estudios.carrera_id','carreras.nombre_reducido');
+        ->groupBy('materia_plan_estudios.carrera_id','carreras.nombre_reducido','cant_materias.cantidad');
     }
 
 }
