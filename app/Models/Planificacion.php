@@ -192,6 +192,7 @@ class Planificacion extends Model
         ->selectRaw('count(planificacions.id) as cant_presentadas, carreras.nombre_reducido as carrera, cant_materias.cantidad as cant_materias')
         ->rightJoin('materia_plan_estudios', 'materia_plan_estudios.id', '=', 'planificacions.materia_plan_estudio_id')
         ->leftJoin('carreras', 'carreras.id', '=', 'materia_plan_estudios.carrera_id')
+        ->leftJoin('periodo_lectivos', 'periodo_lectivos.id', 'planificacions.periodo_lectivo_id')
         ->joinSub($cantMaterias, 'cant_materias', function ($join) {
             $join->on('carreras.id', '=', 'cant_materias.carrera_id');
         })

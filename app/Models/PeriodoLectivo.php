@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class PeriodoLectivo extends Model
 {
@@ -53,4 +54,11 @@ class PeriodoLectivo extends Model
     {
         return "{$this->anio_academico} {$this->periodo_academico_id}";
     }
+
+
+    public function onlyYears()
+    {
+        return DB::table('periodo_lectivos')->distinct()->select('anio_academico')->orderBy('anio_academico', 'desc');
+    }
+
 }
