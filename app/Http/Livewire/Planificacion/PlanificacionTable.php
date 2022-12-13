@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
+use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 
 use App\Models\Planificacion;
@@ -84,7 +85,7 @@ class PlanificacionTable extends DataTableComponent
     {
         return [
 
-            SelectFilter::make('Periodo Lectivo', 'periodo_lectivo_id')
+            MultiSelectFilter::make('Periodo Lectivo', 'periodo_lectivo_id')
             ->options(
                 array_merge([0 => 'Todos'],
                 PeriodoLectivo::query()
@@ -96,10 +97,11 @@ class PlanificacionTable extends DataTableComponent
                     ->toArray()
                 )
             )
-            ->filter(function(Builder $builder, string $value) {
-                if ($value > 0) {
+            ->filter(function(Builder $builder, array $values) {
+                /*if ($value > 0) {
                     $builder->where('planificacions.periodo_lectivo_id', $value);
-                }
+                }*/
+                $builder->whereHas('planificacions', fn($query) => $query->whereIn('planificacions.periodo_lectivo_id', $values));
             }),
             SelectFilter::make('Carrera', 'carrera_id')
             ->options(
