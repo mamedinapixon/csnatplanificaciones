@@ -13,6 +13,7 @@ use App\Models\Modalidad;
 use App\Models\User;
 use Livewire\WithFileUploads;
 use Mail;
+use Illuminate\Support\Facades\Auth;
 
 class Edit extends Component
 {
@@ -134,6 +135,9 @@ class Edit extends Component
         $gestores = User::role('gestor')->get();
 
         Mail::to($gestores)
+            ->queue(new MailNotificarPresentado($this->planificacion));
+
+        Mail::to(Auth::user())
             ->queue(new MailNotificarPresentado($this->planificacion));
 
 

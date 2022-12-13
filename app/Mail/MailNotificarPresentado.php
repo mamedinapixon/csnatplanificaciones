@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Planificacion;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class MailNotificarPresentado extends Mailable
 {
@@ -16,7 +17,8 @@ class MailNotificarPresentado extends Mailable
             $asigantura,
             $carrera,
             $periodo_lectivo,
-            $user;
+            $user,
+            $fechapresentado;
 
     /**
      * Create a new message instance.
@@ -30,6 +32,8 @@ class MailNotificarPresentado extends Mailable
         $this->asigantura = $planificacion->materiaPlanEstudio->anio_curdada."º año - ".$planificacion->materiaPlanEstudio->materia->nombre;
         $this->carrera = $planificacion->materiaPlanEstudio->carrera->codigo_siu;
         $this->periodo_lectivo = $planificacion->periodoLectivo->periodoAcademico->nombre." ".$planificacion->periodoLectivo->anio_academico;
+        $date = Carbon::now()->locale('es');
+        $this->fechapresentado = $date->toFormattedDateString();
         $this->user = Auth::user();
     }
 
