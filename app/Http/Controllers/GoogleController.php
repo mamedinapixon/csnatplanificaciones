@@ -62,10 +62,10 @@ class GoogleController extends Controller
                     Auth::login($finduser);
                 } else {
                     // Si no existe el usuario, hay que verificar si el mail se encuentra en la lista de docentes.
-                    $finddocente = Docente::where('email', $user->email)->first();
+                    //$finddocente = Docente::where('email', $user->email)->first();
 
-                    if($finddocente)
-                    {
+                    //if($finddocente)
+                    //{
                         $newUser = User::create([
                             'name' => $user->name,
                             'email' => $user->email,
@@ -75,13 +75,13 @@ class GoogleController extends Controller
                             'profile_photo_path' => $user->avatar,
                             'password' => encrypt('password'.Str::random(8))
                         ]);
-                        $finddocente->user_id = $newUser->id;
-                        $finddocente->save();
+                        //$finddocente->user_id = $newUser->id;
+                        //$finddocente->save();
                         Auth::login($newUser);
-                    } else {
+                    /*} else {
                         session()->flash('message', 'El mail '.$user->email.' no se encuentra asociado a un docente. Contacte con académica.');
                         return redirect()->route('login');
-                    }
+                    }*/
                 }
 
                 return redirect()->route(env("GOOGLE_REDIRECT_LOGIN"));
