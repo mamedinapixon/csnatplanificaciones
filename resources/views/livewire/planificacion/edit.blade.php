@@ -20,6 +20,9 @@
 
     <!-- Asignatura -->
     <x-pixonui.heading.h2 class="pt-8">Asignatura</x-pixonui.heading.h2>
+    <p>
+        Estimado Docente tenga presente que al tratarse de carreras presenciales, sólo está permitido realizar menos del 30% de actividades virtuales. Si ud. hará uso de esa opción deberá indicarlo, especificando en qué actividades hará uso de la misma (clases teóricas, prácticas, evaluaciones, consultas, etc.) y con qué herramientas (Zoom  o Meet con clases sincrónicas, aulas híbridas, aulas virtuales, etc.)
+    </p>
 
     @if ($planificacion->materiaPlanEstudio->materia->tipo_materia == "G")
         <div class="w-full form-control">

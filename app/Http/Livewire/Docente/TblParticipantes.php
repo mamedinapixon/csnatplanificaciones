@@ -36,7 +36,7 @@ class TblParticipantes extends Component
         $this->planificacion_id = $planificacion_id;
         $this->load();
         //dd($this->docentesPartipan);
-        $this->docentes = Docente::Get();
+        $this->docentes = Docente::orderBy("apellido")->orderBy('nombre')->Get();
         $this->cargos = Cargo::Get();
         $this->dedicaciones = Dedicacion::Get();
     }
