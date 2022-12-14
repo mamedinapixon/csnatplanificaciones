@@ -201,7 +201,7 @@
         </div>
     @endif
     <div class="w-full form-control">
-        <x-pixonui.form.label>¿Se prevé en el dictado el uso de otras herramientas virtuales como laboratorios virtuales, aulas invertidas, softwares específicos, etc.?</x-pixonui.form.label>
+        <x-pixonui.form.label>¿Se prevé en el dictado el uso de otras herramientas virtuales como laboratorios virtuales, aulas invertidas, softwares específicos, aulas híbridas, etc.?</x-pixonui.form.label>
         <div class="flex items-center space-x-2">
             <x-pixonui.form.checkbox id="toggle-herramientas-virtuales" wire:model="form.herramientas_virtuales"></x-pixonui.form.checkbox>
             <x-pixonui.wire.loading.spinner wire:target="form.herramientas_virtuales"></x-pixonui.wire.loading.spinner>
