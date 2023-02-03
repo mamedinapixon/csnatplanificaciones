@@ -134,7 +134,10 @@ class Edit extends Component
         //Notificar por mail
         $gestores = User::role('gestor')->get();
 
-        Mail::to($gestores)
+        /*Mail::to($gestores)
+            ->queue(new MailNotificarPresentado($this->planificacion));*/
+
+        Mail::to([env("MAIL_NOTIFICAR")])
             ->queue(new MailNotificarPresentado($this->planificacion));
 
         Mail::to(Auth::user())
