@@ -77,19 +77,21 @@ class Create extends Component
                     }
 
                 } else {
-                    $asigantura = $planificacion->materiaPlanEstudio->materia->nombre;
-                    $carrera = $planificacion->materiaPlanEstudio->carrera->nombre;
-                    $periodo_lectivo = $planificacion->periodoLectivo->periodoAcademico->nombre." ".$planificacion->periodoLectivo->anio_academico;
-                    $docente = $planificacion->docenteCargo->apellido." ".$planificacion->docenteCargo->nombre;
-                    $this->msj_error = "Ya hay una planificacion cargada por el docente ".$docente." para la asignatura ".$asigantura." de la carrera ".$carrera." en el periodo lectivo ".$periodo_lectivo;
+                    //dd($planificacion);
+                    if($planificacion->materiaPlanEstudio->materia->tipo_materia == "G")
+                    {
+                        $planificacion = $this->CrearPlanificacion();
+                        $this->RedireccionarAlEdit($planificacion->id);
+                    } else {
+                        $asigantura = $planificacion->materiaPlanEstudio->materia->nombre;
+                        $carrera = $planificacion->materiaPlanEstudio->carrera->nombre;
+                        $periodo_lectivo = $planificacion->periodoLectivo->periodoAcademico->nombre." ".$planificacion->periodoLectivo->anio_academico;
+                        $docente = $planificacion->docenteCargo->apellido." ".$planificacion->docenteCargo->nombre;
+                        $this->msj_error = "Ya hay una planificacion cargada por el docente ".$docente." para la asignatura ".$asigantura." de la carrera ".$carrera." en el periodo lectivo ".$periodo_lectivo;
+                    }
                 }
             } else {
-                $planificacion = Planificacion::create([
-                    "user_id" => Auth::id(),
-                    "periodo_lectivo_id" => $this->periodo_lectivo_id,
-                    "materia_plan_estudio_id" => $this->materia_plan_estudio_id,
-                    "docente_id" => Auth::id()
-                ]);
+                $planificacion = $this->CrearPlanificacion();
                 $this->RedireccionarAlEdit($planificacion->id);
             }
         }
@@ -105,5 +107,17 @@ class Create extends Component
         //session()->flash('message', 'Post successfully updated.');
         return redirect()->to('/planificacion/'.$planificacion_id);
 
+    }
+
+    private function CrearPlanificacion()
+    {
+        $planificacion = Planificacion::create([
+            "user_id" => Auth::id(),
+            "periodo_lectivo_id" => $this->periodo_lectivo_id,
+            "materia_plan_estudio_id" => $this->materia_plan_estudio_id,
+            "docente_id" => Auth::id()
+        ]);
+
+        return $planificacion;
     }
 }
