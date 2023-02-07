@@ -109,7 +109,7 @@ class PlanificacionTable extends DataTableComponent
                         ->orderBy('nombre_reducido')
                         ->get()
                         ->keyBy('id')
-                        ->map(fn($carrera) => $carrera->id)
+                        ->map(fn($carrera) => $carrera->nombre_reducido)
                         ->toArray()
                 )
 
