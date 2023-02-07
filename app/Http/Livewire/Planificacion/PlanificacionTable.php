@@ -105,15 +105,14 @@ class PlanificacionTable extends DataTableComponent
             }),
             SelectFilter::make('Carrera', 'carrera_id')
             ->options(
-                array_merge([0 => 'Todos'],
-                    Carrera::query()
+                Carrera::query()
                         ->orderBy('nombre_reducido')
                         ->get()
                         ->keyBy('id')
-                        ->map(fn($carrera) => $carrera->nombre_reducido)
+                        ->map(fn($carrera) => $carrera->id)
                         ->toArray()
                 )
-            )
+
             ->filter(function(Builder $builder, string $value) {
                 if ($value > 0) {
                     $builder->whereRelation('materiaPlanEstudio', 'carrera_id', $value);
