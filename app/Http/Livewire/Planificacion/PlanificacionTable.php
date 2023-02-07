@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Auth;
 class PlanificacionTable extends DataTableComponent
 {
     //protected $model = Planificacion::class;
+    private $todos = ['' => 'Todos'];
+    private $carreras = [];
+
 
     public function configure(): void
     {
@@ -51,6 +54,13 @@ class PlanificacionTable extends DataTableComponent
                             ->where("user_id","=",Auth::user()->id)
                             ->with("materiaPlanEstudio.materia","materiaPlanEstudio.carrera","docenteCargo","periodoLectivo","periodoLectivo.periodoAcademico","estado");
         }
+
+        /*$this->carreras = Carrera::query()
+                        ->orderBy('nombre_reducido')
+                        ->get()
+                        ->keyBy('id')
+                        ->map(fn($carrera) => $carrera->nombre_reducido)
+                        ->toArray();*/
 
 
         return $planificacion;
@@ -105,14 +115,14 @@ class PlanificacionTable extends DataTableComponent
             }),
             SelectFilter::make('Carrera', 'carrera_id')
             ->options(
+                $this->todos +
                 Carrera::query()
                         ->orderBy('nombre_reducido')
                         ->get()
                         ->keyBy('id')
                         ->map(fn($carrera) => $carrera->nombre_reducido)
-                        ->toArray()
-                )
-
+                        ->toArray(),
+            )
             ->filter(function(Builder $builder, string $value) {
                 if ($value > 0) {
                     $builder->whereRelation('materiaPlanEstudio', 'carrera_id', $value);
