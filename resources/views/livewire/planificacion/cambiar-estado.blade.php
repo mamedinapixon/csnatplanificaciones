@@ -1,16 +1,16 @@
-<div class="flex justify-between space-x-4 p-4 items-center print:hidden no-print" x-data="{}">
+<div class="flex items-center justify-between p-4 space-x-4 print:hidden no-print" x-data="{}">
     <div>
         <x-pixonui.form.label>
-            <span class="text-lg pr-1">Estado actual:</span>
+            <span class="pr-1 text-lg">Estado actual:</span>
             @switch($planificacion->estado_id)
                 @case(1)
-                    <div class="badge gap-2 text-white">{{ $planificacion->estado->nombre }}</div>
+                    <div class="gap-2 text-white badge">{{ $planificacion->estado->nombre }}</div>
                     @break
                 @case(2)
-                <div class="badge badge-info gap-2 text-white">{{ $planificacion->estado->nombre }}</div>
+                <div class="gap-2 text-white badge badge-info">{{ $planificacion->estado->nombre }}</div>
                     @break
                 @case(3)
-                <div class="badge badge-success gap-2 text-white">{{ $planificacion->estado->nombre }}</div>
+                <div class="gap-2 text-white badge badge-success">{{ $planificacion->estado->nombre }}</div>
                     @break
                 @default
 
@@ -18,7 +18,7 @@
         </x-pixonui.form.label>
     </div>
     <div class="flex space-x-4">
-        <a class="btn max-w-md" href="{{ route('planificacion.index') }}"  >
+        <a class="max-w-md btn" href="{{ route('planificacion.index') }}"  >
             Volver
         </a>
             @if ($planificacion->estado_id == 1)
@@ -38,12 +38,21 @@
                     ">
                         Habilitar edición
                     </a>
-                    <a class="btn btn-wide btn-primary" x-on:click="
-                        aletWarning('¿Desea cambiar el estado de la planificación a <b>revisada</b>?', '', 'Si, continuar', 'Cancelar', function() {
-                            $wire.OnRevisado();
+                @endhasanyrole
+                @can('revisar planificaciones')
+                    <a class="btn btn-wide btn-success" x-on:click="
+                        aletWarning('¿Desea cambiar el estado de la planificación a <b>DESAPROBADO</b>?', '', 'Si, continuar', 'Cancelar', function() {
+                            $wire.OnDesaprobado();
                         });
                     ">
-                        Revisado
+                        Desaprobada
+                    </a>
+                    <a class="btn btn-wide btn-success" x-on:click="
+                        aletWarning('¿Desea cambiar el estado de la planificación a <b>APROBADO</b>?', '', 'Si, continuar', 'Cancelar', function() {
+                            $wire.OnAprobado();
+                        });
+                    ">
+                        Aprobada
                     </a>
                 @endhasanyrole
             @endif

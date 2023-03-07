@@ -39,7 +39,7 @@ class CambiarEstado extends Component
 
     }
 
-    public function OnRevisado()
+    public function OnAprobado()
     {
         if(Auth::user()->can('cambiar estado planificaciones'))
         {
@@ -47,6 +47,25 @@ class CambiarEstado extends Component
             //dd($planificacion->user->email);
             $planificacion->update([
                 "estado_id" => 3,
+                "revisado_at" => Carbon::now()->timestamp
+            ]);
+            $this->planificacion = $planificacion;
+            session()->flash('message', 'Planificación revisada!');
+
+            Mail::to($planificacion->user)
+            ->queue(new MailNotificarRevisado($this->planificacion));
+        }
+
+    }
+
+    public function OnDesaprobado()
+    {
+        if(Auth::user()->can('cambiar estado planificaciones'))
+        {
+            $planificacion = Planificacion::find($this->planificacion->id);
+            //dd($planificacion->user->email);
+            $planificacion->update([
+                "estado_id" => 4,
                 "revisado_at" => Carbon::now()->timestamp
             ]);
             $this->planificacion = $planificacion;
