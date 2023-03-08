@@ -42,6 +42,6 @@ class MailNotificarRevisado extends Mailable
     public function build()
     {
         //return $this->view('mail.notificacion.revisado');
-        return $this->subject("Planificación Revisada y".$this->estado)->view('mail.notificacion.revisado');
+        return $this->subject("Planificación Revisada y ".$this->estado)->view('mail.notificacion.revisado');
     }
 }

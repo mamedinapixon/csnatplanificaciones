@@ -12,6 +12,9 @@
                 @case(3)
                 <div class="gap-2 text-white badge badge-success">{{ $planificacion->estado->nombre }}</div>
                     @break
+                @case(4)
+                <div class="gap-2 text-white badge badge-error">{{ $planificacion->estado->nombre }}</div>
+                    @break
                 @default
 
             @endswitch
@@ -40,7 +43,7 @@
                     </a>
                 @endhasanyrole
                 @can('revisar planificaciones')
-                    <a class="btn btn-wide btn-success" x-on:click="
+                    <a class="btn btn-wide btn-error" x-on:click="
                         aletWarning('¿Desea cambiar el estado de la planificación a <b>DESAPROBADO</b>?', '', 'Si, continuar', 'Cancelar', function() {
                             $wire.OnDesaprobado();
                         });

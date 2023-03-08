@@ -85,7 +85,7 @@ class PlanificacionTable extends DataTableComponent
                 ->sortable(),
             Column::make('Estado', 'estado_id')
                 ->format(
-                    fn($value, $row, Column $column) => $row->estado_id == 2 ? '<div class="gap-2 text-white badge badge-info">'.$row->estado->nombre.'</div>' : ($row->estado_id == 3 ? '<div class="gap-2 text-white badge badge-success">'.$row->estado->nombre.'</div>' : '<div class="gap-2 text-white badge">'.$row->estado->nombre.'</div>')
+                    fn($value, $row, Column $column) => $row->estado_id == 2 ? '<div class="gap-2 text-white badge badge-info">'.$row->estado->nombre.'</div>' : ($row->estado_id == 3 ? '<div class="gap-2 text-white badge badge-success">'.$row->estado->nombre.'</div>' : ($row->estado_id == 4 ? '<div class="gap-2 text-white badge badge-error">'.$row->estado->nombre.'</div>' :'<div class="gap-2 text-white badge">'.$row->estado->nombre.'</div>'))
                 )
                 ->html(),
         ];

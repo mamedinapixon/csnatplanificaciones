@@ -41,7 +41,7 @@ class CambiarEstado extends Component
 
     public function OnAprobado()
     {
-        if(Auth::user()->can('cambiar estado planificaciones'))
+        if(Auth::user()->can('revisar planificaciones'))
         {
             $planificacion = Planificacion::find($this->planificacion->id);
             //dd($planificacion->user->email);
@@ -60,7 +60,7 @@ class CambiarEstado extends Component
 
     public function OnDesaprobado()
     {
-        if(Auth::user()->can('cambiar estado planificaciones'))
+        if(Auth::user()->can('revisar planificaciones'))
         {
             $planificacion = Planificacion::find($this->planificacion->id);
             //dd($planificacion->user->email);
