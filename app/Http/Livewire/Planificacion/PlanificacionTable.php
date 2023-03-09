@@ -94,7 +94,7 @@ class PlanificacionTable extends DataTableComponent
     public function filters(): array
     {
         return [
-
+            /*
             MultiSelectFilter::make('Periodo Lectivo', 'periodo_lectivo_id')
             ->options(
                 array_merge([0 => 'Todos'],
@@ -108,10 +108,26 @@ class PlanificacionTable extends DataTableComponent
                 )
             )
             ->filter(function(Builder $builder, array $values) {
-                /*if ($value > 0) {
-                    $builder->where('planificacions.periodo_lectivo_id', $value);
-                }*/
+                //if ($value > 0) {
+                //    $builder->where('planificacions.periodo_lectivo_id', $value);
+                //}
                 $builder->whereHas('planificacions', fn($query) => $query->whereIn('planificacions.periodo_lectivo_id', $values));
+            }),*/
+            SelectFilter::make('Periodo Lectivo', 'periodo_lectivo_id')
+            ->options(
+                $this->todos +
+                PeriodoLectivo::query()
+                        ->with('periodoAcademico')
+                        ->get()
+                        ->keyBy('id')
+                        ->map(fn($periodoLectivo) => $periodoLectivo->anio_academico.' '.$periodoLectivo->periodoAcademico->nombre)
+                        ->toArray(),
+            )
+            ->filter(function(Builder $builder, string $value) {
+                if ($value > 0) {
+                    $builder->whereRelation('materiaPlanEstudio', 'carrera_id', $value);
+                    //$builder->whereHas('planificacions', fn($query) => $query->whereIn('planificacions.periodo_lectivo_id', $values));
+                }
             }),
             SelectFilter::make('Carrera', 'carrera_id')
             ->options(
