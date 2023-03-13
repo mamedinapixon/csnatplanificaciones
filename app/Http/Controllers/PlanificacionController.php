@@ -57,7 +57,7 @@ class PlanificacionController extends Controller
      */
     public function show(Planificacion $planificacion)
     {
-        if($planificacion->user_id == Auth::user()->id && $planificacion->estado_id == 1)
+        if($planificacion->user_id == Auth::user()->id && ($planificacion->estado_id == 1 || $planificacion->estado_id == 4))
         {
             return redirect()->route('planificacion.edit', $planificacion);
         }
@@ -98,7 +98,7 @@ class PlanificacionController extends Controller
     {
         if(!Auth::user()->can('editar planificaciones'))
         {
-           if($planificacion->estado_id != 1) // Si estado es diferente a iniciado, no puede editar
+            if($planificacion->estado_id > 1 && $planificacion->estado_id < 4) // Si estado es diferente a iniciado, no puede editar
             {
                 return redirect()->route('planificacion.show', $planificacion);
             }
