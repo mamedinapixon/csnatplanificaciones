@@ -4,6 +4,7 @@
         <li><b>Carrera:</b> {{$carrera}}</li>
         <li><b>Asignatura:</b> {{$asigantura}}</li>
         <li><b>Estado: </b>{{$estado}}</li>
+        <li><b>Observaciones: </b><br>{!!$observaciones_comision!!}</li>
     </ul>
     <br>
     <a href="{{ config('app.url')}}/planificacion/{{$planificacion->id}}" style="

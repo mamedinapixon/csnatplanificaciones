@@ -17,7 +17,8 @@ class MailNotificarRevisado extends Mailable
             $asigantura,
             $carrera,
             $periodo_lectivo,
-            $estado;
+            $estado,
+            $observaciones_comision;
 
     /**
      * Create a new message instance.
@@ -32,6 +33,7 @@ class MailNotificarRevisado extends Mailable
         $this->carrera = $planificacion->materiaPlanEstudio->carrera->codigo_siu;
         $this->periodo_lectivo = $planificacion->periodoLectivo->periodoAcademico->nombre." ".$planificacion->periodoLectivo->anio_academico;
         $this->estado = $planificacion->estado->nombre;
+        $this->observaciones_comision = $planificacion->observaciones_comision;
     }
 
     /**

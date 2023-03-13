@@ -12,10 +12,13 @@ use Mail;
 class CambiarEstado extends Component
 {
     public $planificacion;
+    public $observaciones;
 
     public function mount($planificacion)
     {
         $this->planificacion = $planificacion;
+        $this->observaciones = $planificacion->observaciones_comision;
+
     }
 
     public function render()
@@ -41,13 +44,15 @@ class CambiarEstado extends Component
 
     public function OnAprobado()
     {
+        //dd($this->observaciones);
         if(Auth::user()->can('revisar planificaciones'))
         {
             $planificacion = Planificacion::find($this->planificacion->id);
             //dd($planificacion->user->email);
             $planificacion->update([
                 "estado_id" => 3,
-                "revisado_at" => Carbon::now()->timestamp
+                "revisado_at" => Carbon::now()->timestamp,
+                "observaciones_comision" => $this->observaciones
             ]);
             $this->planificacion = $planificacion;
             session()->flash('message', 'Planificación revisada!');
@@ -60,13 +65,15 @@ class CambiarEstado extends Component
 
     public function OnDesaprobado()
     {
+        //dd($this->observaciones);
         if(Auth::user()->can('revisar planificaciones'))
         {
             $planificacion = Planificacion::find($this->planificacion->id);
             //dd($planificacion->user->email);
             $planificacion->update([
                 "estado_id" => 4,
-                "revisado_at" => Carbon::now()->timestamp
+                "revisado_at" => Carbon::now()->timestamp,
+                "observaciones_comision" => $this->observaciones
             ]);
             $this->planificacion = $planificacion;
             session()->flash('message', 'Planificación revisada!');
