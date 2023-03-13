@@ -125,7 +125,8 @@ class PlanificacionTable extends DataTableComponent
             )
             ->filter(function(Builder $builder, string $value) {
                 if ($value > 0) {
-                    $builder->whereRelation('materiaPlanEstudio', 'carrera_id', $value);
+                    //$builder->whereRelation('materiaPlanEstudio', 'carrera_id', $value);
+                    $builder->where('periodo_lectivo_id', $value);
                     //$builder->whereHas('planificacions', fn($query) => $query->whereIn('planificacions.periodo_lectivo_id', $values));
                 }
             }),
@@ -147,9 +148,10 @@ class PlanificacionTable extends DataTableComponent
             SelectFilter::make('Estado', 'estado')
             ->options([
                 '' => 'Todos',
-                '1' => 'Iniciado',
+                '1' => 'Editando',
                 '2' => 'Presentado',
-                '3' => 'Revisado'
+                '3' => 'Aprobado',
+                '4' => 'Observado'
             ])
             ->filter(function(Builder $builder, string $value) {
                 if ($value > 0) {

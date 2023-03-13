@@ -48,7 +48,7 @@
                             $wire.OnDesaprobado();
                         });
                     ">
-                        Desaprobada
+                        Observado
                     </a>
                     <a class="btn btn-wide btn-success" x-on:click="
                         aletWarning('¿Desea cambiar el estado de la planificación a <b>APROBADO</b>?', '', 'Si, continuar', 'Cancelar', function() {
