@@ -25,13 +25,15 @@
             Volver
         </a>
             @if ($planificacion->estado_id == 1)
-                <a class="btn btn-wide btn-primary" x-on:click="
-                    aletWarning('¿Desea cambiar el estado de la planificación a <b>presentada</b>?', '', 'Si, continuar', 'Cancelar', function() {
-                        $wire.OnPresentar();
-                    });
-                ">
-                    Cerrar edición y presentar
-                </a>
+                @can('cambiar estado planificaciones')
+                    <a class="btn btn-wide btn-primary" x-on:click="
+                        aletWarning('¿Desea cambiar el estado de la planificación a <b>presentada</b>?', '', 'Si, continuar', 'Cancelar', function() {
+                            $wire.OnPresentar();
+                        });
+                    ">
+                        Cerrar edición y presentar
+                    </a>
+                @endhasanyrole
             @else
                 @can('cambiar estado planificaciones')
                     <a class="btn btn-wide btn-secondary" x-on:click="
