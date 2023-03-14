@@ -35,7 +35,7 @@ class GoogleController extends Controller
             $user = Socialite::driver('google')->user();
             //@csnat.unt.edu.ar
             //dd(substr($user->email,-17)." - ".env("GOOGLE_RESTINGIR_DOMINIO"));
-            if(strcmp(substr($user->email,-17), env("GOOGLE_RESTINGIR_DOMINIO")) != 0)
+            if(strcmp(substr($user->email,-16), env("GOOGLE_RESTINGIR_DOMINIO")) != 0)
             {
                 session()->flash('message', 'Debes iniciar sesión con una cuenta '.env("GOOGLE_RESTINGIR_DOMINIO"));
                 return redirect()->route('login');
