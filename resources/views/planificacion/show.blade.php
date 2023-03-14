@@ -28,7 +28,7 @@
                 <div class="print-p-0 p-6 space-y-2 bg-white border-b border-gray-200 sm:px-20">
                     <x-pixonui.heading.h2 class="pt-8">Docentes</x-pixonui.heading.h2>
                     <x-pixonui.show.labeltext caption="Docente a cargo">
-                        @if (!empty($docenteCargo))
+                        @if (!empty($planificacion->docenteCargo))
                             {{ $planificacion->docenteCargo->apellido }},  {{ $planificacion->docenteCargo->nombre }}
                         @endif
                     </x-pixonui.show.labeltext>
