@@ -14,9 +14,10 @@ class Memoria extends Model
 
     protected $fillable = [
         'user_id',
-        'periodo_lectivo_id',
+        'anio_academico',
         'cargo_id',
         'dedicacion_id',
+        'situacion_cargo_id',
 
         'dicto_cursos_grado',
         'dicto_cursos_grado_detalle',
@@ -175,7 +176,7 @@ class Memoria extends Model
 
     protected $casts = [
         'user_id' => 'integer',
-        'periodo_lectivo_id' => 'integer',
+        'anio_academico' => 'integer',
         'cargo_id' => 'integer',
         'dedicacion_id' => 'integer',
 
@@ -272,8 +273,8 @@ class Memoria extends Model
         'participo_congresos_cientifica' => 'boolean',
         'participo_congresos_cientifica_detalle' => 'string',
 
-        'mensione_produccion_cientifica' => 'boolean',
-        'mensione_produccion_cientifica_detalle' => 'string',
+        'mensione_produccion_cientifica' => 'string',
+        'actividades_investigacion_relevante' => 'string',
 
         'miembro_consejo_directivo' => 'boolean',
         'miembro_consejo_directivo_detalle' => 'string',
@@ -331,5 +332,10 @@ class Memoria extends Model
 
         'observaciones' => 'string'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }

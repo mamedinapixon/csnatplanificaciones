@@ -16,9 +16,11 @@ class CreateMemoriasTable extends Migration
         Schema::create('memorias', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('periodo_lectivo_id');
-            $table->integer('cargo_id');
-            $table->integer('dedicacion_id');
+            $table->integer('anio_academico');
+            $table->integer('cargo_id')->nullable();
+            $table->integer('dedicacion_id')->nullable();
+            $table->integer('situacion_cargo_id')->nullable();
+
             $table->boolean('dicto_cursos_grado')->default(0);
             $table->text('dicto_cursos_grado_detalle')->nullable();
 
@@ -63,7 +65,7 @@ class CreateMemoriasTable extends Migration
             $table->boolean('dicto_cursos_profesional')->default(0);
             $table->text('dicto_cursos_profesional_detalle')->nullable();
 
-            $table->text('otras_actividades_posgrado')->default(0);
+            $table->text('otras_actividades_posgrado')->nullable();
 
             $table->boolean('dirigio_tesinas_grado')->default(0);
             $table->text('dirigio_tesinas_grado_detalle')->nullable();
@@ -113,6 +115,7 @@ class CreateMemoriasTable extends Migration
             $table->text('participo_congresos_cientifica_detalle')->nullable();
 
             $table->text('mensione_produccion_cientifica')->nullable();
+
             $table->text('actividades_investigacion_relevante')->nullable();
 
             $table->boolean('miembro_consejo_directivo')->default(0);
@@ -121,6 +124,7 @@ class CreateMemoriasTable extends Migration
             $table->integer('estamento_consejo_directivo_id')->default(0);
 
             $table->boolean('miembro_consejo_posgrado')->default(0);
+
             $table->boolean('miembro_consejo_departamento')->default(0);
             $table->text('miembro_consejo_departamento_detalle')->nullable();
 
