@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Memoria;
 use App\Http\Requests\StoreMemoriaRequest;
 use App\Http\Requests\UpdateMemoriaRequest;
+use App\Models\MemoriaAsignatura;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class MemoriaController extends Controller
 {
@@ -25,7 +28,18 @@ class MemoriaController extends Controller
      */
     public function create()
     {
-        //
+        $anio_academico = Carbon::now()->year;
+        $memoria = Memoria::where("anio_academico",$anio_academico)->where("user_id",Auth::user()->id)->first();
+
+        if(empty($memoria))
+        {
+            $memoria = Memoria::create([
+               "user_id" => Auth::user()->id,
+               "anio_academico" => $anio_academico
+            ]);
+        }
+
+        return redirect()->route('memoria.edit', $memoria);
     }
 
     /**
@@ -45,9 +59,14 @@ class MemoriaController extends Controller
      * @param  \App\Models\Memoria  $memoria
      * @return \Illuminate\Http\Response
      */
-    public function show(Memoria $memoria)
+    public function show(Memoria $memorium)
     {
-        //
+        $memoria = $memorium;
+        if(empty($memoria->id)) return redirect()->route('memoria.index');
+
+        $memorias_asignaturas_estables = MemoriaAsignatura::where('memoria_id', $memoria->id)->where("tipo_docente","Estable")->get();
+        $memorias_asignaturas_invitado = MemoriaAsignatura::where('memoria_id', $memoria->id)->where("tipo_docente","Invitado")->get();
+        return view('memoria.show', compact('memoria','memorias_asignaturas_estables','memorias_asignaturas_invitado'));
     }
 
     /**
@@ -56,9 +75,13 @@ class MemoriaController extends Controller
      * @param  \App\Models\Memoria  $memoria
      * @return \Illuminate\Http\Response
      */
-    public function edit(Memoria $memoria)
+    public function edit(Memoria $memorium)
     {
-        //
+        $memoria = $memorium;
+        //TODO: Controlar cuando no existe la memoria.
+        //return redirect()->route('memoria.edit', $memoria);
+        if(empty($memoria->id)) return redirect()->route('memoria.index');
+        return view('memoria.edit', compact('memoria'));
     }
 
     /**

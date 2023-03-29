@@ -11,6 +11,7 @@ use App\Http\Controllers\PlanificacionController;
 use App\Http\Controllers\SalidaController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MemoriaController;
 //use App\Http\Controllers\DocentePlanificacionController;
 //use App\Http\Controllers\ModalidadController;
 //use App\Http\Controllers\PeriodoAcademicoController;
@@ -34,6 +35,7 @@ Route::middleware([
     //Route::get('/', [PlanificacionController::class, 'index']);
     Route::view('/', 'home')->name('home');
     Route::resource('/planificacion', PlanificacionController::class);
+    Route::resource('/memoria', MemoriaController::class);
 });
 
 Route::middleware([

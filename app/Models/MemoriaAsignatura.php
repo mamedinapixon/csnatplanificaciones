@@ -7,16 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
-class memorias_asignatura extends Model
+class MemoriaAsignatura extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $table = 'memorias_asignaturas';
 
     protected $fillable = [
         'memoria_id',
         'materia_id',
         'asignatura',
-        'tipo_docente'
+        'tipo_docente' //Estable o invitado
     ];
 
     protected $guarded = ['id'];

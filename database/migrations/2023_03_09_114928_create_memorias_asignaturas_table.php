@@ -16,7 +16,7 @@ class CreateMemoriasAsignaturasTable extends Migration
         Schema::create('memorias_asignaturas', function (Blueprint $table) {
             $table->id();
             $table->integer('memoria_id');
-            $table->integer('materia_id');
+            $table->integer('materia_id')->nullable();
             $table->string('asignatura');
             $table->string('tipo_docente');
             $table->softDeletes();

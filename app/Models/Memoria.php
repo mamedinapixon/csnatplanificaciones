@@ -113,7 +113,7 @@ class Memoria extends Model
         'participo_congresos_cientifica_detalle',
 
         'mensione_produccion_cientifica',
-        'mensione_produccion_cientifica_detalle',
+        'actividades_investigacion_relevante',
 
         'miembro_consejo_directivo',
         'miembro_consejo_directivo_detalle',
@@ -169,7 +169,8 @@ class Memoria extends Model
         'obtuvo_beca_formacion_profesional',
         'obtuvo_beca_formacion_profesional_detalle',
 
-        'observaciones'
+        'observaciones',
+        'estado_id'
     ];
 
     protected $guarded = ['id'];
@@ -330,12 +331,28 @@ class Memoria extends Model
         'obtuvo_beca_formacion_profesional' => 'boolean',
         'obtuvo_beca_formacion_profesional_detalle' => 'string',
 
-        'observaciones' => 'string'
+        'observaciones' => 'string',
+        'estado_id' => 'integer'
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function cargo()
+    {
+        return $this->belongsTo(Cargo::class);
+    }
+
+    public function dedicacion()
+    {
+        return $this->belongsTo(Dedicacion::class);
+    }
+
+    public function situacion_cargo()
+    {
+        return $this->belongsTo(SituacionCargo::class);
     }
 
 }
