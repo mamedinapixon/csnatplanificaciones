@@ -312,7 +312,7 @@
                     @if($memoria->miembro_conicet)
                         <x-pixonui.show.labeltext caption="Indique su Categoría">
                             <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
-                                {!! $memoria->miembro_conicet !!}
+                                {!! $memoria->miembro_conicet_detalle !!}
                             </div>
                         </x-pixonui.show.labeltext>
                     @endif
@@ -529,7 +529,7 @@
 
                 </div>
             </div>
-
+            @livewire('memoria.cambiar-estado', ['memoria' => $memoria])
         </div>
     </div>
 </x-app-layout>

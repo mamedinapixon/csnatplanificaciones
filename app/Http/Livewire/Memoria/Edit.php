@@ -16,8 +16,11 @@ class Edit extends Component
     public $dedicacion = [];
     public $situacioncargo = [];
     public $memoria_id;
+    public $step = 1;
 
     public $form = [];
+
+    protected $queryString = ['step'];
 
     protected $rules = [
         'form.user_id' => 'required',
@@ -182,5 +185,30 @@ class Edit extends Component
         session()->flash('message', 'Memoria presentada!');
 
         redirect()->to('memoria/'.$this->memoria->id);
+    }
+
+    public function onVolver()
+    {
+        if($this->step > 1)
+        {
+            $this->step--;
+        } else {
+            return redirect()->route('memoria.index');
+        }
+    }
+
+    public function onContinuar()
+    {
+        if($this->step < 6) $this->step++;
+    }
+
+    public function currentStep($step)
+    {
+        if($this->step <= $step)
+        {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

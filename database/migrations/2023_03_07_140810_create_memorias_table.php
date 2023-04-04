@@ -174,7 +174,11 @@ class CreateMemoriasTable extends Migration
             $table->text('obtuvo_beca_formacion_profesional_detalle')->nullable();
 
             $table->text('observaciones')->nullable();
+            $table->text('observaciones_revision')->nullable();
             $table->integer('estado_id')->default(1);
+
+            $talbe->dateTime('presentado_at');
+            $talbe->dateTime('revisado_at');
 
             $table->timestamps();
             $table->softDeletes();

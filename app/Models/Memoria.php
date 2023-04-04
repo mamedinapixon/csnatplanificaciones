@@ -170,6 +170,11 @@ class Memoria extends Model
         'obtuvo_beca_formacion_profesional_detalle',
 
         'observaciones',
+        'observaciones_revision',
+
+        'presentado_at',
+        'revisado_at',
+
         'estado_id'
     ];
 
@@ -332,6 +337,11 @@ class Memoria extends Model
         'obtuvo_beca_formacion_profesional_detalle' => 'string',
 
         'observaciones' => 'string',
+        'observaciones_revision' => 'string',
+
+        'presentado_at' => 'datetime',
+        'revisado_at' => 'datetime',
+
         'estado_id' => 'integer'
     ];
 
@@ -354,5 +364,11 @@ class Memoria extends Model
     {
         return $this->belongsTo(SituacionCargo::class);
     }
+
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class);
+    }
+
 
 }
