@@ -177,8 +177,8 @@ class CreateMemoriasTable extends Migration
             $table->text('observaciones_revision')->nullable();
             $table->integer('estado_id')->default(1);
 
-            $talbe->dateTime('presentado_at');
-            $talbe->dateTime('revisado_at');
+            $table->dateTime('presentado_at')->nullable();
+            $table->dateTime('revisado_at')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
