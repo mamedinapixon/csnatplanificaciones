@@ -81,8 +81,8 @@ class MemoriaController extends Controller
             }
         }
 
-        $memorias_asignaturas_estables = MemoriaAsignatura::where('memoria_id', $memoria->id)->where("tipo_docente","Estable")->get();
-        $memorias_asignaturas_invitado = MemoriaAsignatura::where('memoria_id', $memoria->id)->where("tipo_docente","Invitado")->get();
+        $memorias_asignaturas_estables = MemoriaAsignatura::with('cargo','dedicacion','situacion_cargo')->where('memoria_id', $memoria->id)->where("tipo_docente","Estable")->get();
+        $memorias_asignaturas_invitado = MemoriaAsignatura::with('cargo','dedicacion','situacion_cargo')->where('memoria_id', $memoria->id)->where("tipo_docente","Invitado")->get();
         return view('memoria.show', compact('memoria','memorias_asignaturas_estables','memorias_asignaturas_invitado'));
     }
 

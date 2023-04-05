@@ -7,7 +7,10 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>asignatura</th>
+                  <th>Asignatura</th>
+                  <th>Cargo</th>
+                  <th>Dedicación</th>
+                  <th>Situación Cargo</th>
                   <th></th>
                 </tr>
               </thead>
@@ -17,7 +20,10 @@
                     @foreach ($memoriasAsignaturas as $memoriaAsignatura)
                     <tr wire:key="docente-partipan-{{ $memoriaAsignatura->id }}">
                         <td>{{ $loop->index+1 }}</td>
-                        <th>{{ $memoriaAsignatura->asignatura }}</th>
+                        <td>{{ $memoriaAsignatura->asignatura }}</td>
+                        <td>{{ $memoriaAsignatura->cargo->nombre }}</td>
+                        <td>{{ $memoriaAsignatura->dedicacion->nombre }}</td>
+                        <td>{{ $memoriaAsignatura->situacion_cargo->nombre }}</td>
                         <td>
                             <button class="btn btn-ghost" wire:click="destroy({{$memoriaAsignatura->id}})" wire:loading.attr="disabled" wire:key="btn-docente-remove-{{ $memoriaAsignatura->id }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -33,11 +39,37 @@
         </div>
     </div>
     <div class="w-full form-control">
-        <div class="flex items-center justify-end space-x-4" >
-            <div class="font-bold text-md label dark:text-white">Indique nombre asignatura:</div>
-            <input class='w-full max-w-xs input input-bordered' wire:model.defer="asignatura"/>
+        <div class="flex justify-end space-x-4 flex-wrap" >
+            <input class='w-full max-w-xs input input-bordered' placeholder='Asignatura' wire:model.defer="asignatura"/>
+            <select class="select select-bordered" wire:model.defer="cargo_id">
+                <option value="null" disabled>Cargo</option>
+                @foreach ($cargos as $cargo)
+                    <option value="{{ $cargo->id }}"  wire:key="cargo-{{ $cargo->id }}">
+                        {{ $cargo->nombre }}
+                    </option>
+                @endforeach
+            </select>
+            <select class="select select-bordered" wire:model.defer="dedicacion_id">
+                <option value="null" disabled>Dedicación</option>
+                @foreach ($dedicaciones as $dedicacion)
+                    <option value="{{ $dedicacion->id }}"  wire:key="dedicacion-{{ $dedicacion->id }}">
+                        {{ $dedicacion->nombre }}
+                    </option>
+                @endforeach
+            </select>
+            <select class="select select-bordered" wire:model.defer="situacion_cargo_id">
+                <option value="null" disabled>Situación</option>
+                @foreach ($situaciones as $situacion)
+                    <option value="{{ $situacion->id }}"  wire:key="situacion-{{ $situacion->id }}">
+                        {{ $situacion->nombre }}
+                    </option>
+                @endforeach
+            </select>
             <button class="btn btn-secondary" wire:click="store" wire:loading.class="loading">Agregar</button>
         </div>
         @error('asignatura') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
+        @error('cargo_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
+        @error('dedicacion_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
+        @error('situacion_cargo_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
     </div>
 </div>

@@ -28,10 +28,6 @@
             <div class="overflow-hidden bg-white sm:rounded-lg">
                 <div class="p-6 space-y-2 bg-white border-b border-gray-200 print-p-0 sm:px-20">
 
-                    <x-pixonui.show.labeltext caption="Cargo">{{ empty($memoria->cargo) ? '' : $memoria->cargo->nombre }}</x-pixonui.show.labeltext>
-                    <x-pixonui.show.labeltext caption="Dedicación">{{ empty($memoria->dedicacion) ? '' : $memoria->dedicacion->nombre }}</x-pixonui.show.labeltext>
-                    <x-pixonui.show.labeltext caption="Situación Cargo">{{ empty($memoria->situacion_cargo) ? '' : $memoria->situacion_cargo->nombre }}</x-pixonui.show.labeltext>
-
                     <x-pixonui.show.labeltext caption="Asignatura en la que participó como docente estable">
                     </x-pixonui.show.labeltext>
                     <table class="table w-full table-zebra">
@@ -39,6 +35,9 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Asignatura</th>
+                                <th>Cargo</th>
+                                <th>Dedicación</th>
                                 <th>Asignatura</th>
                             </tr>
                         </thead>
@@ -49,6 +48,9 @@
                                     <tr wire:key="docente-partipan-{{ $memoria_asignatura->id }}">
                                         <td>{{ $loop->index + 1 }}</td>
                                         <th>{{ $memoria_asignatura->asignatura }}</th>
+                                        <td>{{ $memoria_asignatura->cargo->nombre }}</td>
+                                        <td>{{ $memoria_asignatura->dedicacion->nombre }}</td>
+                                        <td>{{ $memoria_asignatura->situacion_cargo->nombre }}</td>
                                     </tr>
                                 @endforeach
                             @endif
@@ -63,6 +65,9 @@
                             <tr>
                                 <th>#</th>
                                 <th>Asignatura</th>
+                                <th>Cargo</th>
+                                <th>Dedicación</th>
+                                <th>Asignatura</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,6 +77,9 @@
                                     <tr wire:key="docente-partipan-{{ $memoria_asignatura->id }}">
                                         <td>{{ $loop->index + 1 }}</td>
                                         <th>{{ $memoria_asignatura->asignatura }}</th>
+                                        <td>{{ $memoria_asignatura->cargo->nombre }}</td>
+                                        <td>{{ $memoria_asignatura->dedicacion->nombre }}</td>
+                                        <td>{{ $memoria_asignatura->situacion_cargo->nombre }}</td>
                                     </tr>
                                 @endforeach
                             @endif

@@ -1,28 +1,4 @@
 <div class="space-y-4 ">
-    <div class="w-full form-control">
-        <x-pixonui.form.label>Cargo</x-pixonui.form.label>
-        <div class="flex items-center space-x-2">
-            <x-pixonui.form.select  wire:model="form.cargo_id" :items="$cargos" value="id" caption="nombre"></x-pixonui.form.select>
-            <x-pixonui.wire.loading.spinner wire:target="form.cargo_id"></x-pixonui.wire.loading.spinner>
-        </div>
-    </div>
-
-    <div class="w-full form-control">
-        <x-pixonui.form.label>Dedicación docente</x-pixonui.form.label>
-        <div class="flex items-center space-x-2">
-            <x-pixonui.form.select  wire:model="form.dedicacion_id" :items="$dedicaciones" value="id" caption="nombre"></x-pixonui.form.select>
-            <x-pixonui.wire.loading.spinner wire:target="form.dedicacion_id"></x-pixonui.wire.loading.spinner>
-        </div>
-    </div>
-
-    <div class="w-full form-control">
-        <x-pixonui.form.label>Situación en el cargo</x-pixonui.form.label>
-        <div class="flex items-center space-x-2">
-            <x-pixonui.form.select  wire:model="form.situacion_cargo_id" :items="$situacioncargo" value="id" caption="nombre"></x-pixonui.form.select>
-            <x-pixonui.wire.loading.spinner wire:target="form.situacion_cargo_id"></x-pixonui.wire.loading.spinner>
-        </div>
-    </div>
-
     <livewire:memoria.tbl-asignatura :memoria_id='' :tipo_docente='' :memoria_id="$memoria_id" tipo_docente="Estable" />
     <livewire:memoria.tbl-asignatura :memoria_id='' :tipo_docente='' :memoria_id="$memoria_id" tipo_docente="Invitado" label="Asignaturas en la que partición como Docente invitado" />
 

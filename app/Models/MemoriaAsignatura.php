@@ -18,7 +18,11 @@ class MemoriaAsignatura extends Model
         'memoria_id',
         'materia_id',
         'asignatura',
-        'tipo_docente' //Estable o invitado
+        'tipo_docente', //Estable o invitado
+        'cargo_id',
+        'dedicacion_id',
+        'situacion_cargo_id',
+
     ];
 
     protected $guarded = ['id'];
@@ -28,5 +32,23 @@ class MemoriaAsignatura extends Model
         'materia_id' => 'integer',
         'asignatura' => 'string',
         'tipo_docente' => 'string',
+        'cargo_id' => 'integer',
+        'dedicacion_id' => 'integer',
+        'situacion_cargo_id' => 'integer',
     ];
+
+    public function cargo()
+    {
+        return $this->belongsTo(Cargo::class);
+    }
+
+    public function dedicacion()
+    {
+        return $this->belongsTo(Dedicacion::class);
+    }
+
+    public function situacion_cargo()
+    {
+        return $this->belongsTo(SituacionCargo::class);
+    }
 }
