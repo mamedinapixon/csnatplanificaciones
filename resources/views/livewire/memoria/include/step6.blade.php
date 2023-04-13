@@ -64,7 +64,7 @@
     @endif
 
     <div class="w-full form-control">
-        <x-pixonui.form.label>Observaciones: En este apartado puede dejarnos sus comentarios, observaciones o sugerencias o bien agregar alguna información importante que no haya sido incluida en los ítems anteriores</x-pixonui.form.label>
+        <x-pixonui.form.label>En este campo puede agregar otra información que considere relevante y que no fue incluida en los item anteriores</x-pixonui.form.label>
         <x-pixonui.wire.quill wire:model="form.observaciones" ref="obtuvo_beca_formacion_profesional_detalle"></x-pixonui.wire.quill>
         <x-pixonui.wire.loading.spinner wire:target="form.observaciones"></x-pixonui.wire.loading.spinner>
         <x-pixonui.form.error for="form.observaciones"></x-pixonui.form.error>

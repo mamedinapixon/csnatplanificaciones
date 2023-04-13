@@ -135,7 +135,15 @@ class Edit extends Component
             'realizo_trayecto_academico_detalle' => $memoria->realizo_trayecto_academico_detalle,
             'obtuvo_beca_formacion_profesional' => $memoria->obtuvo_beca_formacion_profesional,
             'obtuvo_beca_formacion_profesional_detalle' => $memoria->obtuvo_beca_formacion_profesional_detalle,
-            'observaciones' => $memoria->observaciones
+            'observaciones' => $memoria->observaciones,
+            'participo_jurado_grado' => $memoria->participo_jurado_grado,
+            'participo_jurado_grado_detalle' => $memoria->participo_jurado_grado_detalle,
+            'realiazo_viajes_campo' => $memoria->realiazo_viajes_campo,
+            'realiazo_viajes_campo_detalle' => $memoria->realiazo_viajes_campo_detalle,
+            'participo_cargos_gestion' => $memoria->participo_cargos_gestion,
+            'participo_cargos_gestion_detalle' => $memoria->participo_cargos_gestion_detalle,
+            'participo_actividades_gestion' => $memoria->participo_actividades_gestion,
+            'participo_actividades_gestion_detalle' => $memoria->participo_actividades_gestion_detalle
         ];
 
         $this->memoria_id = $memoria->id;

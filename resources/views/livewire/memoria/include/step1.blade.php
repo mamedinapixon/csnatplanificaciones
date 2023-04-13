@@ -1,6 +1,6 @@
 <div class="space-y-4 ">
-    <livewire:memoria.tbl-asignatura :memoria_id='' :tipo_docente='' :memoria_id="$memoria_id" tipo_docente="Estable" />
-    <livewire:memoria.tbl-asignatura :memoria_id='' :tipo_docente='' :memoria_id="$memoria_id" tipo_docente="Invitado" label="Asignaturas en la que partición como Docente invitado" />
+    <livewire:memoria.tbl-asignatura :memoria_id='' :tipo_docente='' :memoria_id="$memoria_id" tipo_docente="Estable" label="Asignatura/s en la que participó como docente estable y/o por extensión de funciones"/>
+    <livewire:memoria.tbl-asignatura :memoria_id='' :tipo_docente='' :memoria_id="$memoria_id" tipo_docente="Invitado" label="Asignaturas en la que participó como Docente invitado" />
 
     <div class=" form-control">
         <x-pixonui.form.label>Dictó Cursos y/o Cursillos de grado</x-pixonui.form.label>
@@ -15,6 +15,22 @@
             <x-pixonui.wire.quill wire:model="form.dicto_cursos_grado_detalle" ref="dicto_cursos_grado_detalle"></x-pixonui.wire.quill>
             <x-pixonui.wire.loading.spinner wire:target="form.dicto_cursos_grado_detalle"></x-pixonui.wire.loading.spinner>
             <x-pixonui.form.error for="form.dicto_cursos_grado_detalle"></x-pixonui.form.error>
+        </div>
+    @endif
+
+    <div class=" form-control">
+        <x-pixonui.form.label>¿Participó como jurados titulares o suplentes de asignaturas de grado?</x-pixonui.form.label>
+        <div class="flex items-center space-x-2">
+            <x-pixonui.form.checkbox id="toggle-participo_jurado_grado" wire:model="form.participo_jurado_grado"></x-pixonui.form.checkbox>
+            <x-pixonui.wire.loading.spinner wire:target="form.participo_jurado_grado"></x-pixonui.wire.loading.spinner>
+        </div>
+    </div>
+    @if ($form['participo_jurado_grado'])
+        <div class="w-full form-control">
+            <x-pixonui.form.label>Especifique los datos:</x-pixonui.form.label>
+            <x-pixonui.wire.quill wire:model="form.participo_jurado_grado_detalle" ref="participo_jurado_grado_detalle"></x-pixonui.wire.quill>
+            <x-pixonui.wire.loading.spinner wire:target="form.participo_jurado_grado_detalle"></x-pixonui.wire.loading.spinner>
+            <x-pixonui.form.error for="form.participo_jurado_grado_detalle"></x-pixonui.form.error>
         </div>
     @endif
 

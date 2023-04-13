@@ -32,7 +32,7 @@
     @endif
 
     <div class=" form-control">
-        <x-pixonui.form.label>Participó en otros cargos directivos (Cooperadora, Colegios profesionales, etc.)</x-pixonui.form.label>
+        <x-pixonui.form.label>¿Participó en otros cargos directivos (Cooperadora, Colegios profesionales, etc.)?</x-pixonui.form.label>
         <div class="flex items-center space-x-2">
             <x-pixonui.form.checkbox id="toggle-participo_cargos_directivos" wire:model="form.participo_cargos_directivos"></x-pixonui.form.checkbox>
             <x-pixonui.wire.loading.spinner wire:target="form.participo_cargos_directivos"></x-pixonui.wire.loading.spinner>
@@ -44,6 +44,38 @@
             <x-pixonui.wire.quill wire:model="form.participo_cargos_directivos_detalle" ref="participo_cargos_directivos_detalle"></x-pixonui.wire.quill>
             <x-pixonui.wire.loading.spinner wire:target="form.participo_cargos_directivos_detalle"></x-pixonui.wire.loading.spinner>
             <x-pixonui.form.error for="form.participo_cargos_directivos_detalle"></x-pixonui.form.error>
+        </div>
+    @endif
+
+    <div class=" form-control">
+        <x-pixonui.form.label>¿Participó en cargos de gestión (Decano, Vice, Secretarios de Facultad, coordinadores, etc.)?</x-pixonui.form.label>
+        <div class="flex items-center space-x-2">
+            <x-pixonui.form.checkbox id="toggle-participo_cargos_gestion" wire:model="form.participo_cargos_gestion"></x-pixonui.form.checkbox>
+            <x-pixonui.wire.loading.spinner wire:target="form.participo_cargos_gestion"></x-pixonui.wire.loading.spinner>
+        </div>
+    </div>
+    @if ($form['participo_cargos_gestion'])
+        <div class="w-full form-control">
+            <x-pixonui.form.label>Indique cual/es</x-pixonui.form.label>
+            <x-pixonui.wire.quill wire:model="form.participo_cargos_gestion_detalle" ref="participo_cargos_gestion_detalle"></x-pixonui.wire.quill>
+            <x-pixonui.wire.loading.spinner wire:target="form.participo_cargos_gestion_detalle"></x-pixonui.wire.loading.spinner>
+            <x-pixonui.form.error for="form.participo_cargos_gestion_detalle"></x-pixonui.form.error>
+        </div>
+    @endif
+
+    <div class=" form-control">
+        <x-pixonui.form.label>¿Participó en actividades de gestión?</x-pixonui.form.label>
+        <div class="flex items-center space-x-2">
+            <x-pixonui.form.checkbox id="toggle-participo_actividades_gestion" wire:model="form.participo_actividades_gestion"></x-pixonui.form.checkbox>
+            <x-pixonui.wire.loading.spinner wire:target="form.participo_actividades_gestion"></x-pixonui.wire.loading.spinner>
+        </div>
+    </div>
+    @if ($form['participo_actividades_gestion'])
+        <div class="w-full form-control">
+            <x-pixonui.form.label>Indique cual/es</x-pixonui.form.label>
+            <x-pixonui.wire.quill wire:model="form.participo_actividades_gestion_detalle" ref="participo_actividades_gestion_detalle"></x-pixonui.wire.quill>
+            <x-pixonui.wire.loading.spinner wire:target="form.participo_actividades_gestion_detalle"></x-pixonui.wire.loading.spinner>
+            <x-pixonui.form.error for="form.participo_actividades_gestion_detalle"></x-pixonui.form.error>
         </div>
     @endif
 

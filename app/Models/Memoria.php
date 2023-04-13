@@ -22,6 +22,9 @@ class Memoria extends Model
         'dicto_cursos_grado',
         'dicto_cursos_grado_detalle',
 
+        'participo_jurado_grado',
+        'participo_jurado_grado_detalle',
+
         'participo_jurado_titular',
         'participo_jurado_titular_detalle',
 
@@ -109,6 +112,9 @@ class Memoria extends Model
         'realiazo_viajes_investigacion',
         'realiazo_viajes_investigacion_detalle',
 
+        'realiazo_viajes_campo',
+        'realiazo_viajes_campo_detalle',
+
         'participo_congresos_cientifica',
         'participo_congresos_cientifica_detalle',
 
@@ -135,6 +141,12 @@ class Memoria extends Model
 
         'participo_cargos_directivos',
         'participo_cargos_directivos_detalle',
+
+        'participo_cargos_gestion',
+        'participo_cargos_gestion_detalle',
+
+        'participo_actividades_gestion',
+        'participo_actividades_gestion_detalle',
 
         'dicto_charlas_conferencias',
         'dicto_charlas_conferencias_detalle',
@@ -188,6 +200,9 @@ class Memoria extends Model
 
         'dicto_cursos_grado' => 'boolean',
         'dicto_cursos_grado_detalle' => 'string',
+
+        'participo_jurado_grado',
+        'participo_jurado_grado_detalle',
 
         'participo_jurado_titular' => 'boolean',
         'participo_jurado_titular_detalle' => 'string',
@@ -276,6 +291,9 @@ class Memoria extends Model
         'realiazo_viajes_investigacion' => 'boolean',
         'realiazo_viajes_investigacion_detalle' => 'string',
 
+        'realiazo_viajes_campo' => 'boolean',
+        'realiazo_viajes_campo_detalle' => 'string',
+
         'participo_congresos_cientifica' => 'boolean',
         'participo_congresos_cientifica_detalle' => 'string',
 
@@ -302,6 +320,12 @@ class Memoria extends Model
 
         'participo_cargos_directivos' => 'boolean',
         'participo_cargos_directivos_detalle' => 'string',
+
+        'participo_cargos_gestion' => 'boolean',
+        'participo_cargos_gestion_detalle' => 'string',
+
+        'participo_actividades_gestion' => 'boolean',
+        'participo_actividades_gestion_detalle' => 'string',
 
         'dicto_charlas_conferencias' => 'boolean',
         'dicto_charlas_conferencias_detalle' => 'string',

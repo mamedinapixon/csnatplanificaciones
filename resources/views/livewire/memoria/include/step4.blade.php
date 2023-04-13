@@ -48,6 +48,22 @@
     @endif
 
     <div class=" form-control">
+        <x-pixonui.form.label>¿Ha realizado viajes de campo con alumnos de las asignaturas?</x-pixonui.form.label>
+        <div class="flex items-center space-x-2">
+            <x-pixonui.form.checkbox id="toggle-realiazo_viajes_campo" wire:model="form.realiazo_viajes_campo"></x-pixonui.form.checkbox>
+            <x-pixonui.wire.loading.spinner wire:target="form.realiazo_viajes_campo"></x-pixonui.wire.loading.spinner>
+        </div>
+    </div>
+    @if ($form['realiazo_viajes_campo'])
+        <div class="w-full form-control">
+            <x-pixonui.form.label>Detalle, lugares, fechas, participación de alumnos de grado y/o posgrado, etc.</x-pixonui.form.label>
+            <x-pixonui.wire.quill wire:model="form.realiazo_viajes_campo_detalle" ref="realiazo_viajes_campo_detalle"></x-pixonui.wire.quill>
+            <x-pixonui.wire.loading.spinner wire:target="form.realiazo_viajes_campo_detalle"></x-pixonui.wire.loading.spinner>
+            <x-pixonui.form.error for="form.realiazo_viajes_campo_detalle"></x-pixonui.form.error>
+        </div>
+    @endif
+
+    <div class=" form-control">
         <x-pixonui.form.label>¿Participó en Congresos, jornadas, talleres, seminarios u otra reunión científica?</x-pixonui.form.label>
         <div class="flex items-center space-x-2">
             <x-pixonui.form.checkbox id="toggle-participo_congresos_cientifica" wire:model="form.participo_congresos_cientifica"></x-pixonui.form.checkbox>

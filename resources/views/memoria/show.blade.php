@@ -28,7 +28,7 @@
             <div class="overflow-hidden bg-white sm:rounded-lg">
                 <div class="p-6 space-y-2 bg-white border-b border-gray-200 print-p-0 sm:px-20">
 
-                    <x-pixonui.show.labeltext caption="Asignatura en la que participó como docente estable">
+                    <x-pixonui.show.labeltext caption="Asignatura/s en la que participó como docente estable y/o por extensión de funciones">
                     </x-pixonui.show.labeltext>
                     <table class="table w-full table-zebra">
                         <!-- head -->
@@ -57,7 +57,7 @@
                         </tbody>
                     </table>
 
-                    <x-pixonui.show.labeltext caption="Asignaturas en la que partición como Docente invitado">
+                    <x-pixonui.show.labeltext caption="Asignaturas en la que participó como Docente invitado">
                     </x-pixonui.show.labeltext>
                     <table class="table w-full table-zebra">
                         <!-- head -->
@@ -94,6 +94,15 @@
                             </div>
                         </x-pixonui.show.labeltext>
                     @endif
+
+                    <x-pixonui.show.labelsino :value="$memoria->participo_jurado_grado" caption="¿Participó como jurados titulares o suplentes de asignaturas de grado?"></x-pixonui.show.labeltext>
+                        @if($memoria->participo_jurado_grado)
+                            <x-pixonui.show.labeltext caption="Especifique los datos:">
+                                <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                    {!! $memoria->participo_jurado_grado_detalle !!}
+                                </div>
+                            </x-pixonui.show.labeltext>
+                        @endif
 
                     <x-pixonui.show.labelsino :value="$memoria->participo_jurado_titular" caption="¿Participó como jurado Titular en Tesinas, Seminarios y/o PPS?"></x-pixonui.show.labeltext>
                     @if($memoria->participo_jurado_titular)
@@ -352,6 +361,15 @@
                         </x-pixonui.show.labeltext>
                     @endif
 
+                    <x-pixonui.show.labelsino :value="$memoria->realiazo_viajes_campo" caption="¿Ha realizado viajes de campo con alumnos de las asignaturas?"></x-pixonui.show.labeltext>
+                    @if($memoria->realiazo_viajes_campo)
+                        <x-pixonui.show.labeltext caption="Detalle, lugares, fechas, etc.">
+                            <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                {!! $memoria->realiazo_viajes_campo_detalle !!}
+                            </div>
+                        </x-pixonui.show.labeltext>
+                    @endif
+
                     <x-pixonui.show.labelsino :value="$memoria->participo_congresos_cientifica" caption="¿Participó en Congresos, jornadas, talleres, seminarios u otra reunión científica?"></x-pixonui.show.labeltext>
                     @if($memoria->participo_congresos_cientifica)
                         <x-pixonui.show.labeltext caption="En Caso Positivo, detalle en cual/es, lugares, tipo de participación etc.">
@@ -420,7 +438,7 @@
                         </x-pixonui.show.labeltext>
                     @endif
 
-                    <x-pixonui.show.labelsino :value="$memoria->participo_cargos_directivos" caption="Participó en otros cargos directivos (Cooperadora, Colegios profesionales, etc.)"></x-pixonui.show.labeltext>
+                    <x-pixonui.show.labelsino :value="$memoria->participo_cargos_directivos" caption="¿Participó en otros cargos directivos (Cooperadora, Colegios profesionales, etc.)?"></x-pixonui.show.labeltext>
                     @if($memoria->participo_cargos_directivos)
                         <x-pixonui.show.labeltext caption="Indique cual/es">
                             <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
@@ -428,6 +446,24 @@
                             </div>
                         </x-pixonui.show.labeltext>
                     @endif
+
+                    <x-pixonui.show.labelsino :value="$memoria->participo_cargos_gestion" caption="¿Participó en cargos de gestión (Decano, Vice, Secretarios de Facultad, coordinadores, etc.)?"></x-pixonui.show.labeltext>
+                    @if($memoria->participo_cargos_gestion)
+                        <x-pixonui.show.labeltext caption="Indique cual/es">
+                            <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                {!! $memoria->participo_cargos_gestion_detalle !!}
+                            </div>
+                        </x-pixonui.show.labeltext>
+                    @endif
+
+                    <x-pixonui.show.labelsino :value="$memoria->participo_actividades_gestion" caption="¿Participó en actividades de gestión?"></x-pixonui.show.labeltext>
+                        @if($memoria->participo_actividades_gestion)
+                            <x-pixonui.show.labeltext caption="Indique cual/es">
+                                <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                    {!! $memoria->participo_actividades_gestion_detalle !!}
+                                </div>
+                            </x-pixonui.show.labeltext>
+                        @endif
 
                     <x-pixonui.show.labelsino :value="$memoria->dicto_charlas_conferencias" caption="¿Dictó charlas, conferencias, disertaciones, etc.?"></x-pixonui.show.labeltext>
                     @if($memoria->dicto_charlas_conferencias)
@@ -529,7 +565,7 @@
                     @endif
 
 
-                    <x-pixonui.show.labeltext caption="Observaciones: En este apartado puede dejarnos sus comentarios, observaciones o sugerencias o bien agregar alguna información importante que no haya sido incluida en los ítems anteriores">
+                    <x-pixonui.show.labeltext caption="En este campo puede agregar otra información que considere relevante y que no fue incluida en los item anteriores">
                         <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
                             {!! $memoria->observaciones !!}
                         </div>
