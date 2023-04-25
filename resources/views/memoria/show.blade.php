@@ -95,7 +95,7 @@
                         </x-pixonui.show.labeltext>
                     @endif
 
-                    <x-pixonui.show.labelsino :value="$memoria->participo_jurado_grado" caption="¿Participó como jurados titulares o suplentes de asignaturas de grado?"></x-pixonui.show.labeltext>
+                    <x-pixonui.show.labelsino :value="$memoria->participo_jurado_grado" caption="¿Participó como integrante de tribunales examinadores de asignaturas de grado.?"></x-pixonui.show.labeltext>
                         @if($memoria->participo_jurado_grado)
                             <x-pixonui.show.labeltext caption="Especifique los datos:">
                                 <div class="mb-3 font-light text-gray-500 dark:text-gray-400">

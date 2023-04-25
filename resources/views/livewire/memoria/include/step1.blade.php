@@ -19,7 +19,7 @@
     @endif
 
     <div class=" form-control">
-        <x-pixonui.form.label>¿Participó como jurados titulares o suplentes de asignaturas de grado?</x-pixonui.form.label>
+        <x-pixonui.form.label>¿Participó como integrante de tribunales examinadores de asignaturas de grado?</x-pixonui.form.label>
         <div class="flex items-center space-x-2">
             <x-pixonui.form.checkbox id="toggle-participo_jurado_grado" wire:model="form.participo_jurado_grado"></x-pixonui.form.checkbox>
             <x-pixonui.wire.loading.spinner wire:target="form.participo_jurado_grado"></x-pixonui.wire.loading.spinner>
