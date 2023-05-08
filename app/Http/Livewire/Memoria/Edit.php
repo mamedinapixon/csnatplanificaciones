@@ -8,6 +8,7 @@ use App\Models\Memoria;
 use App\Models\Cargo;
 use App\Models\Dedicacion;
 use App\Models\SituacionCargo;
+use App\Models\MemoriaAsignatura;
 
 class Edit extends Component
 {
@@ -170,6 +171,15 @@ class Edit extends Component
 
     public function OnPresentar()
     {
+
+        // Comprobar que tenga asignaturas presentadas
+        $asignaturas = MemoriaAsignatura::where('memoria_id',$this->memoria_id)->get();
+        if(count($asignaturas) <= 0)
+        {
+            session()->flash('error', 'Debe cargar como minimo una asignatrua, para poder presentar la memoria.');
+            return;
+        }
+
         $this->memoria->update([
             "estado_id" => 2,
             "presentado_at" => Carbon::now()->timestamp
