@@ -53,7 +53,8 @@ class MemoriaTable extends DataTableComponent
                 ->format(
                     fn($value, $row, Column $column) => $row->estado_id == 2 ? '<div class="gap-2 text-white badge badge-info">'.$row->estado->nombre.'</div>' : ($row->estado_id == 3 ? '<div class="gap-2 text-white badge badge-success">'.$row->estado->nombre.'</div>' : ($row->estado_id == 4 ? '<div class="gap-2 text-white badge badge-error">'.$row->estado->nombre.'</div>' :'<div class="gap-2 text-white badge">'.$row->estado->nombre.'</div>'))
                 )
-                ->html(),
+                ->html()
+                ->sortable(),
             Column::make("Creado at", "created_at")
                 ->sortable(),
             Column::make("Actualizado", "updated_at")
@@ -61,6 +62,25 @@ class MemoriaTable extends DataTableComponent
                     fn($value, $row, Column $column) => \Carbon\Carbon::parse($row->updated_at)->diffForHumans()
                 )
                 ->sortable(),
+        ];
+    }
+
+    public function filters(): array
+    {
+        return [
+            SelectFilter::make('Estado', 'estado')
+            ->options([
+                '' => 'Todos',
+                '1' => 'Editando',
+                '2' => 'Presentado',
+                '3' => 'Aprobado',
+                '4' => 'Observado'
+            ])
+            ->filter(function(Builder $builder, string $value) {
+                if ($value > 0) {
+                    $builder->where('memorias.estado_id', $value);
+                }
+            }),
         ];
     }
 
