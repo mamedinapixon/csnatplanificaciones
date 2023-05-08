@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
+use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
+
 use App\Models\Memoria;
 
 use Illuminate\Support\Facades\Auth;
@@ -43,11 +46,7 @@ class MemoriaTable extends DataTableComponent
         return [
             Column::make("Id", "id")
                 ->sortable(),
-            Column::make('Docente', 'user_id')
-                ->format(
-                    fn($value, $row, Column $column) => $row->user->name
-                )
-                ->sortable(),
+            Column::make("Docente", "user.name")->searchable()->sortable(),
             Column::make("Anio academico", "anio_academico")
                 ->sortable(),
             Column::make('Estado', 'estado_id')
@@ -64,4 +63,5 @@ class MemoriaTable extends DataTableComponent
                 ->sortable(),
         ];
     }
+
 }
