@@ -16,8 +16,9 @@ class CreateUbicacionesTable extends Migration
         Schema::create('ubicaciones', function (Blueprint $table) {
             $table->id();
             $table->string('descripcion');
-            $table->string('latitud');
-            $table->string('longitud');
+            $table->string('latitud')->nullable();
+            $table->string('longitud')->nullable();
+            $table->boolean('is_otro')->default(0);
             $table->timestamps();
         });
     }

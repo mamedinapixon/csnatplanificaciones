@@ -10,7 +10,7 @@
             @endif
             <x-pixonui.heading.h1>Panel Docente
             </x-pixonui.heading.h1>
-            <section class="flex gap-4">
+            <section class="flex flex-wrap gap-4">
                 <div class="shadow-xl card w-96 bg-base-100">
                     <figure><img src="{{asset('img/planificacion2.jpg')}}" alt="Shoes" /></figure>
                     <div class="card-body">
@@ -18,7 +18,7 @@
                         <p>Sólo debe ser llenada por un docente, el responsable de cátedra o quien éste designe</p>
                         <br>
                         <div class="justify-end card-actions">
-                        <a href="{{ route('planificacion.index') }}" class="btn btn-primary">Ingresar</a>
+                            <a href="{{ route('planificacion.index') }}" class="btn btn-primary">Ingresar</a>
                         </div>
                     </div>
                 </div>
@@ -27,8 +27,19 @@
                     <div class="card-body">
                         <h2 class="card-title">Memoria individual</h2>
                         <p>Debe ser llenada por cada docente de la institución en forma individual</p>
-                        <div class="items-center justify-between card-actions">
+                        <div class="justify-end card-actions">
                             <a href="{{ route('memoria.index') }}" class="btn btn-primary">Ingresar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="shadow-xl card w-96 bg-base-100">
+                    <figure><img src="{{asset('img/memoria.png')}}" alt="Shoes" /></figure>
+                    <div class="card-body">
+                        <h2 class="card-title">Asistencia</h2>
+                        <p></p>
+                        <p></p>
+                        <div class="justify-end card-actions">
+                            <a href="{{ route('asistencia.index') }}" class="btn btn-primary">Ingresar</a>
                         </div>
                     </div>
                 </div>

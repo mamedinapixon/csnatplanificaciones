@@ -15,14 +15,15 @@ class CreateAsistenciasTable extends Migration
     {
         Schema::create('asistencias', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('docente_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->dateTime('fecha_at');
             $table->dateTime('ingreso_at');
-            $table->dateTime('salida_at');
+            $table->dateTime('salida_at')->nullable();
             $table->foreignId('ubicacion_id')->constrained('ubicaciones');
-            $table->string('otra_ubicacion');
-            $table->text('observacion');
+            $table->string('otra_ubicacion')->nullable();
+            $table->text('observacion')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
