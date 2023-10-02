@@ -5,98 +5,20 @@
                 alt="Logo Facultad Ciencias Naturales UNT">
         </a>
         <div class="dropdown">
-            <label tabindex="0" class="btn btn-ghost md:hidden">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
+            <label tabindex="0" class="btn btn-ghost lg:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
                 </svg>
             </label>
             <ul tabindex="0"
-                class="menu-sm dropdown-content menu rounded-box z-[1] mt-3 w-52 bg-base-100 bg-gradient-to-r from-emerald-800 to-emerald-600 p-2 text-base-100 shadow">
-                <li><a href="{{ route('home') }}">Home</a></li>
-            @can(['ver periodos lectivos', 'ver docentes'])
-                <li>
-                    <a>
-                        Administración
-                        <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                            viewBox="0 0 24 24">
-                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                        </svg>
-                    </a>
-                    <ul class="">
-                        @can('ver periodos lectivos')
-                            <li class="hover-bordered">
-                                <a class="w-full justify-between" href="{{ route('periodoLectivo.index') }}">
-                                    Periodos Lectivos
-                                </a>
-                            </li>
-                        @endcan
-                        @can('ver docentes')
-                            <li class="hover-bordered">
-                                <a class="w-full justify-between" href="{{ route('docente.index') }}">
-                                    Docentes
-                                </a>
-                            </li>
-                        @endcan
-                        @can('ver usuarios')
-                            <li class="hover-bordered">
-                                <a class="w-full justify-between" href="{{ route('user.index') }}">
-                                    Usuarios
-                                </a>
-                            </li>
-                        @endcan
-                    </ul>
-                </li>
-            @endcan
-            @can('ver planificaciones')
-                <li><a href="{{ route('planificacion.index') }}">Planificaciones</a></li>
-            @else
-                <li><a href="{{ route('planificacion.index') }}">Mis Planificaciones</a></li>
-            @endcan
+                class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-60 text-neutral">
+                @include('nav.mainmenu')
             </ul>
         </div>
     </div>
-    <div class="navbar-center hidden md:flex">
+    <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1 items-center">
-            <li><a href="{{ route('home') }}">Home</a></li>
-            @can(['ver periodos lectivos', 'ver docentes'])
-                <li tabindex="0">
-                    <details>
-                        <summary>
-                            Administración
-                        </summary>
-                        <ul tabindex="0"
-                            class="p-2 bg-base-100 text-neutral">
-                            @can('ver periodos lectivos')
-                                <li class="hover-bordered">
-                                    <a class="w-full justify-between" href="{{ route('periodoLectivo.index') }}">
-                                        Periodos Lectivos
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('ver docentes')
-                                <li class="hover-bordered">
-                                    <a class="w-full justify-between" href="{{ route('docente.index') }}">
-                                        Docentes
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('ver usuarios')
-                                <li class="hover-bordered">
-                                    <a class="w-full justify-between" href="{{ route('user.index') }}">
-                                        Usuarios
-                                    </a>
-                                </li>
-                            @endcan
-                        </ul>
-                    </details>
-                </li>
-            @endcan
-            @can('ver planificaciones')
-                <li><a href="{{ route('planificacion.index') }}">Planificaciones</a></li>
-            @else
-                <li><a href="{{ route('planificacion.index') }}">Mis Planificaciones</a></li>
-            @endcan
+            @include('nav.mainmenu')
         </ul>
     </div>
     <div class="navbar-end">
