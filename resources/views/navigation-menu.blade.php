@@ -15,7 +15,7 @@
                 class="menu-sm dropdown-content menu rounded-box z-[1] mt-3 w-52 bg-base-100 bg-gradient-to-r from-emerald-800 to-emerald-600 p-2 text-base-100 shadow">
                 <li><a href="{{ route('home') }}">Home</a></li>
             @can(['ver periodos lectivos', 'ver docentes'])
-                <li tabindex="0">
+                <li>
                     <a>
                         Administración
                         <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -23,8 +23,7 @@
                             <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
                         </svg>
                     </a>
-                    <ul tabindex="0"
-                        class="dropdown-content menu rounded-box menu-compact w-56 bg-base-100 p-3 text-base-content shadow">
+                    <ul class="">
                         @can('ver periodos lectivos')
                             <li class="hover-bordered">
                                 <a class="w-full justify-between" href="{{ route('periodoLectivo.index') }}">
@@ -58,41 +57,39 @@
         </div>
     </div>
     <div class="navbar-center hidden md:flex">
-        <ul class="menu menu-horizontal space-x-4 p-0 px-4">
+        <ul class="menu menu-horizontal px-1 items-center">
             <li><a href="{{ route('home') }}">Home</a></li>
             @can(['ver periodos lectivos', 'ver docentes'])
                 <li tabindex="0">
-                    <a>
-                        Administración
-                        <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                            viewBox="0 0 24 24">
-                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                        </svg>
-                    </a>
-                    <ul tabindex="0"
-                        class="dropdown-content menu rounded-box menu-compact w-56 bg-base-100 p-3 text-base-content shadow">
-                        @can('ver periodos lectivos')
-                            <li class="hover-bordered">
-                                <a class="w-full justify-between" href="{{ route('periodoLectivo.index') }}">
-                                    Periodos Lectivos
-                                </a>
-                            </li>
-                        @endcan
-                        @can('ver docentes')
-                            <li class="hover-bordered">
-                                <a class="w-full justify-between" href="{{ route('docente.index') }}">
-                                    Docentes
-                                </a>
-                            </li>
-                        @endcan
-                        @can('ver usuarios')
-                            <li class="hover-bordered">
-                                <a class="w-full justify-between" href="{{ route('user.index') }}">
-                                    Usuarios
-                                </a>
-                            </li>
-                        @endcan
-                    </ul>
+                    <details>
+                        <summary>
+                            Administración
+                        </summary>
+                        <ul tabindex="0"
+                            class="p-2 bg-base-100 text-neutral">
+                            @can('ver periodos lectivos')
+                                <li class="hover-bordered">
+                                    <a class="w-full justify-between" href="{{ route('periodoLectivo.index') }}">
+                                        Periodos Lectivos
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('ver docentes')
+                                <li class="hover-bordered">
+                                    <a class="w-full justify-between" href="{{ route('docente.index') }}">
+                                        Docentes
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('ver usuarios')
+                                <li class="hover-bordered">
+                                    <a class="w-full justify-between" href="{{ route('user.index') }}">
+                                        Usuarios
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </details>
                 </li>
             @endcan
             @can('ver planificaciones')
