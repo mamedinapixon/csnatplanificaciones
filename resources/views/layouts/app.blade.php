@@ -101,5 +101,8 @@
             }
         </script>
 
+        <script src="https://kit.fontawesome.com/398c06bb36.js" crossorigin="anonymous"></script>
+
+
     </body>
 </html>
