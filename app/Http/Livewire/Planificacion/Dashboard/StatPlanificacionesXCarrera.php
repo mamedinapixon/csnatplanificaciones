@@ -27,7 +27,9 @@ class StatPlanificacionesXCarrera extends Component
     }
     public function render()
     {
-        $this->anioAcademicos = PeriodoLectivo::onlyYears()->get();
+        //DB::table('periodo_lectivos')->distinct()->select('anio_academico')->orderBy('anio_academico', 'desc');
+        //$this->anioAcademicos = PeriodoLectivo::onlyYears()->get();
+        $this->anioAcademicos = PeriodoLectivo::distinct()->select('anio_academico')->orderBy('anio_academico', 'desc')->get();
         if(!empty($this->anioAcademicos))
         {
             if($this->anio_academico_id == 0) $this->anio_academico_id = $this->anioAcademicos[0]->anio_academico;
@@ -35,7 +37,8 @@ class StatPlanificacionesXCarrera extends Component
             //$this->carreras = Planificacion::total_por_carrera()->whereIn('periodo_lectivos.anio_academico',[$this->anio_academico])->get();
         }
         //dd($this->anio_academico_id);
-        $this->carreras = Planificacion::total_por_carrera()->whereIn('periodo_lectivos.anio_academico',[$this->anio_academico_id])->get();
+        $planificacion = new Planificacion();
+        $this->carreras = $planificacion->total_por_carrera()->whereIn('periodo_lectivos.anio_academico',[$this->anio_academico_id])->get();
         return view('livewire.planificacion.dashboard.stat-planificaciones-x-carrera');
     }
 

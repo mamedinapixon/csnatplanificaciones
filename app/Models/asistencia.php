@@ -29,6 +29,11 @@ class Asistencia extends Model
         'salida_at' => 'datetime:Y-m-d\TH:i'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function ubicacion()
     {
         return $this->belongsTo(Ubicacion::class);

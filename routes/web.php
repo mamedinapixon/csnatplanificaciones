@@ -37,7 +37,9 @@ Route::middleware([
     Route::view('/', 'home')->name('home');
     Route::resource('/planificacion', PlanificacionController::class);
     Route::resource('/memoria', MemoriaController::class);
-    Route::resource('/asistencia', AsistenciaController::class);
+    //Route::resource('/asistencia', AsistenciaController::class);
+    Route::get('/asistencia', [AsistenciaController::class, 'index'])->name('asistencia.index');
+    Route::get('/asistencia/historial', [AsistenciaController::class, 'historial'])->name('asistencia.historial');
 });
 
 Route::middleware([

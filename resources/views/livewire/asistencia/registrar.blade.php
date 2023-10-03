@@ -1,7 +1,13 @@
 <div class="flex flex-col space-y-8 md:flex-row">
     @if (is_null($asistencia))
         <div class="form-control w-full max-w-xs space-y-4">
-            <h2 class="text-2xl font-bold">INGRESO</h2>
+            <h2 class="text-2xl font-bold flex flex-col sm:flex-row text-center sm:text-left">
+                <span>INGRESO: </span>
+                <small>{{Auth::user()->name}}</small>
+            </h2>
+            <div>
+                <p class="text-lg"><span class="font-bold">Fecha Ingreso: </span> {{Carbon\Carbon::now()->toDateString()}}</p>
+            </div>
             <div class="form-control w-full max-w-xs">
                 <label class="label">
                     <span class="label-text">Hora de ingreso</span>
@@ -58,7 +64,10 @@
         </div>
     @else
     <div class="form-control w-full max-w-xs space-y-4">
-        <h2 class="text-2xl font-bold">SALIDA</h2>
+        <h2 class="text-2xl font-bold flex flex-col sm:flex-row text-center sm:text-left">
+            <span>INGRESO: </span>
+            <small>{{Auth::user()->name}}</small>
+        </h2>
         <div>
             <p class="text-lg"><span class="font-bold">Hora Ingreso: </span> {{$asistencia->ingreso_at}}</p>
             <p class="text-lg"><span class="font-bold">Ubicación: </span> {{$asistencia->ubicacion->descripcion}} {{ $asistencia->otra_ubicacion == "" ? "" : ("(".$asistencia->otra_ubicacion.")") }}</p>

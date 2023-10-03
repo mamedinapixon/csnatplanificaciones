@@ -12,6 +12,11 @@ class AsistenciaController extends Controller
         return view('asistencia.index');
     }
 
+    public function historial()
+    {
+        return view('asistencia.historial');
+    }
+
     public function create()
     {
         return view('asistencia.create');
@@ -19,7 +24,7 @@ class AsistenciaController extends Controller
 
     public function show(Asistencia $asistencia)
     {
-        
+
         return view('asistencia.show');
     }
 
