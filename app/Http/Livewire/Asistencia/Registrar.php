@@ -19,6 +19,7 @@ class Registrar extends Component
     public $ingreso_at;
     public $salida_at;
     public $otra_ubicacion = "";
+    public $motivo = "";
 
     public function mount()
     {
@@ -47,43 +48,36 @@ class Registrar extends Component
     protected $messages = [
         'ubicacion_id.required' => 'Debe indicar una ubicación.',
         'ubicacion_id.exists' => 'Debe indicar una ubicación.',
-        'ingreso_at.required' => 'Debe indicar la hora de ingreso.',
-        'salida_at.required' => 'Debe indicar la hora de salida.',
         'otra_ubicacion.required_if' => 'Debe indicar un nombre de la ubicación.',
+        'motivo.required_if' => 'Debe indicar el motivo de otra ubicación.',
     ];
 
     public function registrarIngreso()
     {
         $validatedData = $this->validate([
             'ubicacion_id' => 'required|exists:ubicaciones,id',
-            'ingreso_at' => 'required',
-            'otra_ubicacion' => 'required_if:ubicacion_id,8'
+            'otra_ubicacion' => 'required_if:ubicacion_id,8',
+            'motivo' => 'required_if:ubicacion_id,8'
         ]);
 
         $fecha_at = Carbon::now()->startOfDay();
-        $ingreso_at = Carbon::now()->startOfDay();
-        $ingreso_at->setTimeFromTimeString($validatedData['ingreso_at'].':00');
+        $ingreso_at = Carbon::now();
 
         $this->asistencia = Asistencia::create([
             'fecha_at'=>$fecha_at,
             'ingreso_at'=>$ingreso_at,
             'ubicacion_id'=>$this->ubicacion_id,
             'otra_ubicacion'=>$this->otra_ubicacion,
+            'observacion'=>$this->motivo,
             'user_id'=>Auth::id()
         ]);
 
-        $this->reset('otra_ubicacion');
+        $this->reset('otra_ubicacion','motivo');
     }
 
     public function registrarSalida()
     {
-        $validatedData = $this->validate([
-            'salida_at' => 'required',
-        ]);
-
-        $fecha_at = Carbon::now()->startOfDay();
-        $salida_at = Carbon::now()->startOfDay();
-        $salida_at->setTimeFromTimeString($validatedData['salida_at'].':00');
+        $salida_at = Carbon::now();
 
         $this->asistencia->update([
             'salida_at'=>$salida_at,

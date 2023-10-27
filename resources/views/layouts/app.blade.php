@@ -56,6 +56,9 @@
                     padding: 0;
                 }
             }
+            [type='radio']:checked {
+                background-image: none;
+            }
         </style>
     </head>
     <body class="font-sans antialiased">

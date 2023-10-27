@@ -48,19 +48,24 @@ class AsistenciaTable extends DataTableComponent
                 ->searchable()
                 ->sortable(),
             Column::make("Ingreso", "ingreso_at")
+                ->format(
+                    fn($value, $row, Column $column) => $row->ingreso_at->format('d/m/Y h:m:s')
+                )
                 ->sortable(),
             Column::make("Salida", "salida_at")
                 ->format(
-                    fn($value, $row, Column $column) => Carbon::parse($row->salida_at)->toTimeString()
+                    fn($value, $row, Column $column) => $row->salida_at == null ? "" : Carbon::parse($row->salida_at)->toTimeString()
                 )
                 ->sortable(),
             Column::make("Tiempo", "salida_at")
                 ->format(
-                    fn($value, $row, Column $column) => Carbon::parse($row->salida_at)->diffForHumans($row->ingreso_at, CarbonInterface::DIFF_ABSOLUTE)
+                    fn($value, $row, Column $column) => $row->salida_at == null ? "" : Carbon::parse($row->salida_at)->diffForHumans($row->ingreso_at, CarbonInterface::DIFF_ABSOLUTE)
                 ),
             Column::make("Ubicación", "ubicacion.descripcion")
                 ->sortable(),
             Column::make("Otra ubicacion", "otra_ubicacion")
+                ->sortable(),
+            Column::make("Motivo", "observacion")
                 ->sortable(),
         ];
     }

@@ -6,16 +6,10 @@
                 <small>{{Auth::user()->name}}</small>
             </h2>
             <div>
-                <p class="text-lg"><span class="font-bold">Fecha Ingreso: </span> {{Carbon\Carbon::now()->toDateString()}}</p>
+                <p class="text-lg"><span class="font-bold">Fecha Ingreso: </span> {{Carbon\Carbon::now()->format('d/m/Y')}}</p>
             </div>
-            <div class="form-control w-full max-w-xs">
-                <label class="label">
-                    <span class="label-text">Hora de ingreso</span>
-                </label>
-                <input wire:model="ingreso_at" type="time" class="input input-bordered input-lg w-36" />
-                @error('ingreso_at')
-                    <label class="label text-red-500">{{ $message }}</label>
-                @enderror
+            <div>
+                <p class="text-lg"><span class="font-bold">Hora Ingreso: </span> <span id="hora">{{Carbon\Carbon::now()->toTimeString()}}</span></p>
             </div>
             <div class="form-control w-full max-w-xs">
                 <label class="label">
@@ -26,21 +20,12 @@
                         <div class="form-control">
                             <label class="label cursor-pointer">
                                 <span class="label-text">{{ $ubicacion->descripcion }}</span>
-                                <input type="radio"  value="{{ $ubicacion->id }}" wire:model="ubicacion_id" name="ubicacion_id" class="radio checked:bg-blue-500" />
+                                <input type="radio"  value="{{ $ubicacion->id }}" wire:model="ubicacion_id" name="ubicacion_id" class="radio radio-primary checked:bg-blue-500" />
                             </label>
                         </div>
                     @empty
                     @endforelse
                 </div>
-                <!--<select wire:model="ubicacion_id" id="ubicacion_id" class="select select-bordered select-lg">
-                    <option value="0" disabled selected>Seleccione una ubicación</option>
-                    @forelse($ubicaciones as $ubicacion)
-                        <option value="{{ $ubicacion->id }}">{{ $ubicacion->descripcion }}</option>
-                    @empty
-                        <option disabled selected>Sin datos</option>
-                    @endforelse
-                </select>
-                -->
                 @error('ubicacion_id')
                     <label class="label text-red-500">{{ $message }}</label>
                 @enderror
@@ -56,7 +41,17 @@
                         <label class="label text-red-500">{{ $message }}</label>
                     @enderror
                 </div>
+                <div class="form-control w-full max-w-xs">
+                    <label class="label">
+                        <span class="label-text">Indique motivo de otra ubicacion </span>
+                    </label>
+                    <input wire:model="motivo" type="text" class="input input-bordered input-xl" />
+                    @error('motivo')
+                        <label class="label text-red-500">{{ $message }}</label>
+                    @enderror
+                </div>
             @endif
+
             <div class="form-control w-full max-w-xs">
                 <button wire:click="registrarIngreso"
                     class="btn btn-primary">Registrar ingreso</button>
@@ -69,17 +64,8 @@
             <small>{{Auth::user()->name}}</small>
         </h2>
         <div>
-            <p class="text-lg"><span class="font-bold">Hora Ingreso: </span> {{$asistencia->ingreso_at}}</p>
+            <p class="text-lg"><span class="font-bold">Hora Salida: </span> <span id="hora">{{Carbon\Carbon::now()->toTimeString()}}</span></p>
             <p class="text-lg"><span class="font-bold">Ubicación: </span> {{$asistencia->ubicacion->descripcion}} {{ $asistencia->otra_ubicacion == "" ? "" : ("(".$asistencia->otra_ubicacion.")") }}</p>
-        </div>
-        <div class="form-control w-full max-w-xs">
-            <label class="label">
-                <span class="label-text">Hora de salida</span>
-            </label>
-            <input wire:model="salida_at" type="time" class="input input-bordered input-lg w-36" />
-            @error('salida_at')
-                <label class="label text-red-500">{{ $message }}</label>
-            @enderror
         </div>
         <div class="form-control w-full max-w-xs">
             <button wire:click="registrarSalida"
@@ -88,4 +74,35 @@
     </div>
 
     @endif
+
+    @push('scripts')
+        <script>
+            var dia = new Date('{{Carbon\Carbon::now()}}');
+            var segundos = dia.getSeconds();
+            var hora = dia.getHours();
+            var minutos = dia.getMinutes();
+            var time;
+
+            function actualizarHora() {
+                segundos++;
+
+                if (segundos == 60) {
+                segundos = 0;
+                minutos++;
+                if (minutos == 60) {
+                        minutos = 0;
+                        hora++;
+                        if (hora == 24) {
+                            hora = 0;
+                        }
+                    }
+                }
+                time = " "  + hora.toString().padStart(2, '0') + ":" + minutos.toString().padStart(2, '0') + ":" + segundos.toString().padStart(2, '0');
+                document.getElementById("hora").innerHTML = time;
+                window.setTimeout("actualizarHora()",1000);
+            }
+            window.setTimeout("actualizarHora()",1000);
+        </script>
+    @endpush
+
 </div>
