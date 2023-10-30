@@ -8,6 +8,7 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
 use App\Models\Asistencia;
+use App\Models\Ubicacion;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use \Carbon\Carbon;
@@ -29,11 +30,11 @@ class AsistenciaTable extends DataTableComponent
         if(Auth::user()->can('ver historial asistencia'))
         {
             $asistencia = Asistencia::query()
-                            ->with("user","ubicacion");
+                            ->with("user","ubicacion")->orderBy('id', 'desc');
         } else {
             $asistencia = Asistencia::query()
                             ->where("user_id","=",Auth::user()->id)
-                            ->with("user","ubicacion");
+                            ->with("user","ubicacion")->orderBy('id', 'desc');
         }
 
         return $asistencia;
@@ -89,6 +90,22 @@ class AsistenciaTable extends DataTableComponent
                 if ($value > 0) {
                     //$builder->whereRelation('materiaPlanEstudio', 'carrera_id', $value);
                     $builder->where('user_id', $value);
+                }
+            }),
+            SelectFilter::make('Ubicaciones', 'ubicacion_id')
+            ->options(
+                $this->todos +
+                Ubicacion::query()
+                        ->select('id','descripcion')
+                        ->get()
+                        ->keyBy('id')
+                        ->map(fn($ubicacion) => $ubicacion->descripcion)
+                        ->toArray(),
+            )
+            ->filter(function(Builder $builder, string $value) {
+                if ($value > 0) {
+                    //$builder->whereRelation('materiaPlanEstudio', 'carrera_id', $value);
+                    $builder->where('ubicacion_id', $value);
                 }
             }),
             DateFilter::make('Fecha')

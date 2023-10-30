@@ -18,13 +18,13 @@ class UbicacionSeeder extends Seeder
             'descripcion' => 'Sede Central'
         ]);
         Ubicacion::create([
-            'descripcion' => 'Fendación Miguel Lillo'
+            'descripcion' => 'Fundación Miguel Lillo'
         ]);
         Ubicacion::create([
             'descripcion' => 'Anexo San Martín 1545'
         ]);
         Ubicacion::create([
-            'descripcion' => 'REHM'
+            'descripcion' => 'REHM-JB'
         ]);
         Ubicacion::create([
             'descripcion' => 'Cúpulas'

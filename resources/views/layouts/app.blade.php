@@ -59,6 +59,11 @@
             [type='radio']:checked {
                 background-image: none;
             }
+            .radio-primary:checked:hover, .radio-primary:checked:active, .radio-primary:checked:focus {
+                opacity: 1 !important;
+                background-color: #2563eb !important;
+                color: #2563eb !important;
+            }
         </style>
     </head>
     <body class="font-sans antialiased">
@@ -80,6 +85,10 @@
         @stack('modals')
 
         @livewireScripts
+
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <x-livewire-alert::scripts />
+
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="{{ asset('js/app.js') }}"></script>

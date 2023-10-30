@@ -60,12 +60,14 @@
     @else
     <div class="form-control w-full max-w-xs space-y-4">
         <h2 class="text-2xl font-bold flex flex-col sm:flex-row text-center sm:text-left">
-            <span>INGRESO: </span>
+            <span>SALIDA: </span>
             <small>{{Auth::user()->name}}</small>
         </h2>
-        <div>
-            <p class="text-lg"><span class="font-bold">Hora Salida: </span> <span id="hora">{{Carbon\Carbon::now()->toTimeString()}}</span></p>
+        <div class=" space-y-1">
+            <p class="text-lg"><span class="font-bold">Hora Ingreso: </span> {{$asistencia->ingreso_at->toTimeString()}}</p>
             <p class="text-lg"><span class="font-bold">Ubicación: </span> {{$asistencia->ubicacion->descripcion}} {{ $asistencia->otra_ubicacion == "" ? "" : ("(".$asistencia->otra_ubicacion.")") }}</p>
+            <p class="text-lg font-bold text-green-600"><span>Hora Salida: </span> <span id="hora">{{Carbon\Carbon::now()->toTimeString()}}</span></p>
+
         </div>
         <div class="form-control w-full max-w-xs">
             <button wire:click="registrarSalida"

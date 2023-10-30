@@ -7,9 +7,12 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Ubicacion;
 use App\Models\Asistencia;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Registrar extends Component
 {
+    use LivewireAlert;
+
     public $regIngreso = true;
     public $ubicaciones = [];
     public $ubicacion = null;
@@ -73,6 +76,14 @@ class Registrar extends Component
         ]);
 
         $this->reset('otra_ubicacion','motivo');
+
+        $this->flash('success', 'INGRESO REGISTRADO', [
+            'text' => 'Fecha y hora: '. $this->asistencia->ingreso_at->format('d/m/y h:m:s'),
+            'timerProgressBar' => true,
+            'timer' => 5000
+        ], 'home');
+
+        return redirect()->route('home');
     }
 
     public function registrarSalida()
@@ -83,6 +94,17 @@ class Registrar extends Component
             'salida_at'=>$salida_at,
         ]);
 
-        $this->buscarAsistenciaHoy();
+        $this->flash('success', 'SALIDA REGISTRADA', [
+            'text' => 'Fecha y hora: '. $this->asistencia->salida_at->format('d/m/y h:m:s'),
+            'timerProgressBar' => true,
+            'timer' => 5000
+        ], 'home');
+
+        $this->reset('otra_ubicacion','motivo');
+
+        return redirect()->route('home');
+
+
+        //$this->buscarAsistenciaHoy();
     }
 }

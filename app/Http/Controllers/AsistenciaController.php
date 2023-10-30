@@ -9,7 +9,7 @@ class AsistenciaController extends Controller
 {
     public function index()
     {
-        return view('asistencia.index');
+        return view('asistencia.index')->with('title','Asistencia');
     }
 
     public function historial()
