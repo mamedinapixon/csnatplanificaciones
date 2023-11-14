@@ -42,6 +42,7 @@
                                 <th>Docente</th>
                                 <th>Cargo</th>
                                 <th>Dedicación</th>
+                                <th>Situación</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,6 +55,7 @@
                                             {{ $docentePartipan->docente->nombre }}</th>
                                         <td>{{ $docentePartipan->cargo->nombre }}</td>
                                         <td>{{ $docentePartipan->dedicacion->nombre }}</td>
+                                        <td>{{ $docentePartipan->situacion->nombre ?? '' }}</td>
                                     </tr>
                                 @endforeach
                             @endif

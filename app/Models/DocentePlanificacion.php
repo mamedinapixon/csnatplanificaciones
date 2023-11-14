@@ -15,7 +15,8 @@ class DocentePlanificacion extends Model
         'planificacion_id',
         'docente_id',
         'cargo_id',
-        'dedicacion_id'
+        'dedicacion_id',
+        'situacion_cargos_id'
     ];
 
     protected $guarded = ['id'];
@@ -38,5 +39,9 @@ class DocentePlanificacion extends Model
     public function dedicacion()
     {
         return $this->belongsTo(Dedicacion::class);
+    }
+    public function situacion()
+    {
+        return $this->belongsTo(SituacionCargo::class,'situacion_cargos_id');
     }
 }

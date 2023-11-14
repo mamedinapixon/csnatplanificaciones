@@ -10,6 +10,7 @@
                   <th>Docente</th>
                   <th>Cargo</th>
                   <th>Dedicación</th>
+                  <th>Situación</th>
                   <th></th>
                 </tr>
               </thead>
@@ -22,6 +23,7 @@
                         <th>{{ $docentePartipan->docente->apellido }}, {{ $docentePartipan->docente->nombre }}</th>
                         <td>{{ $docentePartipan->cargo->nombre }}</td>
                         <td>{{ $docentePartipan->dedicacion->nombre }}</td>
+                        <td>{{ $docentePartipan->situacion->nombre ?? '' }}</td>
                         <td>
                             <button class="btn btn-ghost" wire:click="destroy({{$docentePartipan->id}})" wire:loading.attr="disabled" wire:key="btn-docente-remove-{{ $docentePartipan->id }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -38,9 +40,9 @@
     </div>
     <div class="w-full form-control">
 
-        <div class="flex justify-end space-x-4" >
+        <div class="flex-wrap flex justify-end space-x-4 space-y-4 items-end" >
             <select class="select select-bordered" wire:model.defer="docente_id">
-                <option value="null" disabled>Seleccione al docente</option>
+                <option value="null" disabled>Docente</option>
                 @foreach ($docentes as $docente)
                     <option value="{{ $docente->id }}"  wire:key="docente-{{ $docente->id }}">
                         {{ $docente->apellido }}, {{ $docente->nombre }}
@@ -48,7 +50,7 @@
                 @endforeach
             </select>
             <select class="select select-bordered" wire:model.defer="cargo_id">
-                <option value="null" disabled>Seleccione el cargo</option>
+                <option value="null" disabled>Cargo</option>
                 @foreach ($cargos as $cargo)
                     <option value="{{ $cargo->id }}"  wire:key="cargo-{{ $cargo->id }}">
                         {{ $cargo->nombre }}
@@ -56,10 +58,18 @@
                 @endforeach
             </select>
             <select class="select select-bordered" wire:model.defer="dedicacion_id">
-                <option value="null" disabled>Seleccione la dedicación</option>
+                <option value="null" disabled>Dedicación</option>
                 @foreach ($dedicaciones as $dedicacion)
                     <option value="{{ $dedicacion->id }}"  wire:key="dedicacion-{{ $dedicacion->id }}">
                         {{ $dedicacion->nombre }}
+                    </option>
+                @endforeach
+            </select>
+            <select class="select select-bordered" wire:model.defer="situacion_id">
+                <option value="null" disabled>Situación del cargo</option>
+                @foreach ($situaciones as $situacion)
+                    <option value="{{ $situacion->id }}"  wire:key="situacion-{{ $situacion->id }}">
+                        {{ $situacion->nombre }}
                     </option>
                 @endforeach
             </select>
@@ -67,5 +77,6 @@
         </div>
         @error('docente_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
         @error('cargo_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
+        @error('situacion_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
     </div>
 </div>
