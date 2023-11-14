@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Docente;
 
 use Livewire\Component;
 use App\Models\DocentePlanificacion;
+use App\Models\Planificacion;
 use App\Models\Docente;
 use App\Models\Cargo;
 use App\Models\Dedicacion;
@@ -55,6 +56,17 @@ class TblParticipantes extends Component
     {
         //dd("store");
         $this->validate();
+
+        $docenteACargo = Planificacion::where("id", $this->planificacion_id)
+                                        ->where('docente_id',$this->docente_id)
+                                        ->first();
+
+        if($docenteACargo != null)
+        {
+            $this->addError('docente_id', 'El docente ya existe, esta a cargo de la asignatura.');
+            return;
+        }
+
         $docente = DocentePlanificacion::where("planificacion_id", $this->planificacion_id)
                                        ->where("docente_id", $this->docente_id)
                                        ->first();

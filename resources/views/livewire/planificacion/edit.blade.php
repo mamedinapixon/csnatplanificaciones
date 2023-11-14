@@ -6,9 +6,14 @@
             <x-pixonui.form.select  wire:model="form.docente_id" :items="$docentes" value="id" caption="FullName"></x-pixonui.form.select>
             <x-pixonui.wire.loading.spinner wire:target="form.docente_id"></x-pixonui.wire.loading.spinner>
         </div>
+        <x-pixonui.form.error for="form.docente_id"></x-pixonui.form.error>
     </div>
     <!-- DOCENTES QUE PARTICIPAN DEL DICTADO -->
-    <livewire:docente.tbl-participantes :planificacion_id="$planificacion_id" />
+    @if (isset($form['docente_id']))
+        <livewire:docente.tbl-participantes :planificacion_id="$planificacion_id" />
+        <!----------------------------------------->
+    @endif
+
     <!----------------------------------------->
     <div class=" form-control">
         <x-pixonui.form.label>¿Prevé docentes invitados?</x-pixonui.form.label>

@@ -11,6 +11,7 @@ use App\Models\Planificacion;
 use App\Models\TipoAsignatura;
 use App\Models\Modalidad;
 use App\Models\User;
+use App\Models\DocentePlanificacion;
 use Livewire\WithFileUploads;
 use Mail;
 use Illuminate\Support\Facades\Auth;
@@ -89,6 +90,24 @@ class Edit extends Component
     public function updated($propertyName, $value)
     {
         $this->validateOnly($propertyName);
+
+
+        if($propertyName == "form.docente_id")
+        {
+
+            $docente = DocentePlanificacion::where("planificacion_id", $this->planificacion_id)
+                                       ->where("docente_id", $value)
+                                       ->first();
+            //dd($docente);
+            if($docente != null)
+            {
+                $this->addError('form.docente_id', 'El docente ya existe en la tabla "Resto del plantel docente de la Asignatura"');
+                //$docente = Planificacion::select('docente_id')->where('id',$this->planificacion_id)->fist();
+                $this->form["docente_id"] = $this->planificacion->docente_id;
+                return;
+            }
+        }
+
         $this->planificacion->update([str_replace("form.","",$propertyName) => $value]);
         $this->form[$propertyName] = $value;
 

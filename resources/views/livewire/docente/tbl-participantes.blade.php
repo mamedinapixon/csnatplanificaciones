@@ -1,6 +1,6 @@
 <div class="w-full space-y-2">
     <div class="w-full form-control">
-        <x-pixonui.form.label>Docentes que participan del dictado</x-pixonui.form.label>
+        <x-pixonui.form.label>Resto del plantel docente de la Asignatura:</x-pixonui.form.label>
         <div class="">
             <table class="table w-full table-zebra">
               <!-- head -->
