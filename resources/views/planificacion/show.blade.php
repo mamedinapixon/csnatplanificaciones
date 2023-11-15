@@ -87,6 +87,17 @@
                     <x-pixonui.show.labeltext caption="Total de horas teórica-práctica">{{ $planificacion->carga_horaria_semanal_practica_teorica }}</x-pixonui.show.labeltext>
                     <x-pixonui.show.labeltext caption="Suma de carga horaria semanal (teóricas + teórico-prácticas + prácticas)">{{ $planificacion->carga_horaria_semanal_practica+$planificacion->carga_horaria_semanal_practica_teorica+$planificacion->carga_horaria_semanal_teorica }}</x-pixonui.show.labeltext>
 
+                    <!-- Práctico -->
+                    <x-pixonui.heading.h2 class="pt-8">Prácticos</x-pixonui.heading.h2>
+                    <x-pixonui.show.labelsino caption="¿Tiene prácticos de aprobación obligatoria?" :value="$planificacion->practicos_aprobacion_abligatoria" />
+                        @if($planificacion->practicos_aprobacion_abligatoria)
+                            <x-pixonui.show.labeltext caption="Indique cuales son">
+                                <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                    {!! $planificacion->practicos_aprobacion_abligatoria_detalle !!}
+                                </div>
+                            </x-pixonui.show.labeltext>
+                        @endif
+
                     <!-- Parciales -->
                     <x-pixonui.heading.h2 class="pt-8">Parciales</x-pixonui.heading.h2>
                     <x-pixonui.show.labeltext caption="Cantidad de parciales previstos">{{ $planificacion->cantidad_parciales }}</x-pixonui.show.labeltext>

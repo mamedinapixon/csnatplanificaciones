@@ -55,6 +55,8 @@ class Edit extends Component
             'carga_horaria_semanal_practica'=> $planificacion->carga_horaria_semanal_practica,
             'carga_horaria_semanal_practica_teorica'=> $planificacion->carga_horaria_semanal_practica_teorica,
             'carga_horaria_semanal_teorica'=> $planificacion->carga_horaria_semanal_teorica,
+            'practicos_aprobacion_abligatoria'=> $planificacion->practicos_aprobacion_abligatoria,
+            'practicos_aprobacion_abligatoria_detalle'=> $planificacion->practicos_aprobacion_abligatoria_detalle,
             'cantidad_parciales'=> $planificacion->cantidad_parciales,
             'modalidad_parciales_id'=> $planificacion->modalidad_parciales_id,
             'salida_campo'=> $planificacion->salida_campo,

@@ -27,6 +27,8 @@ class Planificacion extends Model
         'carga_horaria_semanal_practica',
         'carga_horaria_semanal_practica_teorica',
         'carga_horaria_semanal_teorica',
+        'practicos_aprobacion_abligatoria',
+        'practicos_aprobacion_abligatoria_detalle',
         'cantidad_parciales',
         'modalidad_parciales_id',
         'salida_campo',
