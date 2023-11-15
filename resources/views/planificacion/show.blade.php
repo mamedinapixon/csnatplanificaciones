@@ -76,17 +76,16 @@
                     <x-pixonui.show.labeltext caption="Nombre de la materia electiva">{{ $planificacion->electiva_nombre }}</x-pixonui.show.labeltext>
                     @endif
                     <x-pixonui.show.labeltext caption="Tipo de asignatura">{{ $planificacion->tipoAsignatura != null ? $planificacion->tipoAsignatura->nombre : "" }}</x-pixonui.show.labeltext>
-                    <x-pixonui.show.labeltext caption="Carga horaria total">{{ $planificacion->carga_horaria }}</x-pixonui.show.labeltext>
                     <x-pixonui.show.labeltext caption="Modalidad de dictado teoricas">{{ $planificacion->modalidadDictadoTeorica != null ? $planificacion->modalidadDictadoTeorica->nombre : "" }}</x-pixonui.show.labeltext>
                     <x-pixonui.show.labeltext caption="Modalidad de dictado practicas">{{ $planificacion->modalidadDictadoPractica != null ? $planificacion->modalidadDictadoPractica->nombre : "" }}</x-pixonui.show.labeltext>
 
 
                     <!-- Carga horaria -->
                     <x-pixonui.heading.h2 class="pt-8">Carga Horaria Semanal</x-pixonui.heading.h2>
-                    <x-pixonui.show.labeltext caption="Carga horaria semanal de teorica">{{ $planificacion->carga_horaria_semanal_teorica }}</x-pixonui.show.labeltext>
-                    <x-pixonui.show.labeltext caption="Carga horaria semanal de teorica-practica">{{ $planificacion->carga_horaria_semanal_practica_teorica }}</x-pixonui.show.labeltext>
-                    <x-pixonui.show.labeltext caption="Carga horaria semanal de practica">{{ $planificacion->carga_horaria_semanal_practica }}</x-pixonui.show.labeltext>
-                    <x-pixonui.show.labeltext caption="Carga horaria semanal (teóricas + teórico-prácticas + prácticas)">{{ $planificacion->carga_horaria_semanal_practica+$planificacion->carga_horaria_semanal_practica_teorica+$planificacion->carga_horaria_semanal_teorica }}</x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Total de horas teóricas">{{ $planificacion->carga_horaria_semanal_teorica }}</x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Total de horas prácticas">{{ $planificacion->carga_horaria_semanal_practica }}</x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Total de horas teórica-práctica">{{ $planificacion->carga_horaria_semanal_practica_teorica }}</x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Suma de carga horaria semanal (teóricas + teórico-prácticas + prácticas)">{{ $planificacion->carga_horaria_semanal_practica+$planificacion->carga_horaria_semanal_practica_teorica+$planificacion->carga_horaria_semanal_teorica }}</x-pixonui.show.labeltext>
 
                     <!-- Parciales -->
                     <x-pixonui.heading.h2 class="pt-8">Parciales</x-pixonui.heading.h2>

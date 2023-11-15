@@ -57,14 +57,6 @@
         </div>
     </div>
     <div class="w-full form-control">
-        <x-pixonui.form.label>Carga horaria total</x-pixonui.form.label>
-        <div class="flex items-center w-20 min-w-full space-x-2">
-            <x-pixonui.form.input type="number" for="form.carga_horaria" wire:model.lazy="form.carga_horaria"></x-pixonui.form.input>
-            <x-pixonui.wire.loading.spinner wire:target="form.carga_horaria"></x-pixonui.wire.loading.spinner>
-        </div>
-        <x-pixonui.form.error for="form.carga_horaria"></x-pixonui.form.error>
-    </div>
-    <div class="w-full form-control">
         <x-pixonui.form.label>Modalidad de dictado teoricas</x-pixonui.form.label>
         <div class="flex items-center space-x-2">
             <x-pixonui.form.select  wire:model="form.modalidad_dictado_teoriacas_id" :items="$modalidades" value="id" caption="nombre"></x-pixonui.form.select>
@@ -82,7 +74,7 @@
     <!-- Carga horaria -->
     <x-pixonui.heading.h2 class="pt-8">Carga Horaria Semanal</x-pixonui.heading.h2>
     <div class="w-full form-control">
-        <x-pixonui.form.label>Carga horaria semanal de teorica</x-pixonui.form.label>
+        <x-pixonui.form.label>Total de horas teórica</x-pixonui.form.label>
         <div class="flex items-center w-20 min-w-full space-x-2">
             <x-pixonui.form.input type="number" for="form.carga_horaria_semanal_teorica" wire:model.lazy="form.carga_horaria_semanal_teorica"></x-pixonui.form.input>
             <x-pixonui.wire.loading.spinner wire:target="form.carga_horaria_semanal_teorica"></x-pixonui.wire.loading.spinner>
@@ -90,15 +82,7 @@
         <x-pixonui.form.error for="form.carga_horaria_semanal_teorica"></x-pixonui.form.error>
     </div>
     <div class="w-full form-control">
-        <x-pixonui.form.label>Carga horaria semanal de teorica-practica</x-pixonui.form.label>
-        <div class="flex items-center w-20 min-w-full space-x-2">
-            <x-pixonui.form.input type="number" for="form.carga_horaria_semanal_practica_teorica" wire:model.lazy="form.carga_horaria_semanal_practica_teorica"></x-pixonui.form.input>
-            <x-pixonui.wire.loading.spinner wire:target="form.carga_horaria_semanal_practica_teorica"></x-pixonui.wire.loading.spinner>
-        </div>
-        <x-pixonui.form.error for="form.carga_horaria_semanal_practica_teorica"></x-pixonui.form.error>
-    </div>
-    <div class="w-full form-control">
-        <x-pixonui.form.label>Carga horaria semanal de practica</x-pixonui.form.label>
+        <x-pixonui.form.label>Total de horas práctica</x-pixonui.form.label>
         <div class="flex items-center w-20 min-w-full space-x-2">
             <x-pixonui.form.input type="number" for="form.carga_horaria_semanal_practica" wire:model.lazy="form.carga_horaria_semanal_practica"></x-pixonui.form.input>
             <x-pixonui.wire.loading.spinner wire:target="form.carga_horaria_semanal_practica"></x-pixonui.wire.loading.spinner>
@@ -106,8 +90,21 @@
         <x-pixonui.form.error for="form.carga_horaria_semanal_practica"></x-pixonui.form.error>
     </div>
     <div class="w-full form-control">
-        <x-pixonui.form.label>Carga horaria semanal (teóricas + teórico-prácticas + prácticas): {{ $cargaHorariaSemanal }}</x-pixonui.form.label>
+        <x-pixonui.form.label>Total de horas teórica-práctica</x-pixonui.form.label>
+        <div class="flex items-center w-20 min-w-full space-x-2">
+            <x-pixonui.form.input type="number" for="form.carga_horaria_semanal_practica_teorica" wire:model.lazy="form.carga_horaria_semanal_practica_teorica"></x-pixonui.form.input>
+            <x-pixonui.wire.loading.spinner wire:target="form.carga_horaria_semanal_practica_teorica"></x-pixonui.wire.loading.spinner>
+        </div>
+        <x-pixonui.form.error for="form.carga_horaria_semanal_practica_teorica"></x-pixonui.form.error>
     </div>
+    <div class="w-full form-control">
+        <x-pixonui.form.label>Suma de carga horaria semanal (teóricas + teórico-prácticas + prácticas): {{ $cargaHorariaSemanal }}</x-pixonui.form.label>
+    </div>
+    <div class="alert alert-info text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span>Recuerde que la suma debe coincidir con el toal de horas de la asignatura, aprobada en el plan de estudio vigente</span>
+      </div>
+
 
     <!-- Parciales -->
     <x-pixonui.heading.h2 class="pt-8">Parciales</x-pixonui.heading.h2>
