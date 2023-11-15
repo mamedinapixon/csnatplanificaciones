@@ -96,31 +96,7 @@
                     <x-pixonui.heading.h2 class="pt-8">Salidas</x-pixonui.heading.h2>
                     <x-pixonui.show.labelsino :value="$planificacion->salida_campo" caption="¿El dictado incluirá salidas al campo (incluye visitas a laboratorios, museos, empresas, etc.)?"></x-pixonui.show.labeltext>
                     @if ($planificacion->salida_campo)
-                        <x-pixonui.show.labeltext caption="Salidas de campo previstas"></x-pixonui.show.labeltext>
-                        <table class="table w-full table-zebra">
-                            <!-- head -->
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Lugar</th>
-                                <th>Días aproximados</th>
-                                <th>Fecha Tentativa</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- rows-->
-                            @if(!empty($salidas))
-                                @foreach ($salidas as $salida)
-                                <tr wire:key="salida-{{ $salida->id }}">
-                                    <td>{{ $loop->index+1 }}</td>
-                                    <th>{{ $salida->nombre }}</th>
-                                    <td>{{ $salida->dias_tentativos }}</td>
-                                    <td>{{ $salida->fecha_tentativa }}</td>
-                                </tr>
-                                @endforeach
-                            @endif
-                            </tbody>
-                        </table>
+                        <x-pixonui.show.labeltext caption="Correo de contacto del responsable de viaje">{{ $planificacion->correo_responsable_viaje }}</x-pixonui.show.labeltext>
                     @endif
                     <x-pixonui.show.labelsino :value="$planificacion->salida_campo_conjuntas" caption="¿Prevé salidas en conjunto con otra/s cátedras?"></x-pixonui.show.labeltext>
                     @if($planificacion->salida_campo_conjuntas)

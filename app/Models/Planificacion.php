@@ -30,6 +30,8 @@ class Planificacion extends Model
         'cantidad_parciales',
         'modalidad_parciales_id',
         'salida_campo',
+        'correo_responsable_viaje',
+        'salida_campo',
         'salida_campo_cantidad',
         'salida_campo_conjuntas',
         'salida_campo_catedras',

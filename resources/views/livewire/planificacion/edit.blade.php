@@ -135,7 +135,18 @@
     </div>
     @if ($form['salida_campo'])
         <!-- SALIDAS DE CAMPO -->
-        <livewire:salidas.tbl-salidas :planificacion_id='$planificacion_id' />
+        <div class="w-full form-control">
+            <x-pixonui.form.label>Correo de contacto del responsable de viaje</x-pixonui.form.label>
+            <div class="flex items-center w-48 min-w-full space-x-2">
+                <x-pixonui.form.input type="email" maxlength="255" for="form.correo_responsable_viaje" wire:model.lazy="form.correo_responsable_viaje"></x-pixonui.form.input>
+                <x-pixonui.wire.loading.spinner wire:target="form.correo_responsable_viaje"></x-pixonui.wire.loading.spinner>
+            </div>
+            <x-pixonui.form.error for="form.correo_responsable_viaje"></x-pixonui.form.error>
+        </div>
+        <div class="alert alert-info">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span>El coordinador de viaje se comunicará oportunamente para coordinar los mismos.</span>
+        </div>
         <!----------------------------------------->
     @endif
     <div class="w-full form-control">

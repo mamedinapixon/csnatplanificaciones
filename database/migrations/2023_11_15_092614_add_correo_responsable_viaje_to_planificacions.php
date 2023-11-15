@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddInvitadosDetallesToPlanificacions extends Migration
+class AddCorreoResponsableViajeToPlanificacions extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddInvitadosDetallesToPlanificacions extends Migration
     public function up()
     {
         Schema::table('planificacions', function (Blueprint $table) {
-            $table->text('doc_invitados_detalles')->nullable()->after('doc_invitados');
+            $table->text('correo_responsable_viaje')->nullable()->after('salida_campo');
         });
     }
 
@@ -26,7 +26,7 @@ class AddInvitadosDetallesToPlanificacions extends Migration
     public function down()
     {
         Schema::table('planificacions', function (Blueprint $table) {
-            $table->dropColumn('doc_invitados_detalles');
+            $table->dropColumn('correo_responsable_viaje');
         });
     }
 }

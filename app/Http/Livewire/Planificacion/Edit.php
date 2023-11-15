@@ -32,6 +32,7 @@ class Edit extends Component
 
     protected $rules = [
         'form.carga_horaria' => 'required|numeric|min:1',
+        'form.correo_responsable_viaje' => 'required|email',
     ];
 
     public function mount($planificacion)
@@ -57,6 +58,7 @@ class Edit extends Component
             'cantidad_parciales'=> $planificacion->cantidad_parciales,
             'modalidad_parciales_id'=> $planificacion->modalidad_parciales_id,
             'salida_campo'=> $planificacion->salida_campo,
+            'correo_responsable_viaje'=> $planificacion->correo_responsable_viaje,
             'salida_campo_cantidad'=> $planificacion->salida_campo_cantidad,
             'salida_campo_conjuntas'=> $planificacion->salida_campo_conjuntassalida_campo_conjuntas,
             'salida_campo_catedras'=> $planificacion->salida_campo_catedras,
