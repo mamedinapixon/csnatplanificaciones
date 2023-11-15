@@ -62,6 +62,13 @@
                         </tbody>
                     </table>
                     <x-pixonui.show.labelsino caption="¿Prevé docentes invitados?" :value="$planificacion->doc_invitados" />
+                        @if($planificacion->doc_invitados)
+                            <x-pixonui.show.labeltext caption="Indique en cuales:">
+                                <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                    {!! $planificacion->doc_invitados_detalles !!}
+                                </div>
+                            </x-pixonui.show.labeltext>
+                        @endif
 
                     <!-- Asignatura -->
                     <x-pixonui.heading.h2 class="pt-8">Asignatura</x-pixonui.heading.h2>

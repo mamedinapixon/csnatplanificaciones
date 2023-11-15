@@ -23,6 +23,15 @@
         </div>
     </div>
 
+    @if ($form['doc_invitados'])
+        <div class="w-full form-control">
+            <x-pixonui.form.label>Indique los nombre de los docentes invitados</x-pixonui.form.label>
+            <x-pixonui.wire.quill wire:model="form.doc_invitados_detalles" ref="doc_invitados_detalles"></x-pixonui.wire.quill>
+            <x-pixonui.wire.loading.spinner wire:target="form.doc_invitados_detalles"></x-pixonui.wire.loading.spinner>
+            <x-pixonui.form.error for="form.doc_invitados_detalles"></x-pixonui.form.error>
+        </div>
+    @endif
+
     <!-- Asignatura -->
     <x-pixonui.heading.h2 class="pt-8">Asignatura</x-pixonui.heading.h2>
     <p>

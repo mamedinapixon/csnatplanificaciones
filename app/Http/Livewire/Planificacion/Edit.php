@@ -46,6 +46,7 @@ class Edit extends Component
             'materia_plan_estudio_id'=> $planificacion->materia_plan_estudio_id,
             'electiva_nombre'=> $planificacion->electiva_nombre,
             'doc_invitados'=> $planificacion->doc_invitados,
+            'doc_invitados_detalles'=> $planificacion->doc_invitados_detalles,
             'tipo_asignatura_id'=> $planificacion->tipo_asignatura_id,
             'carga_horaria'=> $planificacion->carga_horaria,
             'modalidad_dictado_teoriacas_id'=> $planificacion->modalidad_dictado_teoriacas_id,
@@ -89,6 +90,7 @@ class Edit extends Component
 
     public function updated($propertyName, $value)
     {
+
         $this->validateOnly($propertyName);
 
 
@@ -115,6 +117,7 @@ class Edit extends Component
         {
             $this->CalcularCargaHorariaSemanal();
         }
+
     }
 
     public function CalcularCargaHorariaSemanal()

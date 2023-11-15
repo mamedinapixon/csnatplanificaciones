@@ -19,6 +19,7 @@ class Planificacion extends Model
         'materia_plan_estudio_id',
         'electiva_nombre',
         'doc_invitados',
+        'doc_invitados_detalles',
         'tipo_asignatura_id',
         'carga_horaria',
         'modalidad_dictado_teoriacas_id',
