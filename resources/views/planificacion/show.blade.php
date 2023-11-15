@@ -148,16 +148,8 @@
 
                     <!-- Observaciones -->
                     <x-pixonui.heading.h2 class="pt-8">Observaciones</x-pixonui.heading.h2>
-                    <x-pixonui.show.labeltext caption="Con el objetivo de poder mejorar y/o potenciar el dictado de su asignatura y a partir de su experiencia en años anteriores (cantidad de alumnos promedio que cursan, problemas recurrentes, etc.) señale aquellas necesidades que podrían ayudarle o facilitarle en el dictado (algún aula en especial, algún material didáctico, insumos, etc.)">
-                        <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
-                            {!! $planificacion->necesidades !!}
-                        </div>
-                    </x-pixonui.show.labeltext>
-                    <x-pixonui.show.labeltext caption="Observaciones o sugerencias que quisiera mencionar">
-                        <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
-                            {!! $planificacion->observacioens_sugerencias !!}
-                        </div>
-                    </x-pixonui.show.labeltext>
+                    {!! $planificacion->necesidades !!}
+                    {!! $planificacion->observacioens_sugerencias !!}
 
                     <!-- Adjuntar programa -->
                     <x-pixonui.heading.h2 class="pt-8">Programa adjunto</x-pixonui.heading.h2>

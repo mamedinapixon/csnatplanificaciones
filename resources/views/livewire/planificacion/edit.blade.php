@@ -241,13 +241,6 @@
     <!-- Observaciones -->
     <x-pixonui.heading.h2 class="pt-8">Observaciones</x-pixonui.heading.h2>
     <div class="w-full form-control">
-        <x-pixonui.form.label>Con el objetivo de poder mejorar y/o potenciar el dictado de su asignatura y a partir de su experiencia en años anteriores (cantidad de alumnos promedio que cursan, problemas recurrentes, etc.) señale aquellas necesidades que podrían ayudarle o facilitarle en el dictado (algún aula en especial, algún material didáctico, insumos, etc.)</x-pixonui.form.label>
-        <x-pixonui.wire.quill wire:model="form.necesidades" ref="quillnecesidades"></x-pixonui.wire.quill>
-        <x-pixonui.wire.loading.spinner wire:target="form.necesidades"></x-pixonui.wire.loading.spinner>
-        <x-pixonui.form.error for="form.necesidades"></x-pixonui.form.error>
-    </div>
-    <div class="w-full form-control">
-        <x-pixonui.form.label>Observaciones o sugerencias que quisiera mencionar</x-pixonui.form.label>
         <x-pixonui.wire.quill wire:model="form.observacioens_sugerencias" ref="quillobservaciones"></x-pixonui.wire.quill>
         <x-pixonui.wire.loading.spinner wire:target="form.observacioens_sugerencias"></x-pixonui.wire.loading.spinner>
         <x-pixonui.form.error for="form.observacioens_sugerencias"></x-pixonui.form.error>
