@@ -37,7 +37,8 @@ class StatPlanificacionesXCarrera extends Component
         $planificacion = new Planificacion();
         //dd($planificacion->total_por_carrera()->whereIn('periodo_lectivos.anio_academico',[$this->anio_academico_id])->toSql());
         //$this->carreras = $planificacion->total_por_carrera()->whereIn('periodo_lectivos.anio_academico',[$this->anio_academico_id])->get();
-        $datos = $planificacion->total_por_carrera()->get();
+        $this->reset('carreras');
+        $datos = $planificacion->total_por_carrera()->where('periodo_lectivos.anio_academico',$this->anio_academico_id)->get();
         $datos->each(function ($value, $key) {
             $this->carreras[$value->carrera]['dato'] = $value;
             $this->carreras[$value->carrera]['cantidad_presentadas'] = isset($this->carreras[$value->carrera]['cantidad_presentadas']) ? $this->carreras[$value->carrera]['cantidad_presentadas'] + 1 : 1;
