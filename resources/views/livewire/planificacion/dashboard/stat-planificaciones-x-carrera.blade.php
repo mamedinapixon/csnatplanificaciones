@@ -25,3 +25,11 @@
     </div>
 </div>
 
+@push('scripts')
+    <script>
+        Livewire.emit('cambiarAnioAcademico',{{$anio_academico_id}});
+        //Livewire.emit('setFilter', 'anio_academico_id', {{$anio_academico_id}});
+        //Livewire.emit('refreshDatatable');
+        console.log({{$anio_academico_id}});
+    </script>
+@endpush

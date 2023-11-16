@@ -17,7 +17,6 @@ class StatPlanificacionesXCarrera extends Component
 
     public function mount()
     {
-        //$this->anioAcademicos = PeriodoLectivo::select('anio_academico')->distinct()->get();
 
 
 
@@ -33,18 +32,13 @@ class StatPlanificacionesXCarrera extends Component
         if(!empty($this->anioAcademicos))
         {
             if($this->anio_academico_id == 0) $this->anio_academico_id = $this->anioAcademicos[0]->anio_academico;
-            //dd($this->carreras = Planificacion::total_por_carrera());
-            //$this->carreras = Planificacion::total_por_carrera()->whereIn('periodo_lectivos.anio_academico',[$this->anio_academico])->get();
         }
         //dd($this->anio_academico_id);
         $planificacion = new Planificacion();
         $this->carreras = $planificacion->total_por_carrera()->whereIn('periodo_lectivos.anio_academico',[$this->anio_academico_id])->get();
+        $this->emit('cambiarAnioAcademico',$this->anio_academico_id);
+        //$this->emit('setFilter', 'anio_academico_id', $this->anio_academico_id);
+        //$this->emit('clearFilters');
         return view('livewire.planificacion.dashboard.stat-planificaciones-x-carrera');
     }
-
-    /*public function cambiarAnio($anio)
-    {
-        dd($anio);
-        $this->anio_academico_id = $anio;
-    }*/
 }

@@ -20,14 +20,35 @@ class PlanificacionTable extends DataTableComponent
     //protected $model = Planificacion::class;
     private $todos = ['' => 'Todos'];
     private $carreras = [];
+    protected $listeners = ['cambiarAnioAcademico'];
+    protected $queryString = ['anio_academico_id'];
+    private $anioAcademicos = null;
+    private $anio_academico_id = 0;
 
+    public function mount()
+    {
+        //dd($this->anio_academico_id);
+        //$this->setFilter('anio_academico_id', '2022');
+    }
 
     public function configure(): void
     {
+
+        $this->setQueryStringEnabled();
         $this->setPrimaryKey('id')
             ->setTableRowUrl(function($row) {
                 return route('planificacion.show', $row);
             });
+    }
+
+    public function cambiarAnioAcademico($anio_academico_id)
+    {
+        $this->anio_academico_id = $anio_academico_id;
+        $this->setFilter('anio_academico_id', $anio_academico_id);
+        //$this->emit('setFilter', 'anio_academico_id', $anio_academico_id);
+
+        //$this->emit('refreshDatatable');
+        //dd($anio_academico_id);
     }
 
     public function builder(): Builder
@@ -47,7 +68,16 @@ class PlanificacionTable extends DataTableComponent
 
         if(Auth::user()->can('ver planificaciones'))
         {
+
+            $this->anioAcademicos = PeriodoLectivo::distinct()->select('anio_academico')->orderBy('anio_academico', 'desc')->get();
+            if(!empty($this->anioAcademicos))
+            {
+                if($this->anio_academico_id == 0) $this->anio_academico_id = $this->anioAcademicos[0]->anio_academico;
+            }
             $planificacion = Planificacion::query()
+                            /*->whereHas('periodoLectivo', function ($query) {
+                                return $query->where('anio_academico', '=', $this->anio_academico_id);
+                            })*/
                             ->with("materiaPlanEstudio.materia","materiaPlanEstudio.carrera","docenteCargo","periodoLectivo","periodoLectivo.periodoAcademico","estado");
         } else {
             $planificacion = Planificacion::query()
@@ -113,10 +143,41 @@ class PlanificacionTable extends DataTableComponent
                 //}
                 $builder->whereHas('planificacions', fn($query) => $query->whereIn('planificacions.periodo_lectivo_id', $values));
             }),*/
+            SelectFilter::make('Año Academico', 'anio_academico_id')
+            //->hiddenFromMenus()
+            //->hiddenFromPills()
+            ->hiddenFromFilterCount()
+            ->notResetByClearButton()
+            ->options(
+                $this->todos +
+                PeriodoLectivo::distinct()
+                                ->select('anio_academico')
+                                ->orderBy('anio_academico', 'desc')
+                                ->get()
+                                ->keyBy('anio_academico')
+                                ->map(fn($periodoLectivo) => $periodoLectivo->anio_academico)
+                                ->toArray(),
+                /*PeriodoLectivo::query()
+                        ->with('periodoAcademico')
+                        ->get()
+                        ->keyBy('id')
+                        ->map(fn($periodoLectivo) => $periodoLectivo->anio_academico.' '.$periodoLectivo->periodoAcademico->nombre)
+                        ->toArray(),*/
+            )
+            ->filter(function(Builder $builder, string $value) {
+                if ($value > 0) {
+                    //$builder->whereRelation('materiaPlanEstudio', 'carrera_id', $value);
+                    $this->anio_academico_id = $value;
+                    $builder->whereHas('periodoLectivo', function ($query) {
+                                return $query->where('anio_academico', '=', $this->anio_academico_id);
+                            });
+                }
+            }),
             SelectFilter::make('Periodo Lectivo', 'periodo_lectivo_id')
             ->options(
                 $this->todos +
                 PeriodoLectivo::query()
+                        ->where('anio_academico', '=', $this->anio_academico_id)
                         ->with('periodoAcademico')
                         ->get()
                         ->keyBy('id')
