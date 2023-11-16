@@ -15,9 +15,9 @@
             @foreach ($carreras as $carrera)
             <div class="shadow stats">
                 <div class="stat">
-                    <div class="stat-title">{{ $carrera->carrera }}</div>
-                    <div class="stat-value">{{ round($carrera->cant_presentadas * 100 / $carrera->cant_materias) }} %</div>
-                    <div class="stat-desc">{{ $carrera->cant_presentadas  }} de {{$carrera->cant_materias}} materias presentadas</div>
+                    <div class="stat-title">{{ $carrera['dato']->carrera }}</div>
+                    <div class="stat-value">{{ round($carrera['cantidad_presentadas'] * 100 / $carrera['dato']->cant_materias) }} %</div>
+                    <div class="stat-desc">{{ $carrera['cantidad_presentadas']  }} de {{$carrera['dato']->cant_materias}} materias presentadas</div>
                 </div>
             </div>
             @endforeach
