@@ -196,6 +196,7 @@ class Planificacion extends Model
                    ->groupBy('carrera_id');
 
         return DB::table('planificacions')
+        ->distinct()
         ->selectRaw('count(planificacions.id) as cant_presentadas, carreras.nombre_reducido as carrera, cant_materias.cantidad as cant_materias')
         ->rightJoin('materia_plan_estudios', 'materia_plan_estudios.id', '=', 'planificacions.materia_plan_estudio_id')
         ->leftJoin('carreras', 'carreras.id', '=', 'materia_plan_estudios.carrera_id')
