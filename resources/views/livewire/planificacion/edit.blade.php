@@ -1,12 +1,44 @@
 <div class="space-y-4 ">
     <x-pixonui.heading.h2 class="pt-8">Docentes</x-pixonui.heading.h2>
     <div class="w-full form-control">
-        <x-pixonui.form.label>Docente a cargo</x-pixonui.form.label>
-        <div class="flex items-center space-x-2">
-            <x-pixonui.form.select  wire:model="form.docente_id" :items="$docentes" value="id" caption="FullName"></x-pixonui.form.select>
-            <x-pixonui.wire.loading.spinner wire:target="form.docente_id"></x-pixonui.wire.loading.spinner>
+
+        <div class="flex-wrap flex justify-start space-x-4 space-y-4 items-end" >
+            <div>
+                <x-pixonui.form.label>Docente a cargo</x-pixonui.form.label>
+                <div class="flex items-center space-x-2">
+                    <x-pixonui.form.select  wire:model="form.docente_id" :items="$docentes" value="id" caption="FullName"></x-pixonui.form.select>
+                    <x-pixonui.wire.loading.spinner wire:target="form.docente_id"></x-pixonui.wire.loading.spinner>
+                </div>
+                <x-pixonui.form.error for="form.docente_id"></x-pixonui.form.error>
+            </div>
+
+            <div>
+                <x-pixonui.form.label>Cargo</x-pixonui.form.label>
+                <div class="flex items-center space-x-2">
+                    <x-pixonui.form.select  wire:model="form.cargo_id" :items="$cargos" value="id" caption="nombre"></x-pixonui.form.select>
+                    <x-pixonui.wire.loading.spinner wire:target="form.cargo_id"></x-pixonui.wire.loading.spinner>
+                </div>
+                <x-pixonui.form.error for="form.cargo_id"></x-pixonui.form.error>
+            </div>
+
+            <div>
+                <x-pixonui.form.label>Dedicación</x-pixonui.form.label>
+                <div class="flex items-center space-x-2">
+                    <x-pixonui.form.select  wire:model="form.dedicacion_id" :items="$dedicaciones" value="id" caption="nombre"></x-pixonui.form.select>
+                    <x-pixonui.wire.loading.spinner wire:target="form.dedicacion_id"></x-pixonui.wire.loading.spinner>
+                </div>
+                <x-pixonui.form.error for="form.dedicacion_id"></x-pixonui.form.error>
+            </div>
+
+            <div>
+                <x-pixonui.form.label>Situación</x-pixonui.form.label>
+                <div class="flex items-center space-x-2">
+                    <x-pixonui.form.select  wire:model="form.situacion_cargo_id" :items="$situaciones" value="id" caption="nombre"></x-pixonui.form.select>
+                    <x-pixonui.wire.loading.spinner wire:target="form.situacion_cargo_id"></x-pixonui.wire.loading.spinner>
+                </div>
+                <x-pixonui.form.error for="form.situacion_cargo_id"></x-pixonui.form.error>
+            </div>
         </div>
-        <x-pixonui.form.error for="form.docente_id"></x-pixonui.form.error>
     </div>
     <!-- DOCENTES QUE PARTICIPAN DEL DICTADO -->
     @if (isset($form['docente_id']))

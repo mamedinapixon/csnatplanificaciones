@@ -7,6 +7,9 @@ use Livewire\Component;
 use Carbon\Carbon;
 
 use App\Models\Docente;
+use App\Models\Cargo;
+use App\Models\Dedicacion;
+use App\Models\SituacionCargo;
 use App\Models\Planificacion;
 use App\Models\TipoAsignatura;
 use App\Models\Modalidad;
@@ -23,6 +26,9 @@ class Edit extends Component
     public $file;
     public $planificacion;
     public $docentes = [];
+    public $cargos = [];
+    public $dedicaciones = [];
+    public $situaciones = [];
     public $docetnesDictado = [];
     public $tipoAsignatura = [];
     public $modalidad = [];
@@ -44,6 +50,9 @@ class Edit extends Component
             'user_id'=> $planificacion->user_id,
             'periodo_lectivo_id'=> $planificacion->periodo_lectivo_id,
             'docente_id'=> $planificacion->docente_id,
+            'cargo_id'=> $planificacion->cargo_id,
+            'dedicacion_id'=> $planificacion->dedicacion_id,
+            'situacion_cargo_id'=> $planificacion->situacion_cargo_id,
             'materia_plan_estudio_id'=> $planificacion->materia_plan_estudio_id,
             'electiva_nombre'=> $planificacion->electiva_nombre,
             'doc_invitados'=> $planificacion->doc_invitados,
@@ -82,6 +91,10 @@ class Edit extends Component
         $this->docentes = Docente::orderBy("apellido")->orderBy('nombre')->get();
         $this->tipoAsignatura = TipoAsignatura::get();
         $this->modalidades = Modalidad::get();
+
+        $this->cargos = Cargo::Get();
+        $this->dedicaciones = Dedicacion::Get();
+        $this->situaciones = SituacionCargo::Get();
 
         $this->CalcularCargaHorariaSemanal();
 

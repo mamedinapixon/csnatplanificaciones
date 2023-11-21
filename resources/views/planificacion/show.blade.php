@@ -32,6 +32,25 @@
                             {{ $planificacion->docenteCargo->apellido }},  {{ $planificacion->docenteCargo->nombre }}
                         @endif
                     </x-pixonui.show.labeltext>
+                    <div class="flex space-x-4">
+                        <x-pixonui.show.labeltext caption="Cargo">
+                            @if (!empty($planificacion->cargo))
+                                {{ $planificacion->cargo->nombre }}
+                            @endif
+                        </x-pixonui.show.labeltext>
+                        <x-pixonui.show.labeltext caption="Dedicación">
+                            @if (!empty($planificacion->dedicacion))
+                                {{ $planificacion->dedicacion->nombre }}
+                            @endif
+                        </x-pixonui.show.labeltext>
+                        <x-pixonui.show.labeltext caption="Situación">
+                            @if (!empty($planificacion->situacion))
+                                {{ $planificacion->situacion->nombre }}
+                            @endif
+                        </x-pixonui.show.labeltext>
+                    </div>
+
+
                     <x-pixonui.show.labeltext caption="Docentes que participarán en el dictado">
                     </x-pixonui.show.labeltext>
                     <table class="table w-full table-zebra">

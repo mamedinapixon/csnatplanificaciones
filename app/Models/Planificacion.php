@@ -16,6 +16,9 @@ class Planificacion extends Model
         'user_id',
         'periodo_lectivo_id',
         'docente_id',
+        'cargo_id',
+        'dedicacion_id',
+        'situacion_cargo_id',
         'materia_plan_estudio_id',
         'electiva_nombre',
         'doc_invitados',
@@ -61,6 +64,9 @@ class Planificacion extends Model
         'user_id' => 'integer',
         'periodo_lectivo_id' => 'integer',
         'docente_id' => 'integer',
+        'cargo_id' => 'integer',
+        'dedicacion_id' => 'integer',
+        'situacion_cargo_id' => 'integer',
         'materia_plan_estudio_id' => 'integer',
         'electiva_nombre' => 'string',
         'doc_invitados' => 'boolean',
@@ -113,6 +119,18 @@ class Planificacion extends Model
     public function docenteCargo()
     {
         return $this->belongsTo(Docente::class, "docente_id");
+    }
+    public function cargo()
+    {
+        return $this->belongsTo(Cargo::class, "cargo_id");
+    }
+    public function dedicacion()
+    {
+        return $this->belongsTo(Dedicacion::class, "dedicacion_id");
+    }
+    public function situacion()
+    {
+        return $this->belongsTo(SituacionCargo::class, "situacion_cargo_id");
     }
     /**
      * Get the TipoAsignatura that owns the Planificacion
