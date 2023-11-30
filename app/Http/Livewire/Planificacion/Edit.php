@@ -75,7 +75,7 @@ class Edit extends Component
             'salida_campo'=> $planificacion->salida_campo,
             'correo_responsable_viaje'=> $planificacion->correo_responsable_viaje,
             'salida_campo_cantidad'=> $planificacion->salida_campo_cantidad,
-            'salida_campo_conjuntas'=> $planificacion->salida_campo_conjuntassalida_campo_conjuntas,
+            'salida_campo_conjuntas'=> $planificacion->salida_campo_conjuntas,
             'salida_campo_catedras'=> $planificacion->salida_campo_catedras,
             'actividades_conjuntas'=> $planificacion->actividades_conjuntas,
             'actividades_conjuntas_catedras'=> $planificacion->actividades_conjuntas_catedras,
