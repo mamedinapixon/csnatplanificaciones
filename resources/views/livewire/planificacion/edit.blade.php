@@ -48,6 +48,42 @@
 
     <!----------------------------------------->
     <div class=" form-control">
+        <x-pixonui.form.label>¿Tiene auxiliar docente estudiantil?</x-pixonui.form.label>
+        <div class="flex items-center space-x-2">
+            <x-pixonui.form.checkbox id="toggle-auxiliar-docente-estudiantil" wire:model="form.auxiliar_docente_estudiantil"></x-pixonui.form.checkbox>
+            <x-pixonui.wire.loading.spinner wire:target="form.auxiliar_docente_estudiantil"></x-pixonui.wire.loading.spinner>
+        </div>
+    </div>
+
+    @if ($form['auxiliar_docente_estudiantil'])
+        <div class="w-full form-control">
+            <x-pixonui.form.label>Indique apellido y nombre de cada auxiliar:</x-pixonui.form.label>
+            <x-pixonui.wire.quill wire:model="form.auxiliar_docente_estudiantil_detalle" ref="auxiliar_docente_estudiantil_detalle"></x-pixonui.wire.quill>
+            <x-pixonui.wire.loading.spinner wire:target="form.auxiliar_docente_estudiantil_detalle"></x-pixonui.wire.loading.spinner>
+            <x-pixonui.form.error for="form.auxiliar_docente_estudiantil_detalle"></x-pixonui.form.error>
+        </div>
+    @endif
+
+    <!----------------------------------------->
+    <div class=" form-control">
+        <x-pixonui.form.label>¿La cátedra cuenta con formación de recursos humanos (Estudiantil y/o graduado)?</x-pixonui.form.label>
+        <div class="flex items-center space-x-2">
+            <x-pixonui.form.checkbox id="toggle-formacion-recurso-humano" wire:model="form.formacion_recurso_humano"></x-pixonui.form.checkbox>
+            <x-pixonui.wire.loading.spinner wire:target="form.formacion_recurso_humano"></x-pixonui.wire.loading.spinner>
+        </div>
+    </div>
+
+    @if ($form['formacion_recurso_humano'])
+        <div class="w-full form-control">
+            <x-pixonui.form.label>Indique apellido y nombre:</x-pixonui.form.label>
+            <x-pixonui.wire.quill wire:model="form.formacion_recurso_humano_detalle" ref="formacion_recurso_humano_detalle"></x-pixonui.wire.quill>
+            <x-pixonui.wire.loading.spinner wire:target="form.formacion_recurso_humano_detalle"></x-pixonui.wire.loading.spinner>
+            <x-pixonui.form.error for="form.formacion_recurso_humano_detalle"></x-pixonui.form.error>
+        </div>
+    @endif
+
+    <!----------------------------------------->
+    <div class=" form-control">
         <x-pixonui.form.label>¿Prevé docentes invitados?</x-pixonui.form.label>
         <div class="flex items-center space-x-2">
             <x-pixonui.form.checkbox id="toggle-docentes-invitados" wire:model="form.doc_invitados"></x-pixonui.form.checkbox>
@@ -320,11 +356,12 @@
         <a class="max-w-md btn" href="{{ route('planificacion.index') }}"  >
             Volver
         </a>
-        <a class="btn btn-wide btn-primary" x-on:click="
+        <a class="btn btn-wide btn-primary"  wire:loading.attr="disabled" x-on:click="
                 aletWarning('¿Desea presentar la planificación?', 'Una vez presentada <b>no podra editarla</b>.', 'Si, continuar', 'Cancelar', function() {
                     $wire.OnPresentar();
                 });
             ">
+            <span wire:loading class="loading loading-spinner"></span>
             Presentar
         </a>
     </div>

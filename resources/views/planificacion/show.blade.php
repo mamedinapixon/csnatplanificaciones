@@ -80,14 +80,33 @@
                             @endif
                         </tbody>
                     </table>
+
+                    <x-pixonui.show.labelsino caption="¿Tiene auxiliar docente estudiantil?" :value="$planificacion->auxiliar_docente_estudiantil" />
+                    @if($planificacion->auxiliar_docente_estudiantil)
+                        <x-pixonui.show.labeltext caption="Indique apellido y nombre de cada auxiliar:">
+                            <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                {!! $planificacion->auxiliar_docente_estudiantil_detalle !!}
+                            </div>
+                        </x-pixonui.show.labeltext>
+                    @endif
+
+                    <x-pixonui.show.labelsino caption="¿La cátedra cuenta con formación de recursos humanos (Estudiantil y/o graduado)?" :value="$planificacion->formacion_recurso_humano" />
+                    @if($planificacion->formacion_recurso_humano)
+                        <x-pixonui.show.labeltext caption="Indique apellido y nombre">
+                            <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                {!! $planificacion->formacion_recurso_humano_detalle !!}
+                            </div>
+                        </x-pixonui.show.labeltext>
+                    @endif
+
                     <x-pixonui.show.labelsino caption="¿Prevé docentes invitados?" :value="$planificacion->doc_invitados" />
-                        @if($planificacion->doc_invitados)
-                            <x-pixonui.show.labeltext caption="Indique en cuales:">
-                                <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
-                                    {!! $planificacion->doc_invitados_detalles !!}
-                                </div>
-                            </x-pixonui.show.labeltext>
-                        @endif
+                    @if($planificacion->doc_invitados)
+                        <x-pixonui.show.labeltext caption="Indique en cuales">
+                            <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                {!! $planificacion->doc_invitados_detalles !!}
+                            </div>
+                        </x-pixonui.show.labeltext>
+                    @endif
 
                     <!-- Asignatura -->
                     <x-pixonui.heading.h2 class="pt-8">Asignatura</x-pixonui.heading.h2>
