@@ -51,7 +51,7 @@
                     </div>
 
 
-                    <x-pixonui.show.labeltext caption="Docentes que participarán en el dictado">
+                    <x-pixonui.show.labeltext caption="Resto del plantel docente de la Asignatura:">
                     </x-pixonui.show.labeltext>
                     <table class="table w-full table-zebra">
                         <!-- head -->
@@ -100,11 +100,11 @@
 
 
                     <!-- Carga horaria -->
-                    <x-pixonui.heading.h2 class="pt-8">Carga Horaria Semanal</x-pixonui.heading.h2>
+                    <x-pixonui.heading.h2 class="pt-8">Carga Horaria</x-pixonui.heading.h2>
                     <x-pixonui.show.labeltext caption="Total de horas teóricas">{{ $planificacion->carga_horaria_semanal_teorica }}</x-pixonui.show.labeltext>
-                    <x-pixonui.show.labeltext caption="Total de horas prácticas">{{ $planificacion->carga_horaria_semanal_practica }}</x-pixonui.show.labeltext>
                     <x-pixonui.show.labeltext caption="Total de horas teórica-práctica">{{ $planificacion->carga_horaria_semanal_practica_teorica }}</x-pixonui.show.labeltext>
-                    <x-pixonui.show.labeltext caption="Suma de carga horaria semanal (teóricas + teórico-prácticas + prácticas)">{{ $planificacion->carga_horaria_semanal_practica+$planificacion->carga_horaria_semanal_practica_teorica+$planificacion->carga_horaria_semanal_teorica }}</x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Total de horas prácticas">{{ $planificacion->carga_horaria_semanal_practica }}</x-pixonui.show.labeltext>
+                    <x-pixonui.show.labeltext caption="Suma de carga horaria (teóricas + teórico-prácticas + prácticas)">{{ $planificacion->carga_horaria_semanal_practica+$planificacion->carga_horaria_semanal_practica_teorica+$planificacion->carga_horaria_semanal_teorica }}</x-pixonui.show.labeltext>
 
                     <!-- Práctico -->
                     <x-pixonui.heading.h2 class="pt-8">Prácticos</x-pixonui.heading.h2>
