@@ -35,6 +35,7 @@ class AsistenciaTable extends DataTableComponent
             $asistencia = Asistencia::query()
                             ->where("user_id","=",Auth::user()->id)
                             ->with("user","ubicacion")->orderBy('id', 'desc');
+            $this->setFiltersVisibilityDisabled();
         }
 
         return $asistencia;
