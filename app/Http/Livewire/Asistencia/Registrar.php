@@ -78,7 +78,7 @@ class Registrar extends Component
         $this->reset('otra_ubicacion','motivo');
 
         $this->flash('success', 'INGRESO REGISTRADO', [
-            'text' => 'Fecha y hora: '. $this->asistencia->ingreso_at->format('d/m/y h:m:s'),
+            'text' => 'Fecha y hora: '. $this->asistencia->ingreso_at->toTimeString(),
             'timerProgressBar' => true,
             'timer' => 5000
         ], 'home');
@@ -95,7 +95,7 @@ class Registrar extends Component
         ]);
 
         $this->flash('success', 'SALIDA REGISTRADA', [
-            'text' => 'Fecha y hora: '. $this->asistencia->salida_at->format('d/m/y h:m:s'),
+            'text' => 'Fecha y hora: '. $this->asistencia->salida_at->toTimeString(),
             'timerProgressBar' => true,
             'timer' => 5000
         ], 'home');
