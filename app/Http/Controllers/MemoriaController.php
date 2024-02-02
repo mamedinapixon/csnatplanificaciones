@@ -31,7 +31,7 @@ class MemoriaController extends Controller
      */
     public function create()
     {
-        $anio_academico = 2022; // TODO: Seleccionar desde la tabla AnioAcademico. Se lo hardcodea por el apuro que tiene que salga.
+        $anio_academico = 2023; // TODO: Seleccionar desde la tabla AnioAcademico. Se lo hardcodea por el apuro que tiene que salga.
         //AnioAcademico::where('memoria_activo_hasta');//Carbon::now()->year;
         $memoria = Memoria::where("anio_academico",$anio_academico)->where("user_id",Auth::user()->id)->first();
 
