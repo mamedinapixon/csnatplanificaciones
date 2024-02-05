@@ -61,7 +61,10 @@ class AsistenciaTable extends DataTableComponent
                 ->sortable(),
             Column::make("Tiempo", "salida_at")
                 ->format(
-                    fn($value, $row, Column $column) => $row->salida_at == null ? "" : Carbon::parse($row->salida_at)->diffForHumans($row->ingreso_at, CarbonInterface::DIFF_ABSOLUTE)
+                    fn($value, $row, Column $column) => $row->salida_at == null ? "" : str_replace("después","",Carbon::parse($row->salida_at)
+                            ->diffForHumans($row->ingreso_at, [
+                                'parts' => 2,
+                            ]))
                 ),
             Column::make("Ubicación", "ubicacion.descripcion")
                 ->sortable(),

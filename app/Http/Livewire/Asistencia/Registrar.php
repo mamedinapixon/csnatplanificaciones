@@ -78,12 +78,12 @@ class Registrar extends Component
         $this->reset('otra_ubicacion','motivo');
 
         $this->flash('success', 'INGRESO REGISTRADO', [
-            'text' => 'Fecha y hora: '. $this->asistencia->ingreso_at->toTimeString(),
+            'text' => 'Hora ingreso: '. $this->asistencia->ingreso_at->toTimeString(),
             'timerProgressBar' => true,
             'timer' => 5000
         ], 'home');
 
-        return redirect()->route('home');
+        return redirect()->route('asistencia.historial');
     }
 
     public function registrarSalida()
@@ -95,14 +95,14 @@ class Registrar extends Component
         ]);
 
         $this->flash('success', 'SALIDA REGISTRADA', [
-            'text' => 'Fecha y hora: '. $this->asistencia->salida_at->toTimeString(),
+            'text' => 'Hora salida: '. $this->asistencia->salida_at->toTimeString(),
             'timerProgressBar' => true,
             'timer' => 5000
         ], 'home');
 
         $this->reset('otra_ubicacion','motivo');
 
-        return redirect()->route('home');
+        return redirect()->route('asistencia.historial');
 
 
         //$this->buscarAsistenciaHoy();

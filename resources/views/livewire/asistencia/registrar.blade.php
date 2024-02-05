@@ -8,9 +8,11 @@
             <div>
                 <p class="text-lg"><span class="font-bold">Fecha Ingreso: </span> {{Carbon\Carbon::now()->format('d/m/Y')}}</p>
             </div>
+            {{--
             <div>
                 <p class="text-lg"><span class="font-bold">Hora Ingreso: </span> <span id="hora">{{Carbon\Carbon::now()->toTimeString()}}</span></p>
             </div>
+            --}}
             <div class="form-control w-full max-w-xs">
                 <label class="label">
                     <span class="label-text">Ubicación</span>
@@ -66,8 +68,9 @@
         <div class=" space-y-1">
             <p class="text-lg"><span class="font-bold">Hora Ingreso: </span> {{$asistencia->ingreso_at->toTimeString()}}</p>
             <p class="text-lg"><span class="font-bold">Ubicación: </span> {{$asistencia->ubicacion->descripcion}} {{ $asistencia->otra_ubicacion == "" ? "" : ("(".$asistencia->otra_ubicacion.")") }}</p>
-            <p class="text-lg font-bold text-green-600"><span>Hora Salida: </span> <span id="hora">{{Carbon\Carbon::now()->toTimeString()}}</span></p>
-
+            {{--
+                <p class="text-lg font-bold text-green-600"><span>Hora Salida: </span> <span id="hora">{{Carbon\Carbon::now()->toTimeString()}}</span></p>
+            --}}
         </div>
         <div class="form-control w-full max-w-xs">
             <button wire:click="registrarSalida"
