@@ -2,6 +2,13 @@
     <livewire:memoria.tbl-asignatura :memoria_id='' :tipo_docente='' :memoria_id="$memoria_id" tipo_docente="Estable" label="Asignatura/s en la que participó como docente estable y/o por extensión de funciones"/>
     <livewire:memoria.tbl-asignatura :memoria_id='' :tipo_docente='' :memoria_id="$memoria_id" tipo_docente="Invitado" label="Asignaturas en la que participó como Docente invitado" />
 
+    <div class="w-full form-control">
+        <x-pixonui.form.label>Describa las actividades desarrolladas en la/s asignatura/s (Número de clases dictadas, tipo de clases teóricas, prácticas, elaboración y/o toma de parciales, de exámenes finales, otras actividades docentes, Nº de alumnos inscriptos, Nº de alumnos regulares, Nº de alumnos libres, etc.)</x-pixonui.form.label>
+        <x-pixonui.wire.quill wire:model="form.describa_actividades_asignaturas" ref="describa_actividades_asignaturas"></x-pixonui.wire.quill>
+        <x-pixonui.wire.loading.spinner wire:target="form.describa_actividades_asignaturas"></x-pixonui.wire.loading.spinner>
+        <x-pixonui.form.error for="form.describa_actividades_asignaturas"></x-pixonui.form.error>
+    </div>
+
     <div class=" form-control">
         <x-pixonui.form.label>Dictó Cursos y/o Cursillos de grado</x-pixonui.form.label>
         <div class="flex items-center space-x-2">

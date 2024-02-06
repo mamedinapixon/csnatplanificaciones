@@ -59,6 +59,22 @@
         </div>
     @endif
 
+    <div class=" form-control">
+        <x-pixonui.form.label>¿Dirigió y/o co dirigió teses de posgrado tesitas?</x-pixonui.form.label>
+        <div class="flex items-center space-x-2">
+            <x-pixonui.form.checkbox id="toggle-dirigio_tesis" wire:model="form.dirigio_tesis"></x-pixonui.form.checkbox>
+            <x-pixonui.wire.loading.spinner wire:target="form.dirigio_tesis"></x-pixonui.wire.loading.spinner>
+        </div>
+    </div>
+    @if ($form['dirigio_tesis'])
+        <div class="w-full form-control">
+            <x-pixonui.form.label>Detalle el/los mismos</x-pixonui.form.label>
+            <x-pixonui.wire.quill wire:model="form.dirigio_tesis_detalle" ref="dirigio_tesis_detalle"></x-pixonui.wire.quill>
+            <x-pixonui.wire.loading.spinner wire:target="form.dirigio_tesis_detalle"></x-pixonui.wire.loading.spinner>
+            <x-pixonui.form.error for="form.dirigio_tesis_detalle"></x-pixonui.form.error>
+        </div>
+    @endif
+
     <div class="form-control">
         <x-pixonui.form.label>¿Participó de Alguna/s Comisión/es de Supervisión de Tesis de Posgrado?
         </x-pixonui.form.label>

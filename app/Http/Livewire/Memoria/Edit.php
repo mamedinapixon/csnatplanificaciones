@@ -144,7 +144,10 @@ class Edit extends Component
             'participo_cargos_gestion' => $memoria->participo_cargos_gestion,
             'participo_cargos_gestion_detalle' => $memoria->participo_cargos_gestion_detalle,
             'participo_actividades_gestion' => $memoria->participo_actividades_gestion,
-            'participo_actividades_gestion_detalle' => $memoria->participo_actividades_gestion_detalle
+            'participo_actividades_gestion_detalle' => $memoria->participo_actividades_gestion_detalle,
+            'describa_actividades_asignaturas'=> $memoria->describa_actividades_asignaturas,
+            'dirigio_tesis' => $memoria->dirigio_tesis,
+            'dirigio_tesis_detalle'=> $memoria->dirigio_tesis_detalle,
         ];
 
         $this->memoria_id = $memoria->id;

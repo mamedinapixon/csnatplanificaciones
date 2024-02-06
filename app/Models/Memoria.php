@@ -187,7 +187,11 @@ class Memoria extends Model
         'presentado_at',
         'revisado_at',
 
-        'estado_id'
+        'estado_id',
+
+        'describa_actividades_asignaturas',
+        'dirigio_tesis',
+        'dirigio_tesis_detalle'
     ];
 
     protected $guarded = ['id'];
@@ -366,7 +370,11 @@ class Memoria extends Model
         'presentado_at' => 'datetime',
         'revisado_at' => 'datetime',
 
-        'estado_id' => 'integer'
+        'estado_id' => 'integer',
+
+        'describa_actividades_asignaturas'=> 'string',
+        'dirigio_tesis' => 'boolean',
+        'dirigio_tesis_detalle'=> 'string'
     ];
 
     public function user()
