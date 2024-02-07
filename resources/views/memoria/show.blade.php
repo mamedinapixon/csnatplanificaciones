@@ -86,6 +86,14 @@
                         </tbody>
                     </table>
 
+                    @if($memoria->anio_academico >= 2023)
+                    <x-pixonui.show.labeltext caption="Describa las actividades desarrolladas en la/s asignatura/s (Número de clases dictadas, tipo de clases teóricas, prácticas, elaboración y/o toma de parciales, de exámenes finales, otras actividades docentes, Nº de alumnos inscriptos, Nº de alumnos regulares, Nº de alumnos libres, etc.)">
+                        <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                            {!! $memoria->describa_actividades_asignaturas !!}
+                        </div>
+                    </x-pixonui.show.labeltext>
+                    @endif
+
                     <x-pixonui.show.labelsino :value="$memoria->dicto_cursos_grado" caption="Dictó Cursos y/o Cursillos de grado"></x-pixonui.show.labeltext>
                     @if($memoria->dicto_cursos_grado)
                         <x-pixonui.show.labeltext caption="Detalle el/los mismos">
@@ -185,6 +193,17 @@
                                 {!! $memoria->docente_estable_carrera_posgrado_detalle !!}
                             </div>
                         </x-pixonui.show.labeltext>
+                    @endif
+
+                    @if($memoria->anio_academico >= 2023)
+                    <x-pixonui.show.labelsino :value="$memoria->dirigio_tesis" caption="¿Dirigió y/o co dirigió teses de posgrado tesitas?"></x-pixonui.show.labeltext>
+                        @if($memoria->dirigio_tesis)
+                            <x-pixonui.show.labeltext caption="Detalle el/los mismos">
+                                <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                                    {!! $memoria->dirigio_tesis_detalle !!}
+                                </div>
+                            </x-pixonui.show.labeltext>
+                        @endif
                     @endif
 
                     <x-pixonui.show.labelsino :value="$memoria->participo_supervision_tesis_posgrado" caption="¿Participó de Alguna/s Comisión/es de Supervisión de Tesis de Posgrado?"></x-pixonui.show.labeltext>
