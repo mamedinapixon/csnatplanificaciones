@@ -60,7 +60,7 @@
     @endif
 
     <div class=" form-control">
-        <x-pixonui.form.label>¿Dirigió y/o co dirigió teses de posgrado tesitas?</x-pixonui.form.label>
+        <x-pixonui.form.label>¿Dirigió y/o co dirigió tesis de posgrado?</x-pixonui.form.label>
         <div class="flex items-center space-x-2">
             <x-pixonui.form.checkbox id="toggle-dirigio_tesis" wire:model="form.dirigio_tesis"></x-pixonui.form.checkbox>
             <x-pixonui.wire.loading.spinner wire:target="form.dirigio_tesis"></x-pixonui.wire.loading.spinner>
