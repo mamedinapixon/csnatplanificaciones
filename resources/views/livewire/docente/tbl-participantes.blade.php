@@ -73,7 +73,7 @@
                     </option>
                 @endforeach
             </select>
-            <button class="btn btn-secondary" wire:click="store" wire:loading.class="loading">Agregar</button>
+            <button class="btn btn-secondary" wire:click="store" wire:loading.class="loading">Guardar</button>
         </div>
         @error('docente_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
         @error('cargo_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
