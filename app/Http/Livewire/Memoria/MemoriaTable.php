@@ -15,7 +15,18 @@ use Illuminate\Support\Facades\Auth;
 
 class MemoriaTable extends DataTableComponent
 {
+    private $todos = ['' => 'Todos'];
     protected $model = Memoria::class;
+
+    public function mount()
+    {
+        $anio_academico_mayor = Memoria::distinct()
+                ->select('anio_academico')
+                ->max('anio_academico');
+
+        //dd($this->anio_academico_id);
+        $this->setFilter('anio_academico', $anio_academico_mayor);
+    }
 
     public function configure(): void
     {
@@ -79,6 +90,32 @@ class MemoriaTable extends DataTableComponent
             ->filter(function(Builder $builder, string $value) {
                 if ($value > 0) {
                     $builder->where('memorias.estado_id', $value);
+                }
+            }),
+            SelectFilter::make('Año Academico', 'anio_academico')
+            //->hiddenFromMenus()
+            //->hiddenFromPills()
+            //->hiddenFromFilterCount()
+            //->notResetByClearButton()
+            ->options(
+                $this->todos +
+                Memoria::distinct()
+                                ->select('anio_academico')
+                                ->orderBy('anio_academico', 'desc')
+                                ->get()
+                                ->keyBy('anio_academico')
+                                ->map(fn($memoria) => $memoria->anio_academico)
+                                ->toArray(),
+                /*PeriodoLectivo::query()
+                        ->with('periodoAcademico')
+                        ->get()
+                        ->keyBy('id')
+                        ->map(fn($periodoLectivo) => $periodoLectivo->anio_academico.' '.$periodoLectivo->periodoAcademico->nombre)
+                        ->toArray(),*/
+            )
+            ->filter(function(Builder $builder, string $value) {
+                if ($value > 0) {
+                    $builder->where('memorias.anio_academico', $value);
                 }
             }),
         ];
