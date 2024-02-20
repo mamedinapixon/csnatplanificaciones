@@ -60,7 +60,7 @@ class Create extends Component
             $this->msj_error = "Primero debe seleccionar una asignatura";
         } else {
 
-            $planificacion =   Planificacion::with(['materiaPlanEstudio.materia','materiaPlanEstudio.carrera','docenteCargo','periodoLectivo','periodoLectivo.periodoAcademico'])
+            $planificacion =   Planificacion::with(['materiaPlanEstudio.materia','materiaPlanEstudio.carrera','docenteCargo','periodoLectivo','periodoLectivo.periodoAcademico','user'])
                                             ->where("periodo_lectivo_id", $this->periodo_lectivo_id)
                                             ->where("materia_plan_estudio_id", $this->materia_plan_estudio_id)
                                             ->first();
@@ -86,8 +86,9 @@ class Create extends Component
                         $asigantura = $planificacion->materiaPlanEstudio->materia->nombre;
                         $carrera = $planificacion->materiaPlanEstudio->carrera->nombre;
                         $periodo_lectivo = $planificacion->periodoLectivo->periodoAcademico->nombre." ".$planificacion->periodoLectivo->anio_academico;
-                        $docente = $planificacion->docenteCargo->apellido." ".$planificacion->docenteCargo->nombre;
-                        $this->msj_error = "Ya hay una planificacion cargada por el docente ".$docente." para la asignatura ".$asigantura." de la carrera ".$carrera." en el periodo lectivo ".$periodo_lectivo;
+                        //dd($planificacion);
+                        //$docente = $planificacion->docenteCargo->apellido." ".$planificacion->docenteCargo->nombre;
+                        $this->msj_error = "Ya hay una planificacion cargada por el/la docente ".$planificacion->user->name." para la asignatura ".$asigantura." de la carrera ".$carrera." en el periodo lectivo ".$periodo_lectivo;
                     }
                 }
             } else {
@@ -115,7 +116,7 @@ class Create extends Component
             "user_id" => Auth::id(),
             "periodo_lectivo_id" => $this->periodo_lectivo_id,
             "materia_plan_estudio_id" => $this->materia_plan_estudio_id,
-            "docente_id" => Auth::id()
+            //"docente_id" => Auth::id()
         ]);
 
         return $planificacion;
