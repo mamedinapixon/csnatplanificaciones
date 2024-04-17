@@ -13,6 +13,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use \Carbon\Carbon;
 use \Carbon\CarbonInterface;
+use App\Exports\AsistenciaExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class AsistenciaTable extends DataTableComponent
 {
@@ -26,6 +29,8 @@ class AsistenciaTable extends DataTableComponent
 
     public function builder(): Builder
     {
+
+        //dd(Asistencia::whereIn('id', [2451,2402,2171,2133])->with("user:id","ubicacion")->orderBy('id', 'desc')->get());
 
         if(Auth::user()->can('ver historial asistencia'))
         {
@@ -118,4 +123,31 @@ class AsistenciaTable extends DataTableComponent
                 }),
         ];
     }
+
+    public function bulkActions(): array
+    {
+        return [
+            'ExportToExcel' => 'Exportar a Excel',
+            'ExportToCSV' => 'Exportar a CSV'
+        ];
+    }
+
+    public function ExportToExcel()
+    {
+        $asistencias = $this->getSelected();
+
+        $this->clearSelected();
+
+        return Excel::download(new AsistenciaExport($asistencias), 'asistencias.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+    }
+
+    public function ExportToCSV()
+    {
+        $asistencias = $this->getSelected();
+
+        $this->clearSelected();
+
+        return Excel::download(new AsistenciaExport($asistencias), 'asistencias.csv', \Maatwebsite\Excel\Excel::CSV);
+    }
+
 }
