@@ -6,8 +6,9 @@ use App\Models\Asistencia;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class AsistenciaExport implements FromCollection, WithHeadings
+class AsistenciaExport implements FromCollection, WithHeadings, ShouldAutoSize
 {
     public $asistencias;
 

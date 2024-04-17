@@ -128,7 +128,8 @@ class AsistenciaTable extends DataTableComponent
     {
         return [
             'ExportToExcel' => 'Exportar a Excel',
-            'ExportToCSV' => 'Exportar a CSV'
+            'ExportToCSV' => 'Exportar a CSV',
+            'ExportToPDF' => 'Exportar a PDF',
         ];
     }
 
@@ -150,4 +151,12 @@ class AsistenciaTable extends DataTableComponent
         return Excel::download(new AsistenciaExport($asistencias), 'asistencias.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
+    public function ExportToPDF()
+    {
+        $asistencias = $this->getSelected();
+
+        $this->clearSelected();
+
+        return Excel::download(new AsistenciaExport($asistencias), 'asistencias.pdf', \Maatwebsite\Excel\Excel::MPDF);
+    }
 }

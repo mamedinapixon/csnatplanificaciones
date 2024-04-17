@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.5",
         "maatwebsite/excel": "^3.1",
+        "mpdf/mpdf": "^8.2",
         "rappasoft/laravel-livewire-tables": "^2.8",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "socialiteproviders/google": "^4.1",
