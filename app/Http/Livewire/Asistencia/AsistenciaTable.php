@@ -54,9 +54,14 @@ class AsistenciaTable extends DataTableComponent
             Column::make("Docente", "user.name")
                 ->searchable()
                 ->sortable(),
+            Column::make("Fecha", "ingreso_at")
+                ->format(
+                    fn($value, $row, Column $column) => $row->ingreso_at->format('d/m/Y')
+                )
+                ->sortable(),
             Column::make("Ingreso", "ingreso_at")
                 ->format(
-                    fn($value, $row, Column $column) => $row->ingreso_at->format('d/m/Y').' '.$row->ingreso_at->toTimeString()
+                    fn($value, $row, Column $column) => $row->ingreso_at->toTimeString()
                 )
                 ->sortable(),
             Column::make("Salida", "salida_at")
