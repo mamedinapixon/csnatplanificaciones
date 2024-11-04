@@ -29,6 +29,6 @@ class ModalidadClaseSeeder extends Seeder
             ];
         }, $modalidadesClases);
 
-        DB::table('modalidades_clases')->insert($data);
+        DB::table('modalidad_clases')->insert($data);
     }
 }

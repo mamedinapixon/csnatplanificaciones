@@ -16,8 +16,6 @@ class CreateLibroTemasTable extends Migration
         Schema::create('libro_temas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('planificacion_id')->constrained('planificacions')->onDelete('cascade');
-            $table->json('modalidad');
-            $table->json('caracter');
             $table->date('fecha');
             $table->text('contenido');
             $table->integer('cantidad_alumnos');

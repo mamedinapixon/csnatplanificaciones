@@ -8,13 +8,13 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('caracter_libro_tema', function (Blueprint $table) {
+        Schema::create('docente_libro_tema', function (Blueprint $table) {
             $table->id();
             $table->foreignId('libro_tema_id')->constrained('libro_temas')->onDelete('cascade');
-            $table->foreignId('caracter_clase_id')->constrained('caracter_clases')->onDelete('cascade');
+            $table->foreignId('docente_id')->constrained('docentes')->onDelete('cascade');
 
             // Prevenir duplicados
-            $table->unique(['libro_tema_id', 'caracter_clase_id']);
+            $table->unique(['libro_tema_id', 'docente_id']);
 
             $table->timestamps();
         });
