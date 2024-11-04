@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
 
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
 
         <!-- Scripts -->
@@ -115,6 +116,6 @@
 
         <script src="https://kit.fontawesome.com/398c06bb36.js" crossorigin="anonymous"></script>
 
-
+        @livewire('notifications')
     </body>
 </html>
