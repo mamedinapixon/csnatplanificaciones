@@ -20,8 +20,6 @@ class LibroTema extends Model
      */
     protected $fillable = [
         'planificacion_id',
-        'modalidad',
-        'caracter',
         'fecha',
         'contenido',
         'cantidad_alumnos',
@@ -37,8 +35,6 @@ class LibroTema extends Model
      */
     protected $casts = [
         'fecha' => 'date',
-        'modalidad' => 'array',
-        'caracter' => 'array',
         'cantidad_alumnos' => 'integer',
         'duracion_minutos' => 'integer',
         'unidad' => 'integer'
@@ -106,5 +102,13 @@ class LibroTema extends Model
     public function docentes()
     {
         return $this->belongsToMany(Docente::class, 'docente_libro_tema');
+    }
+    public function caracteres()
+    {
+        return $this->belongsToMany(CaracterClase::class, 'caracter_libro_tema');
+    }
+    public function modalidades()
+    {
+        return $this->belongsToMany(ModalidadClase::class, 'modalidad_libro_tema');
     }
 }
