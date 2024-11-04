@@ -50,54 +50,6 @@ class LibroTema extends Model
         return $this->belongsTo(Planificacion::class, 'planificacion_id');
     }
 
-    /**
-     * Getter for modalidad as collection
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getModalidadAttribute($value)
-    {
-        return collect(json_decode($value, true));
-    }
-
-    /**
-     * Getter for caracter as collection
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function getCaracterAttribute($value)
-    {
-        return collect(json_decode($value, true));
-    }
-
-    /**
-     * Custom method to add modalidad
-     *
-     * @param array|int $modalidad
-     * @return self
-     */
-    public function addModalidad($modalidad)
-    {
-        $current = $this->modalidad ?? [];
-        $newModalidad = is_array($modalidad) ? $modalidad : [$modalidad];
-        $this->modalidad = array_unique(array_merge($current, $newModalidad));
-        return $this;
-    }
-
-    /**
-     * Custom method to add caracter
-     *
-     * @param array|int $caracter
-     * @return self
-     */
-    public function addCaracter($caracter)
-    {
-        $current = $this->caracter ?? [];
-        $newCaracter = is_array($caracter) ? $caracter : [$caracter];
-        $this->caracter = array_unique(array_merge($current, $newCaracter));
-        return $this;
-    }
-
     // Relación muchos a muchos con CaracterClase
     public function docentes()
     {
