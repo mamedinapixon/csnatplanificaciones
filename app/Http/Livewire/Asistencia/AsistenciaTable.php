@@ -163,15 +163,6 @@ class AsistenciaTable extends DataTableComponent
 
         $this->clearSelected();
 
-        $export = new AsistenciaExport($asistencias);
-        return Excel::download($export, 'asistencias.pdf', \Maatwebsite\Excel\Excel::MPDF, [
-            'orientation' => 'L',
-            'margins' => [
-                'left' => 0,
-                'right' => 0,
-                'top' => 0,
-                'bottom' => 0,
-            ],
-        ]);
+        return Excel::download(new AsistenciaExport($asistencias), 'asistencias.pdf', \Maatwebsite\Excel\Excel::MPDF);
     }
 }
