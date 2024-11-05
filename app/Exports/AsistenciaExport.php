@@ -58,7 +58,7 @@ class AsistenciaExport implements FromCollection, WithHeadings, ShouldAutoSize
                 'asistencias.otra_ubicacion',
                 'asistencias.observacion',
             )
-            ->orderBy('asistencias.id')
+            ->orderBy('asistencias.id', 'desc')
             ->get();
 
         $this->useOtraUbicacion = $asistencias->contains(function ($asistencia) {
