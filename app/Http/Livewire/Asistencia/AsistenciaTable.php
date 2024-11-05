@@ -95,6 +95,7 @@ class AsistenciaTable extends DataTableComponent
                         ->select('asistencias.user_id','users.name')
                         ->distinct()
                         ->join('users','users.id','asistencias.user_id')
+                        ->orderBy('users.name')
                         ->get()
                         ->keyBy('user_id')
                         ->map(fn($asistencia) => $asistencia->name)
@@ -162,6 +163,15 @@ class AsistenciaTable extends DataTableComponent
 
         $this->clearSelected();
 
-        return Excel::download(new AsistenciaExport($asistencias), 'asistencias.pdf', \Maatwebsite\Excel\Excel::MPDF);
+        $export = new AsistenciaExport($asistencias);
+        return Excel::download($export, 'asistencias.pdf', \Maatwebsite\Excel\Excel::MPDF, [
+            'orientation' => 'L',
+            'margins' => [
+                'left' => 0,
+                'right' => 0,
+                'top' => 0,
+                'bottom' => 0,
+            ],
+        ]);
     }
 }
