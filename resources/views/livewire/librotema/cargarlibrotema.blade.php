@@ -11,7 +11,7 @@
         <x-pixonui.heading.h1 >
             Registro de tema
         </x-pixonui.heading.h1>
-        <div class="flex-auto overflow-hidden bg-white sm:rounded-lg">
+        <div class="flex-auto bg-white sm:rounded-lg">
             <div class="border-b border-gray-200 bg-white p-6 sm:px-20">
                 <!-- Contenido -->
 

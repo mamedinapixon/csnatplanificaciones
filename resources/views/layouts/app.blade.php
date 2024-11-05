@@ -14,8 +14,6 @@
         <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
-
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
 
         <!-- Scripts -->
