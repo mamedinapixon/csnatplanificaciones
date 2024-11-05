@@ -12,6 +12,8 @@ use Carbon\Carbon;
 class AsistenciaExport implements FromCollection, WithHeadings, ShouldAutoSize
 {
     public $asistencias;
+    private $useOtraUbicacion = false;
+    private $useObservacion = false;
 
     public function __construct($asistencias) {
         $this->asistencias = $asistencias;
@@ -19,19 +21,29 @@ class AsistenciaExport implements FromCollection, WithHeadings, ShouldAutoSize
 
     public function headings(): array
     {
-        return [
+        $headers = [
             'Docente',
             'Fecha',
             'Ingreso',
             'Salida',
             'Tiempo',
             'Ubicación',
-            'Detalle ubicación',
-            'Motivo',
         ];
+
+        $this->asistencias = $this->getDatosAsistencia();
+
+        if ($this->useOtraUbicacion) {
+            $headers[] = 'Detalle ubicación';
+        }
+
+        if ($this->useObservacion) {
+            $headers[] = 'Motivo';
+        }
+
+        return $headers;
     }
 
-    public function collection()
+    public function getDatosAsistencia()
     {
         $asistencias = DB::table('asistencias')
         ->whereIn('asistencias.id', $this->asistencias)
@@ -49,6 +61,21 @@ class AsistenciaExport implements FromCollection, WithHeadings, ShouldAutoSize
             ->orderBy('asistencias.id')
             ->get();
 
+        $this->useOtraUbicacion = $asistencias->contains(function ($asistencia) {
+            return !empty($asistencia->otra_ubicacion);
+        });
+
+        $this->useObservacion = $asistencias->contains(function ($asistencia) {
+            return !empty($asistencia->observacion);
+        });
+
+        return $asistencias;
+    }
+
+    public function collection()
+    {
+        $asistencias = $this->asistencias;
+
         return $asistencias->map(function ($asistencia) {
             $tiempo = null;
             $ingresoDate = Carbon::parse($asistencia->ingreso);
@@ -64,16 +91,24 @@ class AsistenciaExport implements FromCollection, WithHeadings, ShouldAutoSize
                 $observacion = substr($observacion, 0, 15) . '...';
             }
 
-            return (object) [
+            $result = [
                 'docente' => $asistencia->docente,
                 'fecha' => $ingresoDate->format('d/m/y'),
                 'ingreso' => $ingresoDate->format('H:i'),
                 'salida' => $salidaDate ? $salidaDate->format('H:i') : null,
                 'tiempo' => $tiempo,
                 'ubicación' => $asistencia->ubicación,
-                'otra_ubicacion' => $asistencia->otra_ubicacion,
-                'observacion' => $observacion,
             ];
+
+            if ($this->useOtraUbicacion) {
+                $result['otra_ubicacion'] = $asistencia->otra_ubicacion;
+            }
+
+            if ($this->useObservacion) {
+                $result['observacion'] = $observacion;
+            }
+
+            return (object) $result;
         });
     }
 }
