@@ -36,7 +36,7 @@ class AsistenciaExport implements FromCollection, WithHeadings, ShouldAutoSize
         ->join('users', 'users.id', '=', 'asistencias.user_id')
         ->join('ubicaciones', 'ubicaciones.id', '=', 'asistencias.ubicacion_id')
         ->select('asistencias.id', 'users.name as docente', 'asistencias.ingreso_at as ingreso', 'asistencias.salida_at as salida','ubicaciones.descripcion as ubicación','asistencias.otra_ubicacion')
-        ->orderBy('asistencias.id')
+        ->orderBy('asistencias.id', 'desc')
         ->get();
     }
 }
