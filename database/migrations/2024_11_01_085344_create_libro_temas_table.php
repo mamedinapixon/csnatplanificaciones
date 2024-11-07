@@ -20,7 +20,7 @@ class CreateLibroTemasTable extends Migration
             $table->integer('cantidad_alumnos');
             $table->integer('duracion_minutos');
             $table->integer('unidad');
-            $table->text('Observaciones');
+            $table->text('observaciones');
             $table->timestamps();
         });
     }

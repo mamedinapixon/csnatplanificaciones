@@ -129,6 +129,22 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ])
                     ->columnSpanFull()
                     ->required(),
+                RichEditor::make('observaciones')
+                    ->label('Contenidos a desarrollar o desarrollados en la clase')
+                    ->toolbarButtons([
+                        'blockquote',
+                        'bold',
+                        'bulletList',
+                        'italic',
+                        'link',
+                        'orderedList',
+                        'redo',
+                        'strike',
+                        'underline',
+                        'undo',
+                    ])
+                    ->columnSpanFull()
+                    ->required(),
             ])
             ->columns(2)
         ];

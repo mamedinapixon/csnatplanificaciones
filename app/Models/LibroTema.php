@@ -24,7 +24,7 @@ class LibroTema extends Model
         'cantidad_alumnos',
         'duracion_minutos',
         'unidad',
-        'Observaciones'
+        'observaciones'
     ];
 
     /**
