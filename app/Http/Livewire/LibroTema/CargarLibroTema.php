@@ -81,6 +81,8 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->reactive()
                     ->label('Materia')
                     ->searchable()
+                    ->multiple()
+                    ->columnSpanFull()
                     ->required(),
                 Select::make('docentes')
                     ->label('Docente/s que participan de la clase')
@@ -88,6 +90,7 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->searchable()
                     ->relationship('docentes', 'full_name')
                     ->preload()
+                    ->columnSpanFull()
                     ->searchable(),
                 Select::make('modalidades')
                     ->label('Modalidad')

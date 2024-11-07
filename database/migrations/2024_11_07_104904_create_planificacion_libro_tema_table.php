@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAulaLibroTemaPivotTable extends Migration
+class CreatePlanificacionLibroTemaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class CreateAulaLibroTemaPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('aula_libro_tema_pivot', function (Blueprint $table) {
+        Schema::create('planificacion_libro_tema', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('libro_tema_id')->constrained('libro_temas')->onDelete('cascade');
+            $table->foreignId('planificacion_id')->constrained('planificacions')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ class CreateAulaLibroTemaPivotTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('aula_libro_tema_pivot');
+        Schema::dropIfExists('planificacion_libro_tema');
     }
 }

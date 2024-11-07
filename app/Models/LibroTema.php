@@ -19,7 +19,6 @@ class LibroTema extends Model
      * @var array
      */
     protected $fillable = [
-        'planificacion_id',
         'fecha',
         'contenido',
         'cantidad_alumnos',
@@ -62,5 +61,9 @@ class LibroTema extends Model
     public function modalidades()
     {
         return $this->belongsToMany(ModalidadClase::class, 'modalidad_libro_tema');
+    }
+    public function planificaciones()
+    {
+        return $this->belongsToMany(Planificacion::class, 'planificacion_libro_tema');
     }
 }

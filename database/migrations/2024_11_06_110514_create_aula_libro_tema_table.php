@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLibroTemasTable extends Migration
+class CreateAulaLibroTemaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateLibroTemasTable extends Migration
      */
     public function up()
     {
-        Schema::create('libro_temas', function (Blueprint $table) {
+        Schema::create('aula_libro_tema', function (Blueprint $table) {
             $table->id();
-            $table->date('fecha');
-            $table->text('contenido');
-            $table->integer('cantidad_alumnos');
-            $table->integer('duracion_minutos');
-            $table->integer('unidad');
-            $table->text('Observaciones');
+            $table->foreignId('libro_tema_id')->constrained('libro_temas')->onDelete('cascade');
+            $table->foreignId('aula_id')->constrained('aulas')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ class CreateLibroTemasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('libro_temas');
+        Schema::dropIfExists('aula_libro_tema');
     }
 }
