@@ -53,11 +53,13 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
             Card::make()
             ->schema([
                 DatePicker::make('fecha')
+                    ->label('Fecha de la clase')
                     ->displayFormat('d/m/Y')
                     ->default(Carbon::now()->toDateString()) // TODO: No esta funcionando, agregar por javascript.
                     ->reactive()
                     ->required(),
                 Select::make('planificacion_id')
+                    ->label('Materia dictada')
                     ->options(function (callable $get) {
                         $currentDate = $get('fecha');
                         if ($currentDate) {
@@ -81,13 +83,26 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->searchable()
                     ->required(),
                 Select::make('docentes')
+                    ->label('Docente/s que participan de la clase')
                     ->multiple()
                     ->searchable()
                     ->relationship('docentes', 'full_name')
                     ->preload()
                     ->searchable(),
-                TextInput::make('contenido')
-                    ->required(),
+                Select::make('modalidades')
+                    ->label('Modalidad')
+                    ->multiple()
+                    ->searchable()
+                    ->relationship('modalidades', 'nombre')
+                    ->preload()
+                    ->searchable(),
+                Select::make('caracteres')
+                    ->label('Carácter de la clase')
+                    ->multiple()
+                    ->searchable()
+                    ->relationship('caracteres', 'nombre')
+                    ->preload()
+                    ->searchable(),
                 TextInput::make('cantidad_alumnos')
                     ->numeric()
                     ->minValue(0)
@@ -95,6 +110,22 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                 TimePicker::make('duracion_minutos')
                     ->withoutSeconds()
                     ->minutesStep(30),
+                RichEditor::make('contenido')
+                    ->label('Contenidos a desarrollar o desarrollados en la clase')
+                    ->toolbarButtons([
+                        'blockquote',
+                        'bold',
+                        'bulletList',
+                        'italic',
+                        'link',
+                        'orderedList',
+                        'redo',
+                        'strike',
+                        'underline',
+                        'undo',
+                    ])
+                    ->columnSpanFull()
+                    ->required(),
             ])
             ->columns(2)
         ];
