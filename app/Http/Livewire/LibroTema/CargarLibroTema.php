@@ -19,6 +19,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Card;
+use Carbon\Carbon;
 
 
 
@@ -28,7 +29,7 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
 
     public LibroTema $libroTema;
 
-    public $periodo_lectivo_id;
+    public $anio_academico;
     public $planificacion_id;
     public $fecha;
     public $docentes;
@@ -51,35 +52,33 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
         return [
             Card::make()
             ->schema([
-                Select::make('periodo_lectivo_id')
-                    ->options(function () {
-                        $currentDate = now()->toDateString();
-                        return PeriodoLectivo::where('fecha_inicio_activo', '<=', $currentDate)
-                            ->where('fecha_fin_activo', '>=', $currentDate)
-                            ->get()
-                            ->mapWithKeys(function ($periodoLectivo) {
-                                $label = $periodoLectivo->anio_academico . ' - ' . $periodoLectivo->periodoAcademico->nombre;
-                                return [$periodoLectivo->id => $label];
-                            });
-                    })
+                DatePicker::make('fecha')
+                    ->displayFormat('d/m/Y')
+                    ->default(Carbon::now()->toDateString()) // TODO: No esta funcionando, agregar por javascript.
                     ->reactive()
-                    ->label('Periodo Lectivo')
                     ->required(),
                 Select::make('planificacion_id')
                     ->options(function (callable $get) {
-                        $periodo_lectivo_id = $get('periodo_lectivo_id');
-                        if ($periodo_lectivo_id) {
-                            return Planificacion::where('periodo_lectivo_id', $periodo_lectivo_id)
+                        $currentDate = $get('fecha');
+                        if ($currentDate) {
+                            $anio_academico = Carbon::parse($currentDate)->toDateString();
+                            if ($anio_academico) {
+                                return Planificacion::whereHas('periodoLectivo', function ($query) use ($anio_academico) {
+                                    $query->where('anio_academico', $anio_academico);
+                                })
                                 ->get()
                                 ->mapWithKeys(function ($planificacion) {
                                     $label = $planificacion->materiaPlanEstudio->carrera->codigo_siu . ' - ' . $planificacion->materiaPlanEstudio->materia->nombre;
                                     return [$planificacion->id => $label];
                                 });
+                            }
+                            return [];
                         }
                         return [];
                     })
                     ->reactive()
                     ->label('Materia')
+                    ->searchable()
                     ->required(),
                 Select::make('docentes')
                     ->multiple()
@@ -87,9 +86,6 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->relationship('docentes', 'full_name')
                     ->preload()
                     ->searchable(),
-                DatePicker::make('fecha')
-                    ->displayFormat('d/m/Y')
-                    ->required(),
                 TextInput::make('contenido')
                     ->required(),
                 TextInput::make('cantidad_alumnos')
