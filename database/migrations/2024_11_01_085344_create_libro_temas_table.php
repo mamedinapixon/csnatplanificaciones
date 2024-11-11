@@ -19,8 +19,8 @@ class CreateLibroTemasTable extends Migration
             $table->text('contenido');
             $table->integer('cantidad_alumnos');
             $table->integer('duracion_minutos');
-            $table->integer('unidad');
-            $table->text('observaciones');
+            $table->integer('unidad')->nullable();
+            $table->text('observaciones')->nullable();
             $table->timestamps();
         });
     }

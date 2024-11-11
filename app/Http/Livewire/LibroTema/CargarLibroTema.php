@@ -30,9 +30,15 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
     public LibroTema $libroTema;
 
     public $anio_academico;
-    public $planificacion_id;
+    public $planificaciones;
     public $fecha;
     public $docentes;
+    public $contenido;
+    public $modalidades;
+    public $caracteres;
+    public $cantidad_alumnos;
+    public $duracion_minutos;
+    public $observaciones;
 
     public function render()
     {
@@ -58,7 +64,7 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->default(Carbon::now()->toDateString()) // TODO: No esta funcionando, agregar por javascript.
                     ->reactive()
                     ->required(),
-                Select::make('planificacion_id')
+                Select::make('planificaciones')
                     ->label('Materia dictada')
                     ->options(function (callable $get) {
                         $currentDate = $get('fecha');
@@ -110,9 +116,21 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->numeric()
                     ->minValue(0)
                     ->required(),
-                TimePicker::make('duracion_minutos')
-                    ->withoutSeconds()
-                    ->minutesStep(30),
+                Select::make('duracion_minutos')
+                    ->options(function () {
+                        $options = [];
+                        for ($minutes = 30; $minutes <= 360; $minutes += 30) {
+                            $hours = floor($minutes / 60);
+                            $mins = $minutes % 60;
+                            $display = sprintf('%02d:%02d', $hours, $mins);
+                            $options[$minutes] = $display;
+                        }
+                        return $options;
+                    })
+                    ->searchable()
+                    ->preload()
+                    ->required()
+                    ->label('Duración de la clase'),
                 RichEditor::make('contenido')
                     ->label('Contenidos a desarrollar o desarrollados en la clase')
                     ->toolbarButtons([
@@ -143,8 +161,7 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                         'underline',
                         'undo',
                     ])
-                    ->columnSpanFull()
-                    ->required(),
+                    ->columnSpanFull(),
             ])
             ->columns(2)
         ];
@@ -157,6 +174,8 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
 
     public function submit(): void
     {
-        // ...
+        $libroTema = LibroTema::create($this->form->getState());
+        $libroTema->planificaciones()->sync($this->planificaciones);
+        $this->form->model($libroTema)->saveRelationships();
     }
 }

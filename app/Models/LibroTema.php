@@ -39,15 +39,17 @@ class LibroTema extends Model
         'unidad' => 'integer'
     ];
 
-    /**
-     * Relationship with Planificacion
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function planificacion()
+    public function rules()
     {
-        return $this->belongsTo(Planificacion::class, 'planificacion_id');
+        return [
+            'fecha' => 'required|date',
+            'contenido' => 'required|string',
+            'cantidad_alumnos' => 'required|integer|min:0',
+            'duracion_minutos' => 'required|integer|min:0',
+            'observaciones' => 'nullable|string'
+        ];
     }
+
 
     // Relación muchos a muchos con CaracterClase
     public function docentes()
