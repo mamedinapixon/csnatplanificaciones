@@ -5034,14 +5034,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 /* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_bootstrap__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var alpinejs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/module.esm.js");
-/* harmony import */ var _vendor_filament_forms_dist_module_esm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../vendor/filament/forms/dist/module.esm */ "./vendor/filament/forms/dist/module.esm.js");
-/* harmony import */ var _vendor_filament_notifications_dist_module_esm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../vendor/filament/notifications/dist/module.esm */ "./vendor/filament/notifications/dist/module.esm.js");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module '@alpinejs/focus'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _vendor_filament_forms_dist_module_esm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../vendor/filament/forms/dist/module.esm */ "./vendor/filament/forms/dist/module.esm.js");
+/* harmony import */ var _vendor_filament_notifications_dist_module_esm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../vendor/filament/notifications/dist/module.esm */ "./vendor/filament/notifications/dist/module.esm.js");
 
 
 
 
-alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].plugin(_vendor_filament_forms_dist_module_esm__WEBPACK_IMPORTED_MODULE_2__["default"]);
-alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].plugin(_vendor_filament_notifications_dist_module_esm__WEBPACK_IMPORTED_MODULE_3__["default"]);
+
+alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].plugin(Object(function webpackMissingModule() { var e = new Error("Cannot find module '@alpinejs/focus'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].plugin(_vendor_filament_forms_dist_module_esm__WEBPACK_IMPORTED_MODULE_3__["default"]);
+alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].plugin(_vendor_filament_notifications_dist_module_esm__WEBPACK_IMPORTED_MODULE_4__["default"]);
 window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"];
 alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].start();
 
