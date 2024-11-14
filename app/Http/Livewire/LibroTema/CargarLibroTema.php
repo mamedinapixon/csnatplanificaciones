@@ -76,7 +76,11 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                                 })
                                 ->get()
                                 ->mapWithKeys(function ($planificacion) {
-                                    $label = $planificacion->materiaPlanEstudio->carrera->codigo_siu . ' - ' . $planificacion->materiaPlanEstudio->materia->nombre;
+                                    if(empty($planificacion->electiva_nombre)) {
+                                        $label = $planificacion->materiaPlanEstudio->carrera->codigo_siu . ': ' . $planificacion->materiaPlanEstudio->materia->nombre;
+                                    } else {
+                                        $label = $planificacion->materiaPlanEstudio->carrera->codigo_siu . ': ' . $planificacion->electiva_nombre;
+                                    }
                                     return [$planificacion->id => $label];
                                 });
                             }
