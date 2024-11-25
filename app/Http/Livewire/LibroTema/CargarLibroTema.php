@@ -117,6 +117,7 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->preload()
                     ->searchable(),
                 TextInput::make('cantidad_alumnos')
+                    ->label('Cantidad aproximada de alumnos')
                     ->numeric()
                     ->minValue(0)
                     ->required(),
@@ -152,7 +153,7 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->columnSpanFull()
                     ->required(),
                 RichEditor::make('observaciones')
-                    ->label('Contenidos a desarrollar o desarrollados en la clase')
+                    ->label('Observaciones')
                     ->toolbarButtons([
                         'blockquote',
                         'bold',
