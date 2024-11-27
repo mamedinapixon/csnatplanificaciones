@@ -51,6 +51,9 @@ Route::middleware([
     Route::resource('/admin/docente', DocenteController::class);
 });
 
+Route::get('/admin/cargar-docentes', [DocenteController::class, 'mostrarFormulario'])->name('docentes.formulario');
+    Route::post('/admin/cargar-docentes', [DocenteController::class, 'cargarCSV'])->name('docentes.cargar-csv');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
