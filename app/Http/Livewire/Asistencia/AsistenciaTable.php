@@ -95,6 +95,7 @@ class AsistenciaTable extends DataTableComponent
                         ->select('asistencias.user_id','users.name')
                         ->distinct()
                         ->join('users','users.id','asistencias.user_id')
+                        ->orderBy('users.name')
                         ->get()
                         ->keyBy('user_id')
                         ->map(fn($asistencia) => $asistencia->name)

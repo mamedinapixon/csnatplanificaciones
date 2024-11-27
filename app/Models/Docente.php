@@ -17,7 +17,8 @@ class Docente extends Model
         'nombre',
         'tipo_documento_id',
         'nro_documento',
-        'email'
+        'email',
+        'activo',
     ];
 
     protected $guarded = ['id'];
@@ -28,7 +29,8 @@ class Docente extends Model
         'nombre' => 'string',
         'tipo_documento_id' => 'integer',
         'nro_documento' => 'string',
-        'email' => 'string'
+        'email' => 'string',
+        'activo' => 'boolean',
     ];
 
     /**
