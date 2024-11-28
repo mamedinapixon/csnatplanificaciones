@@ -20,7 +20,9 @@ class CaracterClaseSeeder extends Seeder
             'Laboratorio',
             'Evaluativa',
             'Taller',
-            'Otra'
+            'Trabajo de campo',
+            'Seminario',
+            'Otra',
         ];
 
         $now = Carbon::now();

@@ -22,7 +22,6 @@ class LibroTema extends Model
         'fecha',
         'contenido',
         'cantidad_alumnos',
-        'duracion_minutos',
         'unidad',
         'observaciones'
     ];

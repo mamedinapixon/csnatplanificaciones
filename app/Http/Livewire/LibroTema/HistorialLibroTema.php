@@ -61,7 +61,13 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
                     return $record->modalidades->pluck('nombre')->toArray();
                 })
                 ->separator(', '),
-                ];
+            Tables\Columns\TextColumn::make('contenido')
+                ->html(),
+            Tables\Columns\TextColumn::make('cantidad_alumnos')
+                ->label('Cantidad de alumnos'),
+            Tables\Columns\TextColumn::make('observaciones')
+                ->html(),
+        ];
     }
 
     protected function getTableFilters(): array

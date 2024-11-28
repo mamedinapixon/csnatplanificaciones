@@ -121,23 +121,8 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->numeric()
                     ->minValue(0)
                     ->required(),
-                Select::make('duracion_minutos')
-                    ->options(function () {
-                        $options = [];
-                        for ($minutes = 30; $minutes <= 360; $minutes += 30) {
-                            $hours = floor($minutes / 60);
-                            $mins = $minutes % 60;
-                            $display = sprintf('%02d:%02d', $hours, $mins);
-                            $options[$minutes] = $display;
-                        }
-                        return $options;
-                    })
-                    ->searchable()
-                    ->preload()
-                    ->required()
-                    ->label('Duración de la clase'),
                 RichEditor::make('contenido')
-                    ->label('Contenidos a desarrollar o desarrollados en la clase')
+                    ->label('Contenidos dictados')
                     ->toolbarButtons([
                         'blockquote',
                         'bold',
