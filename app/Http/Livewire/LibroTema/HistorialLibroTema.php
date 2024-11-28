@@ -25,6 +25,7 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
         return [
             Tables\Columns\TextColumn::make('fecha')
                 ->label('Fecha')
+                ->sortable()
                 ->date(),
             Tables\Columns\TagsColumn::make('planificaciones')
                 ->label('Materia/s')
@@ -50,13 +51,13 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
                     })
                     ->separator(', '),
             Tables\Columns\TagsColumn::make('caracteres')
-                ->label('Caracter de la clase')
+                ->label('Caracter')
                 ->getStateUsing(function ($record): array {
                     return $record->caracteres->pluck('nombre')->toArray();
                 })
                 ->separator(', '),
             Tables\Columns\TagsColumn::make('modalidades')
-                ->label('Modalidad de la clase')
+                ->label('Modalidad')
                 ->getStateUsing(function ($record): array {
                     return $record->modalidades->pluck('nombre')->toArray();
                 })
@@ -65,7 +66,8 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
                 ->html()
                 ->wrap(),
             Tables\Columns\TextColumn::make('cantidad_alumnos')
-                ->label('Cantidad de alumnos'),
+                ->label('Cant. alumnos')
+                ->sortable(),
             Tables\Columns\TextColumn::make('observaciones')
                 ->html()
                 ->wrap(),
