@@ -62,11 +62,13 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
                 })
                 ->separator(', '),
             Tables\Columns\TextColumn::make('contenido')
-                ->html(),
+                ->html()
+                ->wrap(),
             Tables\Columns\TextColumn::make('cantidad_alumnos')
                 ->label('Cantidad de alumnos'),
             Tables\Columns\TextColumn::make('observaciones')
-                ->html(),
+                ->html()
+                ->wrap(),
         ];
     }
 

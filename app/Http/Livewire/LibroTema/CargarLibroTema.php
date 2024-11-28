@@ -20,6 +20,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Card;
 use Carbon\Carbon;
+use Filament\Notifications\Notification;
 
 
 
@@ -47,10 +48,9 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
 
     public function mount(): void
     {
-        /*$this->form->fill([
-            'title' => $this->post->title,
-            'content' => $this->post->content,
-        ]);*/
+        $this->form->fill([
+            'fecha' => now(),
+        ]);
     }
 
     protected function getFormSchema(): array
@@ -61,7 +61,7 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                 DatePicker::make('fecha')
                     ->label('Fecha de la clase')
                     ->displayFormat('d/m/Y')
-                    ->default(Carbon::now()->toDateString()) // TODO: No esta funcionando, agregar por javascript.
+                    ->default(now()) // TODO: No esta funcionando, agregar por javascript.
                     ->reactive()
                     ->required(),
                 Select::make('planificaciones')
@@ -162,10 +162,19 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
         return LibroTema::class;
     }
 
-    public function submit(): void
+
+
+    public function submit()
     {
         $libroTema = LibroTema::create($this->form->getState());
         $libroTema->planificaciones()->sync($this->planificaciones);
         $this->form->model($libroTema)->saveRelationships();
+
+        Notification::make()
+            ->title('Libro de tema registrado correctamente')
+            ->success()
+            ->send();
+
+        return redirect()->route('librotema.historial');
     }
 }
