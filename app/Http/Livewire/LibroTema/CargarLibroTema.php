@@ -116,6 +116,13 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->relationship('caracteres', 'nombre')
                     ->preload()
                     ->searchable(),
+                Select::make('aulas')
+                    ->label('Aula')
+                    ->multiple()
+                    ->searchable()
+                    ->relationship('aulas', 'nombre')
+                    ->preload()
+                    ->searchable(),
                 TextInput::make('cantidad_alumnos')
                     ->label('Cantidad aproximada de alumnos')
                     ->numeric()

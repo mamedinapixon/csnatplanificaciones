@@ -17,7 +17,9 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
 
     protected function getTableQuery(): Builder
     {
-        return LibroTema::query()->with('planificaciones.materiaPlanEstudio', 'caracteres', 'modalidades')->orderBy('id','desc');
+        return LibroTema::query()
+            ->with('planificaciones.materiaPlanEstudio', 'caracteres', 'modalidades')
+            ->orderBy('id','desc');
     }
 
     protected function getTableColumns(): array
@@ -65,6 +67,12 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('contenido')
                 ->html()
                 ->wrap(),
+            Tables\Columns\TagsColumn::make('aulas')
+                ->label('Aula')
+                ->getStateUsing(function ($record): array {
+                    return $record->aulas->pluck('nombre')->toArray();
+                })
+                ->separator(', '),
             Tables\Columns\TextColumn::make('cantidad_alumnos')
                 ->label('Cant. alumnos')
                 ->sortable(),

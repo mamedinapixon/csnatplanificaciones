@@ -67,4 +67,8 @@ class LibroTema extends Model
     {
         return $this->belongsToMany(Planificacion::class, 'planificacion_libro_tema');
     }
+    public function aulas()
+    {
+        return $this->belongsToMany(Aula::class, 'aula_libro_tema');
+    }
 }
