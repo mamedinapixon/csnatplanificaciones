@@ -7,7 +7,8 @@
                     </ul>
                 </div>
             @endif
-            <x-pixonui.heading.h1>Libro de tema
+            <x-pixonui.heading.h1>
+                Libro de tema
                 <x-slot name="action">
                     <a  href="{{ route('librotema.cargar') }}"  class="btn btn-primary">
                         Cargar libro de tema
@@ -23,11 +24,6 @@
 
             {{ $this->table }}
 
-            <div class="text-end">
-                <a  href="{{ route('librotema.cargar') }}"  class="btn btn-primary">
-                    Cargar libro de tema
-                </a>
-            </div>
         </div>
     </div>
 

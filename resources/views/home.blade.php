@@ -50,7 +50,7 @@
                         <p></p>
                         <p></p>
                         <div class="justify-end card-actions">
-                            <a href="{{ route('librotema.historial') }}" class="btn btn-primary">Ingresar</a>
+                            <a href="{{ route('librotema.cargar') }}" class="btn btn-primary">Ingresar</a>
                         </div>
                     </div>
                 </div>
