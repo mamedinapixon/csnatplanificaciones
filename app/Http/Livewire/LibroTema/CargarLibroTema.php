@@ -98,7 +98,7 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->label('Docente/s que participan de la clase')
                     ->multiple()
                     ->searchable()
-                    ->relationship('docentes', 'full_name')
+                    ->relationship('docentes', 'full_name', fn (Builder $query) => $query->where('activo', 1))
                     ->preload()
                     ->columnSpanFull()
                     ->searchable(),
