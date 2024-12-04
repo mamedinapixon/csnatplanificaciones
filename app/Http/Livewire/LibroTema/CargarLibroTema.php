@@ -69,18 +69,25 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->options(function (callable $get) {
                         $currentDate = $get('fecha');
                         if ($currentDate) {
-                            $anio_academico = Carbon::parse($currentDate)->toDateString();
+                            $anio_academico = Carbon::parse($currentDate)->year;
                             if ($anio_academico) {
                                 return Planificacion::whereHas('periodoLectivo', function ($query) use ($anio_academico) {
                                     $query->where('anio_academico', $anio_academico);
                                 })
+                                ->with(['materiaPlanEstudio.carrera', 'materiaPlanEstudio.materia'])
                                 ->get()
+                                ->sortBy([
+                                    ['materiaPlanEstudio.carrera.codigo_siu', 'asc'],
+                                    ['materiaPlanEstudio.materia.nombre', 'asc'],
+                                ])
                                 ->mapWithKeys(function ($planificacion) {
+                                    $carrera = $planificacion->materiaPlanEstudio->carrera->codigo_siu;
                                     if(empty($planificacion->electiva_nombre)) {
-                                        $label = $planificacion->materiaPlanEstudio->carrera->codigo_siu . ': ' . $planificacion->materiaPlanEstudio->materia->nombre;
+                                        $materia = $planificacion->materiaPlanEstudio->materia->nombre;
                                     } else {
-                                        $label = $planificacion->materiaPlanEstudio->carrera->codigo_siu . ': ' . $planificacion->electiva_nombre;
+                                        $materia = $planificacion->electiva_nombre;
                                     }
+                                    $label = $carrera . ': ' . $materia;
                                     return [$planificacion->id => $label];
                                 });
                             }
@@ -98,7 +105,7 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->label('Docente/s que participan de la clase')
                     ->multiple()
                     ->searchable()
-                    ->relationship('docentes', 'full_name', fn (Builder $query) => $query->where('activo', 1))
+                    ->relationship('docentes', 'full_name', fn (Builder $query) => $query->where('activo', 1)->orderBy('full_name'))
                     ->preload()
                     ->columnSpanFull()
                     ->searchable(),
