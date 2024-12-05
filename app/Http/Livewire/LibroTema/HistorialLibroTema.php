@@ -10,6 +10,7 @@ use App\Models\LibroTema;
 use Filament\Forms;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Support\Facades\DB;
+use Filament\Tables\Filters\Layout;
 
 class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
 {
@@ -164,28 +165,28 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
                         );
                 }),
 
-        Filter::make('docente')
-            ->form([
-                Forms\Components\Select::make('docente_id')
-                    ->label('Docente')
-                    ->options(function () {
-                        return DB::table('docente_libro_tema')
-                            ->join('docentes', 'docentes.id', '=', 'docente_libro_tema.docente_id')
-                            ->select('docentes.id', DB::raw("CONCAT(docentes.apellido, ', ', docentes.nombre) as nombre_completo"))
-                            ->distinct()
-                            ->get()
-                            ->pluck('nombre_completo', 'id');
-                    })
-                    ->multiple()
-                    ->searchable()
-            ])
-            ->query(function (Builder $query, array $data): Builder {
-                return $query->when(
-                    $data['docente_id'],
-                    fn (Builder $query, $docenteId): Builder => $query->whereHas('docentes', function ($query) use ($docenteId) {
-                        $query->whereIn('docentes.id', $docenteId);
-                    })
-                );
+            Filter::make('docente')
+                ->form([
+                    Forms\Components\Select::make('docente_id')
+                        ->label('Docente')
+                        ->options(function () {
+                            return DB::table('docente_libro_tema')
+                                ->join('docentes', 'docentes.id', '=', 'docente_libro_tema.docente_id')
+                                ->select('docentes.id', DB::raw("CONCAT(docentes.apellido, ', ', docentes.nombre) as nombre_completo"))
+                                ->distinct()
+                                ->get()
+                                ->pluck('nombre_completo', 'id');
+                        })
+                        ->multiple()
+                        ->searchable()
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query->when(
+                        $data['docente_id'],
+                        fn (Builder $query, $docenteId): Builder => $query->whereHas('docentes', function ($query) use ($docenteId) {
+                            $query->whereIn('docentes.id', $docenteId);
+                        })
+                    );
             }),
 
             Filter::make('caracter')
@@ -235,8 +236,19 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
                         })
                     );
                 }),
-    ];
-}
+        ];
+    }
+
+    protected function getTableFiltersLayout(): ?string
+    {
+        return Layout::AboveContent;
+    }
+
+    protected function shouldPersistTableFiltersInSession(): bool
+    {
+        return true;
+    }
+
     public function render(): view
     {
         return view('livewire.libro-tema.historial-libro-tema');
