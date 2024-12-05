@@ -66,39 +66,54 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->required(),
                 Select::make('planificaciones')
                     ->label('Materia dictada')
-                    ->options(function (callable $get) {
+                    ->relationship('planificaciones', 'id', function (Builder $query, callable $get) {
                         $currentDate = $get('fecha');
                         if ($currentDate) {
                             $anio_academico = Carbon::parse($currentDate)->year;
-                            if ($anio_academico) {
-                                return Planificacion::whereHas('periodoLectivo', function ($query) use ($anio_academico) {
-                                    $query->where('anio_academico', $anio_academico);
-                                })
-                                ->with(['materiaPlanEstudio.carrera', 'materiaPlanEstudio.materia'])
-                                ->get()
-                                ->sortBy([
-                                    ['materiaPlanEstudio.carrera.codigo_siu', 'asc'],
-                                    ['materiaPlanEstudio.materia.nombre', 'asc'],
-                                ])
-                                ->mapWithKeys(function ($planificacion) {
-                                    $carrera = $planificacion->materiaPlanEstudio->carrera->codigo_siu;
-                                    if(empty($planificacion->electiva_nombre)) {
-                                        $materia = $planificacion->materiaPlanEstudio->materia->nombre;
-                                    } else {
-                                        $materia = $planificacion->electiva_nombre;
-                                    }
-                                    $label = $carrera . ': ' . $materia;
-                                    return [$planificacion->id => $label];
-                                });
-                            }
-                            return [];
+                            return $query->whereHas('periodoLectivo', function ($query) use ($anio_academico) {
+                                                    $query->where('anio_academico', $anio_academico);
+                                                })
+                            ->with(['materiaPlanEstudio.carrera', 'materiaPlanEstudio.materia']);
                         }
-                        return [];
+                        return $query->whereRaw('1 = 0'); // Return an empty query if no date is selected
+                        dd($query);
                     })
-                    ->reactive()
-                    ->label('Materia')
+                    ->getOptionLabelFromRecordUsing(fn (Model $record): string => "{$record->materiaPlanEstudio->carrera->codigo_siu}: {$record->materiaPlanEstudio->materia->nombre}")
+                    ->getSearchResultsUsing(function (string $search, callable $get) {
+                        $currentDate = $get('fecha');
+                        $query = Planificacion::query();
+                        if ($currentDate) {
+                            $anio_academico = Carbon::parse($currentDate)->year;
+                            $query->whereHas('periodoLectivo', function ($query) use ($anio_academico) {
+                                                    $query->where('anio_academico', $anio_academico);
+                                                })
+                            ->with(['materiaPlanEstudio.carrera', 'materiaPlanEstudio.materia']);
+                        }
+                        $results = $query
+                            ->where(function ($query) use ($search) {
+                                $query->whereHas('materiaPlanEstudio.carrera', function ($query) use ($search) {
+                                    $query->where('codigo_siu', 'like', "%{$search}%");
+                            })
+                                ->orWhereHas('materiaPlanEstudio.materia', function ($query) use ($search) {
+                                    $query->where('nombre', 'like', "%{$search}%");
+                                })
+                                ->orWhere('electiva_nombre', 'like', "%{$search}%");
+                            })
+                            ->get()
+                            ->mapWithKeys(function ($record) {
+                                $carrera = $record->materiaPlanEstudio->carrera->codigo_siu;
+                                $materia = empty($record->electiva_nombre)
+                                    ? $record->materiaPlanEstudio->materia->nombre
+                                    : $record->electiva_nombre;
+                                $label = $carrera . ': ' . $materia;
+                                return [$record->id => $label];
+                            })
+                            ->toArray();
+                        return $results;
+                    })
                     ->searchable()
                     ->multiple()
+                    //->preload()
                     ->columnSpanFull()
                     ->required(),
                 Select::make('docentes')
@@ -106,7 +121,7 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                     ->multiple()
                     ->searchable()
                     ->relationship('docentes', 'full_name', fn (Builder $query) => $query->where('activo', 1)->orderBy('full_name'))
-                    ->preload()
+                    ->preload(false)
                     ->columnSpanFull()
                     ->searchable(),
                 Select::make('modalidades')
