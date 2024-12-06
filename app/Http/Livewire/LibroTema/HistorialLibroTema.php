@@ -20,7 +20,7 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
     {
         return LibroTema::query()
             ->with('planificaciones.materiaPlanEstudio', 'caracteres', 'modalidades')
-            ->orderBy('id','desc');
+            ->orderBy('fecha','desc');
     }
 
     protected function getTableColumns(): array
