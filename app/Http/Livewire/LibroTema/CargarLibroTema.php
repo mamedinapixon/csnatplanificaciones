@@ -204,6 +204,6 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
             ->success()
             ->send();
 
-        return redirect()->route('librotema.historial');
+        return redirect()->route('home');
     }
 }
