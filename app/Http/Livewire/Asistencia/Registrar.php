@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Ubicacion;
 use App\Models\Asistencia;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class Registrar extends Component
 {
@@ -66,13 +69,24 @@ class Registrar extends Component
         $fecha_at = Carbon::now()->startOfDay();
         $ingreso_at = Carbon::now();
 
+        // Obtener la dirección IP del cliente
+        $ip = request()->ip();
+
+        // Obtener información de geolocalización
+        $geoInfo = $this->obtenerInformacionIP($ip);
+
         $this->asistencia = Asistencia::create([
-            'fecha_at'=>$fecha_at,
-            'ingreso_at'=>$ingreso_at,
-            'ubicacion_id'=>$this->ubicacion_id,
-            'otra_ubicacion'=>$this->otra_ubicacion,
-            'observacion'=>$this->motivo,
-            'user_id'=>Auth::id()
+            'fecha_at' => $fecha_at,
+            'ingreso_at' => $ingreso_at,
+            'ubicacion_id' => $this->ubicacion_id,
+            'otra_ubicacion' => $this->otra_ubicacion,
+            'observacion' => $this->motivo,
+            'user_id' => Auth::id(),
+            'ip_address' => $ip,
+            'pais' => $geoInfo['pais'] ?? null,
+            'ciudad' => $geoInfo['ciudad'] ?? null,
+            'latitud' => $geoInfo['latitud'] ?? null,
+            'longitud' => $geoInfo['longitud'] ?? null
         ]);
 
         $this->reset('otra_ubicacion','motivo');
@@ -84,6 +98,44 @@ class Registrar extends Component
         ], 'home');
 
         return redirect()->route('asistencia.historial');
+    }
+
+    // Método para obtener información de geolocalización
+    protected function obtenerInformacionIP($ip)
+    {
+        // Definir un tiempo de caché (30 días)
+        $cacheDuration = now()->addDays(1);
+
+        // Intentar obtener la información de caché primero
+        return Cache::remember("ip_info_{$ip}", $cacheDuration, function () use ($ip) {
+            try {
+                // Realizar la llamada a la API solo si no está en caché
+                $response = Http::timeout(5)->get("http://ip-api.com/json/{$ip}");
+
+                if ($response->successful()) {
+                    $data = $response->json();
+
+                    // Verificar si la respuesta es válida
+                    if ($data['status'] === 'success') {
+                        return [
+                            'pais' => $data['country'] ?? null,
+                            'ciudad' => $data['city'] ?? null,
+                            'region' => $data['regionName'] ?? null,
+                            'latitud' => $data['lat'] ?? null,
+                            'longitud' => $data['lon'] ?? null,
+                            'proveedor_internet' => $data['isp'] ?? null,
+                            'zona_horaria' => $data['timezone'] ?? null
+                        ];
+                    }
+                }
+            } catch (\Exception $e) {
+                // Registrar el error sin interrumpir el flujo
+                Log::error('Error al obtener información de IP: ' . $e->getMessage());
+            }
+
+            // Retornar un array vacío si falla
+            return [];
+        });
     }
 
     public function registrarSalida()

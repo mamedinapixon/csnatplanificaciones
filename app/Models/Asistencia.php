@@ -19,6 +19,11 @@ class Asistencia extends Model
         'ubicacion_id',
         'otra_ubicacion',
         'observacion',
+        'ip_address',
+        'pais',
+        'ciudad',
+        'latitud',
+        'longitud',
     ];
 
     protected $guarded = ['id'];
