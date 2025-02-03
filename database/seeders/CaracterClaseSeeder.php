@@ -22,6 +22,7 @@ class CaracterClaseSeeder extends Seeder
             'Taller',
             'Trabajo de campo',
             'Seminario',
+            'Consulta',
             'Otra',
         ];
 
