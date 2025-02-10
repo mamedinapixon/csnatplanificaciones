@@ -38,3 +38,4 @@
     <li><a href="{{ route('planificacion.index') }}">Mis Planificaciones</a></li>
 @endcan
 <li><a href="{{ route('asistencia.index') }}">Asistencia</a></li>
+<li><a href="{{ route('librotema.cargar') }}">Libor de Tema</a></li>

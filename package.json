@@ -21,6 +21,7 @@
         "tailwindcss": "^3.1.0"
     },
     "dependencies": {
+        "@alpinejs/focus": "^3.14.3",
         "@material-tailwind/html": "^1.2.1",
         "daisyui": "^2.22.0"
     }

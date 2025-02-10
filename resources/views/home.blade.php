@@ -43,6 +43,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="shadow-xl card w-96 bg-base-100">
+                    <figure><img src="{{asset('img/librotema.jpg')}}" alt="libro de tema" class="object-cover h-48 w-96" /></figure>
+                    <div class="card-body">
+                        <h2 class="card-title">Libro de tema</h2>
+                        <p></p>
+                        <p></p>
+                        <div class="justify-end card-actions">
+                            <a href="{{ route('librotema.cargar') }}" class="btn btn-primary">Ingresar</a>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
     </div>

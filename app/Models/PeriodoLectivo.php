@@ -52,7 +52,7 @@ class PeriodoLectivo extends Model
 
     public function getFullPeriodoLectivoAttribute()
     {
-        return "{$this->anio_academico} {$this->periodo_academico_id}";
+        return "{$this->anio_academico} {$this->periodoAcademico->nombre}";
     }
 
 

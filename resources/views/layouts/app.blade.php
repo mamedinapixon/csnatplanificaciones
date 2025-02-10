@@ -14,7 +14,6 @@
         <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
-
         @livewireStyles
 
         <!-- Scripts -->
@@ -115,6 +114,6 @@
 
         <script src="https://kit.fontawesome.com/398c06bb36.js" crossorigin="anonymous"></script>
 
-
+        @livewire('notifications')
     </body>
 </html>

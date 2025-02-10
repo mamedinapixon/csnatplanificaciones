@@ -17,6 +17,8 @@ use App\Http\Controllers\AsistenciaController;
 //use App\Http\Controllers\ModalidadController;
 //use App\Http\Controllers\PeriodoAcademicoController;
 //use App\Http\Controllers\TipoAsignaturaController;
+use App\Http\Livewire\LibroTema\CargarLibroTema;
+use App\Http\Livewire\LibroTema\HistorialLibroTema;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +42,8 @@ Route::middleware([
     //Route::resource('/asistencia', AsistenciaController::class);
     Route::get('/asistencia', [AsistenciaController::class, 'index'])->name('asistencia.index');
     Route::get('/asistencia/historial', [AsistenciaController::class, 'historial'])->name('asistencia.historial');
+    Route::get('/librotema', HistorialLibroTema::class)->name('librotema.historial');
+    Route::get('/librotema/cargar', CargarLibroTema::class)->name('librotema.cargar');
 });
 
 Route::middleware([
