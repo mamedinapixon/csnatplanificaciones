@@ -61,7 +61,6 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                 DatePicker::make('fecha')
                     ->label('Fecha de la clase')
                     ->displayFormat('d/m/Y')
-                    ->default(now()) // TODO: No esta funcionando, agregar por javascript.
                     ->reactive()
                     ->required(),
                 Select::make('planificaciones')
@@ -71,12 +70,13 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                         if ($currentDate) {
                             $anio_academico = Carbon::parse($currentDate)->year;
                             return $query->whereHas('periodoLectivo', function ($query) use ($anio_academico) {
-                                                    $query->where('anio_academico', $anio_academico);
+                                                    $query->whereIn('anio_academico', [$anio_academico-1, $anio_academico]);
                                                 })
-                            ->with(['materiaPlanEstudio.carrera', 'materiaPlanEstudio.materia']);
+                                                ->distinct()
+                                                ->with(['materiaPlanEstudio.carrera', 'materiaPlanEstudio.materia']);
                         }
                         return $query->whereRaw('1 = 0'); // Return an empty query if no date is selected
-                        dd($query);
+                        //dd($query);
                     })
                     ->getOptionLabelFromRecordUsing(fn (Model $record): string => "{$record->materiaPlanEstudio->carrera->codigo_siu}: {$record->materiaPlanEstudio->materia->nombre}")
                     ->getSearchResultsUsing(function (string $search, callable $get) {
@@ -85,9 +85,10 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
                         if ($currentDate) {
                             $anio_academico = Carbon::parse($currentDate)->year;
                             $query->whereHas('periodoLectivo', function ($query) use ($anio_academico) {
-                                                    $query->where('anio_academico', $anio_academico);
-                                                })
-                            ->with(['materiaPlanEstudio.carrera', 'materiaPlanEstudio.materia']);
+                                    $query->whereIn('anio_academico', [$anio_academico-1, $anio_academico]);
+                                })
+                                ->distinct()
+                                ->with(['materiaPlanEstudio.carrera', 'materiaPlanEstudio.materia']);
                         }
                         $results = $query
                             ->where(function ($query) use ($search) {
