@@ -18,6 +18,8 @@ use App\Models\DocentePlanificacion;
 use Livewire\WithFileUploads;
 use Mail;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Http;
 
 class Edit extends Component
 {
@@ -172,6 +174,25 @@ class Edit extends Component
         ]);
         $this->form["estado_id"] = 2;
 
+        // Capturar el contenido de la URL
+        $url = url("/planificacion/{$this->planificacion->id}");
+        $response = Http::get($url);
+        $content = $response->body();
+
+        // Generar PDF
+        $pdf = PDF::loadHTML($content);
+
+        // Configurar opciones del PDF si es necesario
+        $pdf->setPaper('a4', 'portrait');
+
+        // Guardar el PDF temporalmente
+        $tempPdfPath = storage_path('app/public/temp/');
+        if (!file_exists($tempPdfPath)) {
+            mkdir($tempPdfPath, 0755, true);
+        }
+        $pdfFileName = 'planificacion_'.$this->planificacion_id.'_'.time().'.pdf';
+        $pdfPath = $tempPdfPath . $pdfFileName;
+        $pdf->save($pdfPath);
 
 
         //Notificar por mail
@@ -181,10 +202,10 @@ class Edit extends Component
             ->queue(new MailNotificarPresentado($this->planificacion));*/
 
         Mail::to([env("MAIL_NOTIFICAR")])
-            ->queue(new MailNotificarPresentado($this->planificacion));
+            ->queue(new MailNotificarPresentado($this->planificacion, $pdfPath));
 
         Mail::to(Auth::user())
-            ->queue(new MailNotificarPresentado($this->planificacion));
+            ->queue(new MailNotificarPresentado($this->planificacion, $pdfPath));
 
 
 

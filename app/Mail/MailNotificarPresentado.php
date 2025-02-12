@@ -13,6 +13,7 @@ use Carbon\Carbon;
 class MailNotificarPresentado extends Mailable
 {
     use Queueable, SerializesModels;
+
     public  $planificacion,
             $asigantura,
             $carrera,
@@ -20,14 +21,15 @@ class MailNotificarPresentado extends Mailable
             $user,
             $fechapresentado;
 
+    protected $pdfPath;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Planificacion $planificacion)
+    public function __construct(Planificacion $planificacion, $pdfPath = null)
     {
-        //
         $this->planificacion = $planificacion;
         $this->asigantura = $planificacion->materiaPlanEstudio->anio_curdada."º año - ".$planificacion->materiaPlanEstudio->materia->nombre;
         $this->carrera = $planificacion->materiaPlanEstudio->carrera->codigo_siu;
@@ -35,6 +37,7 @@ class MailNotificarPresentado extends Mailable
         $date = Carbon::now()->locale('es');
         $this->fechapresentado = $date->toFormattedDateString();
         $this->user = Auth::user();
+        $this->pdfPath = $pdfPath;
     }
 
     /**
@@ -44,6 +47,16 @@ class MailNotificarPresentado extends Mailable
      */
     public function build()
     {
-        return $this->subject("Planificación Presentada")->view('mail.notificacion.presentado');
+        $mail = $this->subject("Planificación Presentada")
+                     ->view('mail.notificacion.presentado');
+
+        if ($this->pdfPath && file_exists($this->pdfPath)) {
+            $mail->attach($this->pdfPath, [
+                'as' => "planificacion_{$this->planificacion->id}.pdf",
+                'mime' => 'application/pdf',
+            ]);
+        }
+
+        return $mail;
     }
 }
