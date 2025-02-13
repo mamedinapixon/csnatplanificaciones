@@ -33,12 +33,12 @@ class Docente extends Model
         'activo' => 'boolean',
     ];
 
-    protected $appends = ['full_name'];
+    /*protected $appends = ['full_name'];
 
     public function getFullNameAttribute()
     {
         return "{$this->nombre} {$this->apellido}";
-    }
+    }*/
     /**
      * Get all of the planificaciones for the Docente
      *
