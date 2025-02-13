@@ -6,7 +6,7 @@
             <div>
                 <x-pixonui.form.label>Docente a cargo</x-pixonui.form.label>
                 <div class="flex items-center space-x-2">
-                    <x-pixonui.form.select  wire:model="form.docente_id" :items="$docentes" value="id" caption="FullName"></x-pixonui.form.select>
+                    <x-pixonui.form.select  wire:model="form.docente_id" :items="$docentes" value="id" caption="full_name"></x-pixonui.form.select>
                     <x-pixonui.wire.loading.spinner wire:target="form.docente_id"></x-pixonui.wire.loading.spinner>
                 </div>
                 <x-pixonui.form.error for="form.docente_id"></x-pixonui.form.error>
