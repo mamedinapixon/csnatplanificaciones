@@ -8,7 +8,7 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Styles -->
-        <link type="text/css" rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
 
         <!-- Fonts -->
         <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css" rel="stylesheet" type="text/css" />
@@ -90,7 +90,7 @@
 
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ mix('js/app.js') }}"></script>
         @stack('scripts')
         <script>
             function aletWarning(title, text, confirmButtonText, cancelButtonText, callback)

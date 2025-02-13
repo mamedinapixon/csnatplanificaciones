@@ -25,7 +25,7 @@
 
                     <div class="form-control w-full justify-end">
                         <button type="submit" class="btn btn-primary mt-2 max-w-xs">
-                            Enviar
+                            Registrar
                         </button>
                     </div>
                 </form>
