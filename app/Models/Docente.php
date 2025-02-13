@@ -33,6 +33,12 @@ class Docente extends Model
         'activo' => 'boolean',
     ];
 
+    protected $appends = ['full_name'];
+
+    public function getFullNameAttribute()
+    {
+        return "{$this->nombre} {$this->apellido}";
+    }
     /**
      * Get all of the planificaciones for the Docente
      *
@@ -42,10 +48,9 @@ class Docente extends Model
     {
         return $this->hasMany(Planificacion::class);
     }
+
     public function planificacionesParticipa()
     {
         return $this->belongsToMany(Planificacion::class, 'docente_planificacions')->withPivot('cargo_id');
     }
-
-
 }
