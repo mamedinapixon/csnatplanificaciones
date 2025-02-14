@@ -174,6 +174,7 @@ class Edit extends Component
         ]);
         $this->form["estado_id"] = 2;
 
+        /*
         // Capturar el contenido de la URL
         $url = url("/planificacion/{$this->planificacion->id}");
         $response = Http::get($url);
@@ -193,6 +194,7 @@ class Edit extends Component
         $pdfFileName = 'planificacion_'.$this->planificacion_id.'_'.time().'.pdf';
         $pdfPath = $tempPdfPath . $pdfFileName;
         $pdf->save($pdfPath);
+        */
 
 
         //Notificar por mail
@@ -201,11 +203,16 @@ class Edit extends Component
         /*Mail::to($gestores)
             ->queue(new MailNotificarPresentado($this->planificacion));*/
 
-        Mail::to([env("MAIL_NOTIFICAR")])
+        /*Mail::to([env("MAIL_NOTIFICAR")])
             ->queue(new MailNotificarPresentado($this->planificacion, $pdfPath));
+        Mail::to(Auth::user())
+            ->queue(new MailNotificarPresentado($this->planificacion, $pdfPath));*/
+
+        Mail::to([env("MAIL_NOTIFICAR")])
+            ->queue(new MailNotificarPresentado($this->planificacion));
 
         Mail::to(Auth::user())
-            ->queue(new MailNotificarPresentado($this->planificacion, $pdfPath));
+            ->queue(new MailNotificarPresentado($this->planificacion));
 
 
 
