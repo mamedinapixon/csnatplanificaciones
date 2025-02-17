@@ -110,7 +110,15 @@ Route::get('planificacion/{planificacion}/pdf', function (App\Models\Planificaci
         $salidas = Salida::where("planificacion_id", $planificacion->id)->get();
 
         // Cargar la vista con todas las variables
-        $pdf = PDF::loadView('planificacion.show', compact(
+        /*$pdf = PDF::loadView('planificacion.show', compact(
+            'planificacion',
+            'asigantura',
+            'carrera',
+            'periodo_lectivo',
+            'docentesPartipan',
+            'salidas'
+        ));*/
+        $pdf = PDF::loadView('planificacion.test', compact(
             'planificacion',
             'asigantura',
             'carrera',
