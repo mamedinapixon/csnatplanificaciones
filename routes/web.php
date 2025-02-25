@@ -20,10 +20,7 @@ use App\Http\Controllers\AsistenciaController;
 use App\Http\Livewire\LibroTema\CargarLibroTema;
 use App\Http\Livewire\LibroTema\HistorialLibroTema;
 use Illuminate\Support\Facades\Http;
-use App\Models\DocentePlanificacion;
-use App\Models\Salida;
-use App\Models\Planificacion;
-use Barryvdh\DomPDF\Facade\Pdf;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +32,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -61,7 +59,7 @@ Route::middleware([
 });
 
 Route::get('/admin/cargar-docentes', [DocenteController::class, 'mostrarFormulario'])->name('docentes.formulario');
-    Route::post('/admin/cargar-docentes', [DocenteController::class, 'cargarCSV'])->name('docentes.cargar-csv');
+Route::post('/admin/cargar-docentes', [DocenteController::class, 'cargarCSV'])->name('docentes.cargar-csv');
 
 Route::middleware([
     'auth:sanctum',
@@ -84,60 +82,6 @@ Route::middleware([
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-Route::get('planificacion/{planificacion}/pdf', function (App\Models\Planificacion $planificacion) {
-    try {
-        // Cargar la planificación con todas las relaciones necesarias
-        $planificacion = Planificacion::with([
-            'materiaPlanEstudio.materia',
-            'materiaPlanEstudio.carrera',
-            'docenteCargo',
-            'cargo',
-            'dedicacion',
-            'situacion',
-            'periodoLectivo',
-            'periodoLectivo.periodoAcademico',
-            'modalidadParcial',
-            'estado'
-        ])->where("id", $planificacion->id)->first();
-
-        // Preparar las variables necesarias
-        $asigantura = $planificacion->materiaPlanEstudio->anio_curdada."º año - ".$planificacion->materiaPlanEstudio->materia->nombre;
-        $carrera = $planificacion->materiaPlanEstudio->carrera->codigo_siu;
-        $periodo_lectivo = $planificacion->periodoLectivo->periodoAcademico->nombre." ".$planificacion->periodoLectivo->anio_academico;
-        $docentesPartipan = DocentePlanificacion::with("docente", "cargo", "dedicacion")
-            ->where("planificacion_id", $planificacion->id)
-            ->get();
-        $salidas = Salida::where("planificacion_id", $planificacion->id)->get();
-
-        // Cargar la vista con todas las variables
-        /*$pdf = PDF::loadView('planificacion.show', compact(
-            'planificacion',
-            'asigantura',
-            'carrera',
-            'periodo_lectivo',
-            'docentesPartipan',
-            'salidas'
-        ));*/
-        $pdf = PDF::loadView('planificacion.test', compact(
-            'planificacion',
-            'asigantura',
-            'carrera',
-            'periodo_lectivo',
-            'docentesPartipan',
-            'salidas'
-        ));
-
-        $pdf->setPaper('a4', 'portrait');
-        return $pdf->stream("planificacion_{$planificacion->id}.pdf");
-
-    } catch (\Exception $e) {
-        \Log::error("Error generando PDF: " . $e->getMessage());
-        \Log::error($e->getTraceAsString());
-
-        if (config('app.debug')) {
-            throw $e;
-        }
-
-        abort(500, 'Error generando el PDF');
-    }
-})->middleware('auth')->name('planificacion.pdf');
+Route::get('planificacion/{planificacion}/pdf', [App\Http\Controllers\PlanificacionController::class, 'generarPdf'])
+    ->middleware('auth')
+    ->name('planificacion.pdf');

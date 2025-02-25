@@ -15,29 +15,31 @@ class MailNotificarPresentado extends Mailable
     use Queueable, SerializesModels;
 
     public  $planificacion,
-            $asigantura,
-            $carrera,
-            $periodo_lectivo,
-            $user,
-            $fechapresentado;
+        $asigantura,
+        $carrera,
+        $periodo_lectivo,
+        $user,
+        $fechapresentado;
 
     protected $pdfPath;
+    protected $programaPath;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Planificacion $planificacion, $pdfPath = null)
+    public function __construct(Planificacion $planificacion, $pdfPath = null, $programaPath = null)
     {
         $this->planificacion = $planificacion;
-        $this->asigantura = $planificacion->materiaPlanEstudio->anio_curdada."º año - ".$planificacion->materiaPlanEstudio->materia->nombre;
+        $this->asigantura = $planificacion->materiaPlanEstudio->anio_curdada . "º año - " . $planificacion->materiaPlanEstudio->materia->nombre;
         $this->carrera = $planificacion->materiaPlanEstudio->carrera->codigo_siu;
-        $this->periodo_lectivo = $planificacion->periodoLectivo->periodoAcademico->nombre." ".$planificacion->periodoLectivo->anio_academico;
+        $this->periodo_lectivo = $planificacion->periodoLectivo->periodoAcademico->nombre . " " . $planificacion->periodoLectivo->anio_academico;
         $date = Carbon::now()->locale('es');
         $this->fechapresentado = $date->toFormattedDateString();
         $this->user = Auth::user();
         $this->pdfPath = $pdfPath;
+        $this->programaPath = $programaPath;
     }
 
     /**
@@ -48,11 +50,20 @@ class MailNotificarPresentado extends Mailable
     public function build()
     {
         $mail = $this->subject("Planificación Presentada")
-                     ->view('mail.notificacion.presentado');
+            ->view('mail.notificacion.presentado');
 
+        // Adjuntar el PDF generado si existe
         if ($this->pdfPath && file_exists($this->pdfPath)) {
             $mail->attach($this->pdfPath, [
                 'as' => "planificacion_{$this->planificacion->id}.pdf",
+                'mime' => 'application/pdf',
+            ]);
+        }
+
+        // Adjuntar el programa si existe
+        if ($this->programaPath && file_exists($this->programaPath)) {
+            $mail->attach($this->programaPath, [
+                'as' => 'programa_' . $this->planificacion->id . '.pdf',
                 'mime' => 'application/pdf',
             ]);
         }
