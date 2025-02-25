@@ -34,6 +34,7 @@ class Edit extends Component
     public $docetnesDictado = [];
     public $tipoAsignatura = [];
     public $modalidad = [];
+    public $es_electiva = false;
 
     public $planificacion_id = null;
     public $cargaHorariaSemanal = 0;
@@ -101,6 +102,8 @@ class Edit extends Component
         $this->cargos = Cargo::Get();
         $this->dedicaciones = Dedicacion::Get();
         $this->situaciones = SituacionCargo::Get();
+
+        $this->es_electiva = $this->planificacion->materiaPlanEstudio->materia->tipo_materia == "G" ? true : false;
 
         $this->CalcularCargaHorariaSemanal();
     }
