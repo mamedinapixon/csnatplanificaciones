@@ -162,27 +162,30 @@ class Edit extends Component
         }
 
         // Actualizar estado de la planificación
-        /*$this->planificacion->update([
+        $this->planificacion->update([
             "estado_id" => 2,
             "presentado_at" => Carbon::now()->timestamp
-        ]);*/
+        ]);
         $this->form["estado_id"] = 2;
 
         // Generar PDF usando el método del controlador
         $controller = app()->make(\App\Http\Controllers\PlanificacionController::class);
         $pdfResponse = $controller->generarPdf($this->planificacion);
 
-        // Guardar el PDF temporalmente
-        $tempPdfPath = storage_path('app/public/temp/');
-        if (!file_exists($tempPdfPath)) {
-            mkdir($tempPdfPath, 0755, true);
-        }
-        $pdfFileName = 'planificacion_' . $this->planificacion_id . '_' . time() . '.pdf';
-        $pdfPath = $tempPdfPath . $pdfFileName;
+        $pdfPath = null;
+        if ($this->es_electiva) {
+            // Guardar el PDF temporalmente
+            $tempPdfPath = storage_path('app/public/temp/');
+            if (!file_exists($tempPdfPath)) {
+                mkdir($tempPdfPath, 0755, true);
+            }
+            $pdfFileName = 'planificacion_' . $this->planificacion_id . '_' . time() . '.pdf';
+            $pdfPath = $tempPdfPath . $pdfFileName;
 
-        // Obtener el contenido del PDF desde la respuesta
-        $pdfContent = $pdfResponse->getContent();
-        file_put_contents($pdfPath, $pdfContent);
+            // Obtener el contenido del PDF desde la respuesta
+            $pdfContent = $pdfResponse->getContent();
+            file_put_contents($pdfPath, $pdfContent);
+        }
 
         // Notificar por mail
         $gestores = User::role('gestor')->get();
@@ -192,9 +195,22 @@ class Edit extends Component
         if ($this->planificacion->urlprograma) {
             $urlProgramaPath = storage_path('app/' . $this->planificacion->urlprograma);
         }
+
         // Enviar el correo con ambos archivos adjuntos
-        Mail::to([env("MAIL_NOTIFICAR"), Auth::user()->email])
-            ->queue(new MailNotificarPresentado($this->planificacion, $pdfPath, $urlProgramaPath));
+        if ($this->es_electiva) {
+            Mail::to([
+                config('notificar.mail_planificaciones'),
+                config('notificar.mail_mesa_entrada'),
+                Auth::user()->email
+            ])
+                ->queue(new MailNotificarPresentado($this->planificacion, $pdfPath, $urlProgramaPath));
+        } else {
+            Mail::to([
+                config('notificar.mail_planificaciones'),
+                config('notificar.mail_mesa_entrada')
+            ])
+                ->queue(new MailNotificarPresentado($this->planificacion, $pdfPath, $urlProgramaPath));
+        }
 
         session()->flash('message', 'Planificación presentada!');
 

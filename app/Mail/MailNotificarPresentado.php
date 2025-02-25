@@ -19,7 +19,8 @@ class MailNotificarPresentado extends Mailable
         $carrera,
         $periodo_lectivo,
         $user,
-        $fechapresentado;
+        $fechapresentado,
+        $electiva_nombre;
 
     protected $pdfPath;
     protected $programaPath;
@@ -33,6 +34,7 @@ class MailNotificarPresentado extends Mailable
     {
         $this->planificacion = $planificacion;
         $this->asigantura = $planificacion->materiaPlanEstudio->anio_curdada . "º año - " . $planificacion->materiaPlanEstudio->materia->nombre;
+        $this->electiva_nombre = $planificacion->materiaPlanEstudio->materia->tipo_materia == "G" ? ": " . $planificacion->electiva_nombre : "";
         $this->carrera = $planificacion->materiaPlanEstudio->carrera->codigo_siu;
         $this->periodo_lectivo = $planificacion->periodoLectivo->periodoAcademico->nombre . " " . $planificacion->periodoLectivo->anio_academico;
         $date = Carbon::now()->locale('es');

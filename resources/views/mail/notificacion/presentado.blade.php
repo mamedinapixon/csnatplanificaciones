@@ -3,7 +3,7 @@
 <ul>
     <li><b>Periodo Lectivo:</b> {{ $periodo_lectivo }}</li>
     <li><b>Carrera:</b> {{ $carrera }}</li>
-    <li><b>Asignatura:</b> {{ $asigantura }}</li>
+    <li><b>Asignatura:</b> {{ $asigantura }}{{ $electiva_nombre }}</li>
     <li><b>Fecha Presentado:</b> {{ $fechapresentado }}</li>
 </ul>
 <br>
