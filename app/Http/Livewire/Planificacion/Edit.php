@@ -207,7 +207,7 @@ class Edit extends Component
         } else {
             Mail::to([
                 config('notificar.mail_planificaciones'),
-                config('notificar.mail_mesa_entrada')
+                Auth::user()->email
             ])
                 ->queue(new MailNotificarPresentado($this->planificacion, $pdfPath, $urlProgramaPath));
         }
