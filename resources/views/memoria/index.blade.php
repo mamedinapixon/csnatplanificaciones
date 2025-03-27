@@ -10,11 +10,11 @@
             @endif
             <x-pixonui.heading.h1>Memorias
                 <x-slot name="action">
-
+                    {{--
                     <a href="{{ route('memoria.create') }}" class="btn btn-primary">
                         Nueva Memoria
                     </a>
-
+                    --}}
                 </x-slot>
             </x-pixonui.heading.h1>
 
