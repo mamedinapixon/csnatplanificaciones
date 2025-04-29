@@ -29,4 +29,10 @@ module.exports = {
         },
     ],
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography'), require('daisyui')],
+
+    // config daisyui
+    daisyui: {
+        themes: ["light"], // Solo incluye el tema claro
+        darkTheme: false, // Desactiva explícitamente el tema oscuro automático
+    },
 };
