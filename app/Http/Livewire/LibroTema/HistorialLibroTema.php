@@ -22,7 +22,6 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Models\Planificacion;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Facades\Auth; // Import Auth facade
 
 class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
 {
@@ -31,7 +30,7 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
     protected function getTableQuery(): Builder
     {
         return LibroTema::query()
-            ->with(['planificaciones.materiaPlanEstudio', 'caracteres', 'modalidades', 'user']) // Eager load user
+            ->with('planificaciones.materiaPlanEstudio', 'caracteres', 'modalidades')
             ->orderBy('fecha','desc');
     }
 
@@ -92,10 +91,6 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('observaciones')
                 ->html()
                 ->wrap(),
-            Tables\Columns\TextColumn::make('user.name') // Display user's name
-                ->label('Creado por')
-                ->sortable()
-                ->searchable(),
         ];
     }
 
@@ -105,8 +100,6 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
             EditAction::make()
                 ->label('Editar')
                 ->modalHeading('Editar Libro de Tema')
-                // Show if user created it OR if user has the 'gestor' role
-                ->visible(fn (LibroTema $record): bool => $record->user_id === Auth::id() || Auth::user()->hasRole('gestor'))
                 ->form(function (LibroTema $record) {
                     // Reusing form schema logic similar to CargarLibroTema
                     return [
