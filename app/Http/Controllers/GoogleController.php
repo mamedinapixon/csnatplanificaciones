@@ -34,10 +34,10 @@ class GoogleController extends Controller
 
             $user = Socialite::driver('google')->user();
             //@csnat.unt.edu.ar
-            //dd(substr($user->email,-17)." - ".env("GOOGLE_RESTINGIR_DOMINIO"));
-            if(strcmp(substr($user->email,-16), env("GOOGLE_RESTINGIR_DOMINIO")) != 0)
+            //dd(substr($user->email,-17)." - ".config('services.google.restrict_domain'));
+            if(strcmp(substr($user->email,-16), config('services.google.restrict_domain')) != 0)
             {
-                session()->flash('message', 'Debes iniciar sesión con una cuenta '.env("GOOGLE_RESTINGIR_DOMINIO"));
+                session()->flash('message', 'Debes iniciar sesión con una cuenta '.config('services.google.restrict_domain'));
                 return redirect()->route('login');
             }
 
