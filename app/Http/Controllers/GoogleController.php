@@ -35,11 +35,11 @@ class GoogleController extends Controller
             $user = Socialite::driver('google')->user();
             //@csnat.unt.edu.ar
             //dd(substr($user->email,-17)." - ".config('services.google.restrict_domain'));
-            if(strcmp(substr($user->email,-16), config('services.google.restrict_domain')) != 0)
+            /*if(strcmp(substr($user->email,-16), config('services.google.restrict_domain')) != 0)
             {
                 session()->flash('message', 'Debes iniciar sesión con una cuenta '.config('services.google.restrict_domain'));
                 return redirect()->route('login');
-            }
+            }*/
 
             $finduser = User::where('google_id', $user->id)->first();
             //dd($user);
