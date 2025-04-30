@@ -33,6 +33,10 @@ module.exports = {
     // config daisyui
     daisyui: {
         themes: ["light"], // Solo incluye el tema claro
-        darkTheme: false, // Desactiva explícitamente el tema oscuro automático
+        darkTheme: "light", // Desactiva explícitamente el tema oscuro automático
+        logs: true,
     },
+
+    darkMode: 'class',
+
 };

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-theme="light">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="light" data-theme="light">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,11 +8,13 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Styles -->
-        <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}">
+        <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}?v=1{{ filemtime(public_path('css/app.css')) }}">
 
         <!-- Fonts -->
-        <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+        <!--
+            <link href="https://cdn.jsdelivr.net/npm/daisyui@3.8.1/dist/full.css" rel="stylesheet" type="text/css" />
+        -->
 
         @livewireStyles
 
@@ -64,6 +66,9 @@
                 color: #2563eb !important;
             }
         </style>
+        <script>
+            localStorage.theme = 'light';
+        </script>
     </head>
     <body class="font-sans antialiased">
 
@@ -85,13 +90,13 @@
 
         @livewireScripts
 
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <x-livewire-alert::scripts />
 
         <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        
         <script src="{{ mix('js/app.js') }}?v={{ filemtime(public_path('js/app.js')) }}"></script>
         @stack('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             function aletWarning(title, text, confirmButtonText, cancelButtonText, callback)
             {
