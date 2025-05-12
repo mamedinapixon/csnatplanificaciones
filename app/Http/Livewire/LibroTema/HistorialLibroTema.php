@@ -8,9 +8,20 @@ use Livewire\Component;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\LibroTema;
 use Filament\Forms;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Card;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Support\Facades\DB;
 use Filament\Tables\Filters\Layout;
+use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+use App\Models\Planificacion;
+use Filament\Notifications\Notification;
 
 class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
 {
@@ -80,6 +91,157 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
             Tables\Columns\TextColumn::make('observaciones')
                 ->html()
                 ->wrap(),
+        ];
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            EditAction::make()
+                ->label('Editar')
+                ->modalHeading('Editar Libro de Tema')
+                ->form(function (LibroTema $record) {
+                    // Reusing form schema logic similar to CargarLibroTema
+                    return [
+                        Card::make()
+                            ->schema([
+                                DatePicker::make('fecha')
+                                    ->label('Fecha de la clase')
+                                    ->displayFormat('d/m/Y')
+                                    ->reactive()
+                                    ->required(),
+                                Select::make('planificaciones')
+                                    ->label('Materia dictada')
+                                    ->relationship('planificaciones', 'id', function (Builder $query, callable $get) use ($record) {
+                                        $currentDate = $get('fecha') ?? $record->fecha; // Use existing or form date
+                                        if ($currentDate) {
+                                            $anio_academico = Carbon::parse($currentDate)->year;
+                                            return $query->whereHas('periodoLectivo', function ($query) use ($anio_academico) {
+                                                                    $query->whereIn('anio_academico', [$anio_academico-1, $anio_academico]);
+                                                                })
+                                                                ->distinct()
+                                                                ->with(['materiaPlanEstudio.carrera', 'materiaPlanEstudio.materia']);
+                                        }
+                                        return $query->whereRaw('1 = 0'); // Return an empty query if no date is selected
+                                    })
+                                    ->getOptionLabelFromRecordUsing(function (Model $record): string {
+                                        $carrera = $record->materiaPlanEstudio->carrera->codigo_siu ?? '';
+                                        if(empty($record->electiva_nombre))
+                                        {
+                                            $materia = $record->materiaPlanEstudio->materia->nombre ?? '';
+                                        } else {
+                                            $materia = $record->electiva_nombre ?? '';
+                                        }
+                                        return $carrera . ': ' . $materia;
+                                    })
+                                    ->getSearchResultsUsing(function (string $search, callable $get) use ($record) {
+                                        $currentDate = $get('fecha') ?? $record->fecha;
+                                        $query = Planificacion::query();
+                                        if ($currentDate) {
+                                            $anio_academico = Carbon::parse($currentDate)->year;
+                                            $query->whereHas('periodoLectivo', function ($query) use ($anio_academico) {
+                                                    $query->whereIn('anio_academico', [$anio_academico-1, $anio_academico]);
+                                                })
+                                                ->distinct()
+                                                ->with(['materiaPlanEstudio.carrera', 'materiaPlanEstudio.materia']);
+                                        }
+                                        $results = $query
+                                            ->where(function ($query) use ($search) {
+                                                $query->whereHas('materiaPlanEstudio.carrera', function ($query) use ($search) {
+                                                    $query->where('codigo_siu', 'like', "%{$search}%");
+                                            })
+                                                ->orWhereHas('materiaPlanEstudio.materia', function ($query) use ($search) {
+                                                    $query->where('nombre', 'like', "%{$search}%");
+                                                })
+                                                ->orWhere('electiva_nombre', 'like', "%{$search}%");
+                                            })
+                                            ->get()
+                                            ->mapWithKeys(function ($record) {
+                                                $carrera = $record->materiaPlanEstudio->carrera->codigo_siu ?? '';
+                                                if(empty($record->electiva_nombre))
+                                                {
+                                                    $materia = $record->materiaPlanEstudio->materia->nombre ?? '';
+                                                } else {
+                                                    $materia = $record->electiva_nombre ?? '';
+                                                }
+                                                $label = $carrera . ': ' . $materia;
+                                                return [$record->id => $label];
+                                            })
+                                            ->toArray();
+                                        return $results;
+                                    })
+                                    ->searchable()
+                                    ->multiple()
+                                    ->preload() // Preload for edit might be better
+                                    ->columnSpanFull()
+                                    ->required(),
+                                Select::make('docentes')
+                                    ->label('Docente/s que participan de la clase')
+                                    ->multiple()
+                                    ->searchable()
+                                    ->relationship('docentes', 'full_name', fn (Builder $query) => $query->where('activo', 1)->orderBy('full_name'))
+                                    ->preload() // Preload for edit
+                                    ->columnSpanFull()
+                                    ->searchable(),
+                                Select::make('modalidades')
+                                    ->label('Modalidad')
+                                    ->multiple()
+                                    ->searchable()
+                                    ->relationship('modalidades', 'nombre')
+                                    ->preload()
+                                    ->searchable(),
+                                Select::make('caracteres')
+                                    ->label('Carácter de la clase')
+                                    ->multiple()
+                                    ->searchable()
+                                    ->relationship('caracteres', 'nombre')
+                                    ->preload()
+                                    ->searchable(),
+                                Select::make('aulas')
+                                    ->label('Aula')
+                                    ->multiple()
+                                    ->searchable()
+                                    ->relationship('aulas', 'nombre')
+                                    ->preload()
+                                    ->searchable(),
+                                TextInput::make('cantidad_alumnos')
+                                    ->label('Cantidad aproximada de alumnos')
+                                    ->numeric()
+                                    ->minValue(0)
+                                    ->required(),
+                                RichEditor::make('contenido')
+                                    ->label('Contenidos dictados')
+                                    ->toolbarButtons([
+                                        'blockquote', 'bold', 'bulletList', 'italic', 'link',
+                                        'orderedList', 'redo', 'strike', 'underline', 'undo',
+                                    ])
+                                    ->columnSpanFull()
+                                    ->required(),
+                                RichEditor::make('observaciones')
+                                    ->label('Observaciones')
+                                    ->toolbarButtons([
+                                        'blockquote', 'bold', 'bulletList', 'italic', 'link',
+                                        'orderedList', 'redo', 'strike', 'underline', 'undo',
+                                    ])
+                                    ->columnSpanFull(),
+                            ])
+                            ->columns(2)
+                    ];
+                })
+                ->using(function (Model $record, array $data): Model {
+                    $record->update($data);
+                    // Sync relationships - Filament handles this automatically if relationship names match form field names
+                    // But we need to ensure the keys are correct ('planificaciones', 'docentes', etc.)
+                    // Filament's EditAction should handle relationship syncing if the names match.
+                    // If issues arise, manual syncing might be needed here.
+                    return $record;
+                })
+                ->successNotification(
+                    Notification::make()
+                        ->success()
+                        ->title('Libro de tema actualizado')
+                        ->body('El libro de tema ha sido actualizado correctamente.'),
+                )
         ];
     }
 
