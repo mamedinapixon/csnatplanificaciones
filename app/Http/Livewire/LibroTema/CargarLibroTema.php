@@ -41,6 +41,7 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
     public $cantidad_alumnos;
     public $duracion_minutos;
     public $observaciones;
+    public $aulas;
 
     public function render()
     {
@@ -202,20 +203,20 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
 
         $libroTema = LibroTema::create($data);
         // Sync relationships using the keys from the form state if they exist
-        if (isset($data['planificaciones'])) {
-            $libroTema->planificaciones()->sync($data['planificaciones']);
+        if (isset($this->planificaciones)) {
+            $libroTema->planificaciones()->sync($this->planificaciones);
         }
-        if (isset($data['docentes'])) {
-            $libroTema->docentes()->sync($data['docentes']);
+        if (isset($this->docentes)) {
+            $libroTema->docentes()->sync($this->docentes);
         }
-        if (isset($data['modalidades'])) {
-            $libroTema->modalidades()->sync($data['modalidades']);
+        if (isset($this->modalidades)) {
+            $libroTema->modalidades()->sync($this->modalidades);
         }
-        if (isset($data['caracteres'])) {
-            $libroTema->caracteres()->sync($data['caracteres']);
+        if (isset($this->caracteres)) {
+            $libroTema->caracteres()->sync($this->caracteres);
         }
-        if (isset($data['aulas'])) {
-            $libroTema->aulas()->sync($data['aulas']);
+        if (isset($this->aulas)) {
+            $libroTema->aulas()->sync($this->aulas);
         }
         // Note: Filament's saveRelationships might handle this, but explicit sync is safer.
         // $this->form->model($libroTema)->saveRelationships(); // This might be redundant now
