@@ -23,6 +23,7 @@
         "rappasoft/laravel-livewire-tables": "^2.8",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "socialiteproviders/google": "^4.1",
+        "socialiteproviders/microsoft": "^4.2",
         "spatie/laravel-permission": "^5.5"
     },
     "require-dev": {
