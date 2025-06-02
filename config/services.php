@@ -34,12 +34,14 @@ return [
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT_URI'),
         'restrict_domain' => env('GOOGLE_RESTINGIR_DOMINIO', 'csnat.unt.edu.ar'),
+        'enabled' => env('GOOGLE_LOGIN_ENABLED', false), // Habilitar/deshabilitar el botón de Google
     ],
 
     'microsoft' => [    
         'client_id' => env('MICROSOFT_CLIENT_ID'),  
         'client_secret' => env('MICROSOFT_CLIENT_SECRET'),  
         'redirect' => env('MICROSOFT_REDIRECT_URI'),
+        'enabled' => env('MICROSOFT_LOGIN_ENABLED', false), // Habilitar/deshabilitar el botón de Microsoft
     ],
 
 ];
