@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Str;
 
 class LoginUserViaSocialiteController extends Controller
 {
@@ -13,6 +14,15 @@ class LoginUserViaSocialiteController extends Controller
     {
         // Redirect the user to the Google/Microsoft login page
         return Socialite::driver($provider)->redirect();
+    }
+
+    public function redirectToMicrosoft()
+    {
+        return Socialite::driver('microsoft')
+            ->with([
+                'tenant' => config('services.microsoft.tenant', 'frt.utn.edu.ar')
+            ])
+            ->redirect();
     }
 
     public function store($provider)
