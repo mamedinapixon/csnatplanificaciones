@@ -1,8 +1,11 @@
 <nav class="print-bg navbar bg-gradient-to-r from-emerald-800 to-emerald-600 text-base-100">
     <div class="navbar-start">
         <a href="{{ route('home') }}" class="btn btn-ghost text-xl normal-case">
-            <img src="https://csnat.unt.edu.ar/templates/jux_times/images/logo.png" style="width: 9rem;"
-                alt="Logo Facultad Ciencias Naturales UNT">
+            {{--<img src="https://csnat.unt.edu.ar/templates/jux_times/images/logo.png" style="width: 9rem;"
+                alt="Logo Facultad Ciencias Naturales UNT">--}}
+            <img src="{{ config('app.logo', 'https://csnat.unt.edu.ar/templates/jux_times/images/logo.png') }}" style="width: 9rem;"
+                alt="Logo">
+
         </a>
         <div class="dropdown">
             <label tabindex="0" class="btn btn-ghost lg:hidden">

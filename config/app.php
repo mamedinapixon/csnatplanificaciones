@@ -14,6 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'logo' => env('APP_LOGO', 'https://csnat.unt.edu.ar/templates/jux_times/images/logo.png'),
 
     /*
     |--------------------------------------------------------------------------
