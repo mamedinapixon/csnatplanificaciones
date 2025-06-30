@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LibroTema extends Model
 {
@@ -23,7 +24,8 @@ class LibroTema extends Model
         'contenido',
         'cantidad_alumnos',
         'unidad',
-        'observaciones'
+        'observaciones',
+        'user_id' // Add user_id here
     ];
 
     /**
@@ -70,5 +72,11 @@ class LibroTema extends Model
     public function aulas()
     {
         return $this->belongsToMany(Aula::class, 'aula_libro_tema');
+    }
+
+    // Relationship to User
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

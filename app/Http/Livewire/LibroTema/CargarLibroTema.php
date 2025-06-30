@@ -21,6 +21,7 @@ use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Card;
 use Carbon\Carbon;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Auth; // Import Auth facade
 
 
 
@@ -40,6 +41,7 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
     public $cantidad_alumnos;
     public $duracion_minutos;
     public $observaciones;
+    public $aulas;
 
     public function render()
     {
@@ -196,9 +198,28 @@ class CargarLibroTema extends Component implements Forms\Contracts\HasForms
 
     public function submit()
     {
-        $libroTema = LibroTema::create($this->form->getState());
-        $libroTema->planificaciones()->sync($this->planificaciones);
-        $this->form->model($libroTema)->saveRelationships();
+        $data = $this->form->getState();
+        $data['user_id'] = Auth::id(); // Get the authenticated user's ID
+
+        $libroTema = LibroTema::create($data);
+        // Sync relationships using the keys from the form state if they exist
+        if (isset($this->planificaciones)) {
+            $libroTema->planificaciones()->sync($this->planificaciones);
+        }
+        if (isset($this->docentes)) {
+            $libroTema->docentes()->sync($this->docentes);
+        }
+        if (isset($this->modalidades)) {
+            $libroTema->modalidades()->sync($this->modalidades);
+        }
+        if (isset($this->caracteres)) {
+            $libroTema->caracteres()->sync($this->caracteres);
+        }
+        if (isset($this->aulas)) {
+            $libroTema->aulas()->sync($this->aulas);
+        }
+        // Note: Filament's saveRelationships might handle this, but explicit sync is safer.
+        // $this->form->model($libroTema)->saveRelationships(); // This might be redundant now
 
         Notification::make()
             ->title('Libro de tema registrado correctamente')
