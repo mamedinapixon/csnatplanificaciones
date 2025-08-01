@@ -24,6 +24,10 @@ class Asistencia extends Model
         'ciudad',
         'latitud',
         'longitud',
+        'control_realizado',
+        'control_user_id',
+        'control_resultado',
+        'control_observacion',
     ];
 
     protected $guarded = ['id'];
@@ -31,7 +35,9 @@ class Asistencia extends Model
     protected $casts = [
         'fecha_at' => 'datetime:Y-m-d',
         'ingreso_at' => 'datetime:Y-m-d\TH:i',
-        'salida_at' => 'datetime:Y-m-d\TH:i'
+        'salida_at' => 'datetime:Y-m-d\TH:i',
+        'control_realizado' => 'boolean',
+        'control_resultado' => 'boolean',
     ];
 
     public function user()
@@ -42,5 +48,10 @@ class Asistencia extends Model
     public function ubicacion()
     {
         return $this->belongsTo(Ubicacion::class);
+    }
+
+    public function controlUser()
+    {
+        return $this->belongsTo(User::class, 'control_user_id');
     }
 }
