@@ -82,6 +82,11 @@ class AsistenciaTable extends DataTableComponent
                 ->sortable(),
             Column::make("Motivo", "observacion")
                 ->sortable(),
+            Column::make("Controlado", "control_realizado")
+                ->format(
+                    fn($value, $row, Column $column) => $value ? 'Sí' : 'No'
+                )
+                ->sortable(),
             Column::make("Acciones")
                 ->label(
                     fn($row, Column $column) => '<a href="' . route('asistencia.control', $row->id) . '" class="btn btn-sm btn-primary">Controlar Asistencia</a>'
