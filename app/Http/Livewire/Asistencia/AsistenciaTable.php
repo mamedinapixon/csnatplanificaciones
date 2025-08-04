@@ -86,10 +86,11 @@ class AsistenciaTable extends DataTableComponent
                 ->format(
                     fn($value, $row, Column $column) => $value ? 'Sí' : 'No'
                 )
-                ->sortable(),
+                ->sortable()
+                ->hideIf(Auth::check() && !Auth::user()->can('controlar asistencia')),
             Column::make("Acciones")
                 ->label(
-                    fn($row, Column $column) => '<a href="' . route('asistencia.control', $row->id) . '" class="btn btn-sm btn-primary">Controlar Asistencia</a>'
+                    fn($row, Column $column) => Auth::check() && Auth::user()->can('controlar asistencia') ? '<a href="' . route('asistencia.control', $row->id) . '" class="btn btn-sm btn-primary">Controlar Asistencia</a>' : ''
                 )
                 ->html(),
         ];
