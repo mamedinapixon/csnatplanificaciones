@@ -32,7 +32,7 @@ class AsistenciaTable extends DataTableComponent
 
         //dd(Asistencia::whereIn('id', [2451,2402,2171,2133])->with("user:id","ubicacion")->orderBy('id', 'desc')->get());
 
-        if(Auth::user()->can('ver historial asistencia'))
+        if(Auth::check() && Auth::user()->can('ver historial asistencia'))
         {
             $asistencia = Asistencia::query()
                             ->with("user","ubicacion")->orderBy('id', 'desc');
@@ -82,6 +82,11 @@ class AsistenciaTable extends DataTableComponent
                 ->sortable(),
             Column::make("Motivo", "observacion")
                 ->sortable(),
+            Column::make("Acciones")
+                ->label(
+                    fn($row, Column $column) => '<a href="' . route('asistencia.control', $row->id) . '" class="btn btn-sm btn-primary">Controlar Asistencia</a>'
+                )
+                ->html(),
         ];
     }
 

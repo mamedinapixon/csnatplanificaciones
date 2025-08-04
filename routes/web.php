@@ -46,6 +46,7 @@ Route::middleware([
     //Route::resource('/asistencia', AsistenciaController::class);
     Route::get('/asistencia', [AsistenciaController::class, 'index'])->name('asistencia.index');
     Route::get('/asistencia/historial', [AsistenciaController::class, 'historial'])->name('asistencia.historial');
+    Route::get('/asistencia/{asistencia}/control', [AsistenciaController::class, 'control'])->name('asistencia.control');
     Route::get('/librotema', HistorialLibroTema::class)->name('librotema.historial');
     Route::get('/librotema/cargar', CargarLibroTema::class)->name('librotema.cargar');
 });

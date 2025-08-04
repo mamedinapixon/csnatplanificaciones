@@ -32,4 +32,9 @@ class AsistenciaController extends Controller
     {
         return view('asistencia.edit');
     }
+
+    public function control(Asistencia $asistencia)
+    {
+        return view('asistencia.control', ['asistenciaId' => $asistencia->id])->with('title', 'Control de Asistencia');
+    }
 }
