@@ -98,7 +98,7 @@ class AsistenciaTable extends DataTableComponent
 
     public function filters(): array
     {
-        return [
+        $filters = [
             SelectFilter::make('Docentes', 'user_id')
             ->options(
                 $this->todos +
@@ -139,6 +139,22 @@ class AsistenciaTable extends DataTableComponent
                     $builder->where('fecha_at', '=', $value);
                 }),
         ];
+
+        if (Auth::check() && Auth::user()->can('controlar asistencia')) {
+            $filters[] = SelectFilter::make('Controlado', 'control_realizado')
+                ->options([
+                    '' => 'Todos',
+                    '1' => 'Sí',
+                    '0' => 'No',
+                ])
+                ->filter(function(Builder $builder, string $value) {
+                    if ($value !== '') {
+                        $builder->where('control_realizado', (bool)$value);
+                    }
+                });
+        }
+
+        return $filters;
     }
 
     public function bulkActions(): array
