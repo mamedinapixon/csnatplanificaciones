@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('informe:asistencia-diario')->dailyAt('23:59');
     }
 
     /**
@@ -26,6 +26,9 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
+        $this->commands([
+            \App\Console\Commands\GenerarInformeAsistenciaDiario::class,
+        ]);
 
         require base_path('routes/console.php');
     }
