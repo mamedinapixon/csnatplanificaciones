@@ -13,6 +13,7 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MemoriaController;
 use App\Http\Controllers\AsistenciaController;
+use App\Http\Controllers\ReportesAsistenciaController; // Importar el nuevo controlador
 //use App\Http\Controllers\DocentePlanificacionController;
 //use App\Http\Controllers\ModalidadController;
 //use App\Http\Controllers\PeriodoAcademicoController;
@@ -49,6 +50,14 @@ Route::middleware([
     Route::get('/asistencia/{asistencia}/control', [AsistenciaController::class, 'control'])->name('asistencia.control');
     Route::get('/librotema', HistorialLibroTema::class)->name('librotema.historial');
     Route::get('/librotema/cargar', CargarLibroTema::class)->name('librotema.cargar');
+
+    // Rutas para los reportes de asistencia
+    Route::prefix('reportes-asistencia')->name('reportes.asistencia.')->group(function () {
+        Route::get('/', [ReportesAsistenciaController::class, 'index'])->name('index');
+        Route::get('/{year}', [ReportesAsistenciaController::class, 'showMonths'])->name('showMonths');
+        Route::get('/{year}/{month}', [ReportesAsistenciaController::class, 'showReports'])->name('showReports');
+        Route::get('/{year}/{month}/{filename}', [ReportesAsistenciaController::class, 'downloadReport'])->name('download');
+    });
 });
 
 Route::middleware([

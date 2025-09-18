@@ -14,6 +14,9 @@
                     <a  href="{{ route('asistencia.index') }}"  class="btn btn-primary">
                         <i class="fa-solid fa-user-check"></i> Registrar Asistencia
                     </a>
+                    <a  href="{{ route('reportes.asistencia.index') }}"  class="btn btn-secondary ml-2">
+                        <i class="fa-solid fa-file-pdf"></i> Ver Reportes
+                    </a>
                 </x-slot>
             </x-pixonui.heading.h1>
             <div class="flex-auto overflow-hidden bg-white sm:rounded-lg">
