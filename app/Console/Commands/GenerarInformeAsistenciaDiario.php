@@ -51,7 +51,7 @@ class GenerarInformeAsistenciaDiario extends Command
 
         // Preparar datos para la vista
         $datosInforme = $asistencias->map(function ($asistencia) {
-            $ubicacionTexto = optional($asistencia->ubicacion)->nombre ?? 'Desconocida';
+            $ubicacionTexto = optional($asistencia->ubicacion)->descripcion ?? 'Desconocida';
             if (!empty($asistencia->otra_ubicacion)) {
                 $ubicacionTexto .= ' (' . $asistencia->otra_ubicacion . ')';
             }
@@ -70,7 +70,7 @@ class GenerarInformeAsistenciaDiario extends Command
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('informes.asistencia_diaria', [
             'fecha' => $fechaAyer->format('d/m/Y'),
             'asistencias' => $datosInforme,
-        ]);
+        ])->setPaper('a4'); // Establecer orientación horizontal
 
         // Definir la ruta de guardado
         $anio = $fechaAyer->year;

@@ -3,9 +3,9 @@
 <head>
     <title>Informe Diario de Asistencia</title>
     <style>
-        body { font-family: sans-serif; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        body { font-family: sans-serif; font-size: 10px; } /* Reducir tamaño de fuente general */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 9px; } /* Reducir tamaño de fuente de la tabla */
+        th, td { border: 1px solid #ddd; padding: 3px; text-align: left; } /* Reducir padding de las celdas */
         th { background-color: #f2f2f2; }
         h1 { text-align: center; }
     </style>
@@ -16,11 +16,10 @@
         <thead>
             <tr>
                 <th>Apellido y Nombre</th>
-                <th>Hora de Ingreso</th>
-                <th>Hora de Salida</th>
+                <th>Ingreso</th>
+                <th>Salida</th>
                 <th>Ubicación</th>
                 <th>Controlado</th>
-                <th>Resultado del Control</th>
             </tr>
         </thead>
         <tbody>
@@ -31,7 +30,6 @@
                     <td>{{ $asistencia['hora_salida'] }}</td>
                     <td>{{ $asistencia['ubicacion'] }}</td>
                     <td>{{ $asistencia['controlado'] }}</td>
-                    <td>{{ $asistencia['resultado_control'] }}</td>
                 </tr>
             @endforeach
         </tbody>
