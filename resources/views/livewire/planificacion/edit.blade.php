@@ -412,23 +412,6 @@
         <x-pixonui.form.error for="form.observacioens_sugerencias"></x-pixonui.form.error>
     </div>
 
-    <!-- Adjuntar programa -->
-    <x-pixonui.heading.h2 class="pt-8">Adjuntar programa</x-pixonui.heading.h2>
-    @if ($form['urlprograma'] != null)
-        <div class="flex items-center justify-start">
-            <img src="{{ asset('img/icon-pdf.png') }}">
-            <div><a target="_back" href="{{ asset($form['urlprograma']) }}">ver programa</a></div>
-        </div>
-    @endif
-    <div class="form-control w-full space-y-2">
-        <input type="file" wire:model="file" accept="application/pdf"
-            class="border-primary file-input file-input-bordered file-input-primary w-full max-w-xs rounded-md border-2">
-        <div wire:loading wire:target="file">Subiendo archivo...</div>
-        @error('file')
-            <span class="error text-red-500">{{ $message }}</span>
-        @enderror
-        <div class="text-blue-500">* Solos documentos PDF hasta 10mb.</div>
-    </div>
 
     @if ($es_electiva)
         <div class="alert alert-warning flex-col text-white">

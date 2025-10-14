@@ -205,11 +205,11 @@
                     @if ($planificacion->urlprograma!=null)
                         <div class="flex justify-start items-center no-print">
                             <img src="{{asset('img/icon-pdf.png')}}">
-                            <div><a target="_back" href="{{asset($planificacion->urlprograma)}}">ver programa</a></div>
+                            <div><a target="_blank" href="{{asset('storage/' . $planificacion->urlprograma)}}">ver programa</a></div>
                         </div>
                         <div class="flex justify-start items-center print">
                             <img src="{{asset('img/icon-pdf.png')}}">
-                            <a target="_back" href="{{asset($planificacion->urlprograma)}}">{{config('app.test_url').''.asset($planificacion->urlprograma)}}</a>
+                            <a target="_blank" href="{{asset('storage/' . $planificacion->urlprograma)}}">{{config('app.test_url').''.asset('storage/' . $planificacion->urlprograma)}}</a>
                         </div>
                     @endif
                 </div>

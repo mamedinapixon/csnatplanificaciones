@@ -15,17 +15,14 @@ use App\Models\TipoAsignatura;
 use App\Models\Modalidad;
 use App\Models\User;
 use App\Models\DocentePlanificacion;
-use Livewire\WithFileUploads;
 use Mail;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class Edit extends Component
 {
-    use WithFileUploads;
-
-    public $file;
     public $planificacion;
     public $docentes = [];
     public $cargos = [];
@@ -148,18 +145,30 @@ class Edit extends Component
 
     public function OnPresentar()
     {
-        // Validación y manejo del archivo subido
-        if ($this->form['urlprograma'] == null || $this->file != null) {
-            $this->validate([
-                'file' => 'required|mimes:pdf|max:10240', // 10MB Max
-            ]);
+        // Generar PDF automáticamente
+        $controller = app()->make(\App\Http\Controllers\PlanificacionController::class);
+        $pdfResponse = $controller->generarPdf($this->planificacion);
 
-            $urlFile = $this->file->storePubliclyAs('programas', 'planificacion_' . $this->planificacion_id . '.pdf');
+        // Guardar el PDF generado
+        $pdfContent = $pdfResponse->getContent();
+        $urlFile = 'programas/planificacion_' . $this->planificacion_id . '.pdf';
 
-            $this->planificacion->update([
-                "urlprograma" => $urlFile
-            ]);
+        // Crear directorio si no existe
+        $directory = dirname(storage_path('app/public/' . $urlFile));
+        if (!file_exists($directory)) {
+            mkdir($directory, 0755, true);
         }
+
+        Storage::disk('public')->put($urlFile, $pdfContent);
+
+        // Verificar que el archivo se guardó correctamente
+        if (!Storage::disk('public')->exists($urlFile)) {
+            throw new \Exception('Error al guardar el archivo PDF');
+        }
+
+        $this->planificacion->update([
+            "urlprograma" => $urlFile
+        ]);
 
         // Actualizar estado de la planificación
         $this->planificacion->update([
@@ -167,10 +176,6 @@ class Edit extends Component
             "presentado_at" => Carbon::now()->timestamp
         ]);
         $this->form["estado_id"] = 2;
-
-        // Generar PDF usando el método del controlador
-        $controller = app()->make(\App\Http\Controllers\PlanificacionController::class);
-        $pdfResponse = $controller->generarPdf($this->planificacion);
 
         $pdfPath = null;
         if ($this->es_electiva) {
@@ -193,7 +198,7 @@ class Edit extends Component
         // Obtener la ruta completa del archivo urlprograma
         $urlProgramaPath = null;
         if ($this->planificacion->urlprograma) {
-            $urlProgramaPath = storage_path('app/' . $this->planificacion->urlprograma);
+            $urlProgramaPath = storage_path('app/public/' . $this->planificacion->urlprograma);
         }
 
         // Enviar el correo con ambos archivos adjuntos
