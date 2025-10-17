@@ -73,7 +73,7 @@ class ReportesAsistenciaController extends Controller
         $files = Storage::files($path);
         $reports = array_map('basename', $files); // Obtener solo el nombre del archivo
 
-        // Ordenar archivos por día de forma numérica
+        // Ordenar archivos por día de forma numérica (mayor a menor)
         usort($reports, function($a, $b) {
             // Extraer el número del día de cada archivo
             // Formato: asistencia_DIA_MES_AÑO.pdf
@@ -83,7 +83,7 @@ class ReportesAsistenciaController extends Controller
             $dayA = isset($matchesA[1]) ? (int)$matchesA[1] : 0;
             $dayB = isset($matchesB[1]) ? (int)$matchesB[1] : 0;
 
-            return $dayA <=> $dayB;
+            return $dayB <=> $dayA; // Invertir orden para mayor a menor
         });
 
         return view('reportes.asistencia.reports', compact('year', 'month', 'reports'));
