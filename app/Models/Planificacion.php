@@ -59,7 +59,8 @@ class Planificacion extends Model
         'estado_id',
         'presentado_at',
         'revisado_at',
-        'urlprograma'
+        'urlprograma',
+        'unidades_temas'
     ];
 
     protected $guarded = ['id'];
@@ -103,6 +104,7 @@ class Planificacion extends Model
         'presentado_at' => 'datetime',
         'revisado_at' => 'datetime',
         'urlprograma' => 'string',
+        'unidades_temas' => 'array',
     ];
 
 
@@ -208,6 +210,16 @@ class Planificacion extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the unidades for the Planificacion
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function unidades()
+    {
+        return $this->hasMany(Unidad::class)->orderBy('numero');
     }
 
     public function total_por_carrera()

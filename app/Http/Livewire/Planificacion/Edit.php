@@ -15,11 +15,14 @@ use App\Models\TipoAsignatura;
 use App\Models\Modalidad;
 use App\Models\User;
 use App\Models\DocentePlanificacion;
+use App\Models\Unidad;
+use App\Models\Tema;
 use Livewire\WithFileUploads;
 use Mail;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class Edit extends Component
 {
@@ -38,6 +41,8 @@ class Edit extends Component
 
     public $planificacion_id = null;
     public $cargaHorariaSemanal = 0;
+    public $unidadesTemas = [];
+    public $modoEdicion = []; // Array para controlar qué unidades están en modo edición
 
     protected $rules = [
         'form.carga_horaria' => 'required|numeric|min:1',
@@ -105,6 +110,35 @@ class Edit extends Component
 
         $this->es_electiva = $this->planificacion->materiaPlanEstudio->materia->tipo_materia == "G" ? true : false;
 
+        // Cargar unidades y temas existentes desde las tablas relacionadas
+        $this->unidadesTemas = [];
+        try {
+            $unidades = $planificacion->unidades()->with('temas')->get();
+
+            foreach ($unidades as $unidad) {
+                $temasArray = [];
+                foreach ($unidad->temas as $tema) {
+                    $temasArray[] = [
+                        'id' => $tema->id,
+                        'nombre' => $tema->nombre,
+                        'detalle' => $tema->detalle
+                    ];
+                }
+
+                $this->unidadesTemas[] = [
+                    'id' => $unidad->id,
+                    'numero' => $unidad->numero,
+                    'titulo' => $unidad->titulo,
+                    'temas' => $temasArray,
+                    'guardada' => true,
+                    'editando' => false // Por defecto, mostrar en vista compacta
+                ];
+            }
+        } catch (\Exception $e) {
+            // Si las tablas no existen aún, inicializar vacío
+            $this->unidadesTemas = [];
+        }
+
         $this->CalcularCargaHorariaSemanal();
     }
 
@@ -146,20 +180,224 @@ class Edit extends Component
         $this->cargaHorariaSemanal = $this->planificacion->carga_horaria_semanal_practica + $this->planificacion->carga_horaria_semanal_practica_teorica + $this->planificacion->carga_horaria_semanal_teorica;
     }
 
+    public function agregarUnidad()
+    {
+        // Calcular el próximo número de unidad basado en las unidades guardadas en BD
+        $maxNumero = Unidad::where('planificacion_id', $this->planificacion_id)->max('numero') ?? 0;
+        $nuevoNumero = $maxNumero + 1;
+
+        // Agregar al principio del array
+        array_unshift($this->unidadesTemas, [
+            'numero' => $nuevoNumero,
+            'titulo' => '',
+            'temas' => []
+        ]);
+
+        // No reordenar los números - mantener la numeración correcta basada en BD
+        // El número correcto ya se calculó desde la base de datos
+    }
+
+    public function guardarUnidad($unidadIndex)
+    {
+        // Guardar unidad individualmente en la base de datos
+        $unidadData = $this->unidadesTemas[$unidadIndex];
+
+        if (!empty($unidadData['titulo'])) {
+            if (isset($unidadData['id']) && $unidadData['id']) {
+                // Actualizar unidad existente
+                $unidad = Unidad::find($unidadData['id']);
+                if ($unidad) {
+                    $unidad->update([
+                        'numero' => $unidadData['numero'],
+                        'titulo' => $unidadData['titulo']
+                    ]);
+                }
+            } else {
+                // Crear nueva unidad
+                $unidad = Unidad::create([
+                    'planificacion_id' => $this->planificacion_id,
+                    'numero' => $unidadData['numero'],
+                    'titulo' => $unidadData['titulo']
+                ]);
+                $this->unidadesTemas[$unidadIndex]['id'] = $unidad->id;
+            }
+
+            // Guardar temas para esta unidad
+            if (isset($unidadData['temas']) && is_array($unidadData['temas'])) {
+                foreach ($unidadData['temas'] as $temaIndex => $temaData) {
+                    if (!empty($temaData['nombre'])) {
+                        if (isset($temaData['id']) && $temaData['id']) {
+                            // Actualizar tema existente
+                            $tema = Tema::find($temaData['id']);
+                            if ($tema) {
+                                $tema->update([
+                                    'nombre' => $temaData['nombre'],
+                                    'detalle' => $temaData['detalle'] ?? null
+                                ]);
+                            }
+                        } else {
+                            // Crear nuevo tema
+                            $tema = Tema::create([
+                                'unidad_id' => $unidad->id,
+                                'nombre' => $temaData['nombre'],
+                                'detalle' => $temaData['detalle'] ?? null
+                            ]);
+                            $this->unidadesTemas[$unidadIndex]['temas'][$temaIndex]['id'] = $tema->id;
+                        }
+                    }
+                }
+            }
+
+            $this->unidadesTemas[$unidadIndex]['guardada'] = true;
+            $this->unidadesTemas[$unidadIndex]['editando'] = false; // Cambiar a vista compacta después de guardar
+            $this->unidadesTemas[$unidadIndex]['mensaje'] = 'Unidad guardada correctamente';
+        }
+    }
+
+    public function quitarUnidad($index)
+    {
+        $unidadData = $this->unidadesTemas[$index];
+
+        // Si la unidad existe en BD, eliminarla
+        if (isset($unidadData['id']) && $unidadData['id']) {
+            $unidad = Unidad::find($unidadData['id']);
+            if ($unidad) {
+                $unidad->delete();
+            }
+        }
+
+        unset($this->unidadesTemas[$index]);
+        $this->unidadesTemas = array_values($this->unidadesTemas);
+
+        // Reordenar números
+        foreach ($this->unidadesTemas as $i => &$unidad) {
+            $unidad['numero'] = $i + 1;
+            if (isset($unidad['id']) && $unidad['id']) {
+                Unidad::where('id', $unidad['id'])->update(['numero' => $unidad['numero']]);
+            }
+        }
+    }
+
+    public function agregarTema($unidadIndex)
+    {
+        // Agregar al principio del array de temas
+        array_unshift($this->unidadesTemas[$unidadIndex]['temas'], [
+            'nombre' => '',
+            'detalle' => ''
+        ]);
+    }
+
+    public function quitarTema($unidadIndex, $temaIndex)
+    {
+        $temaData = $this->unidadesTemas[$unidadIndex]['temas'][$temaIndex];
+
+        // Si el tema existe en BD, eliminarlo
+        if (isset($temaData['id']) && $temaData['id']) {
+            $tema = Tema::find($temaData['id']);
+            if ($tema) {
+                $tema->delete();
+            }
+        }
+
+        unset($this->unidadesTemas[$unidadIndex]['temas'][$temaIndex]);
+        $this->unidadesTemas[$unidadIndex]['temas'] = array_values($this->unidadesTemas[$unidadIndex]['temas']);
+    }
+
+    public function editarUnidad($unidadIndex)
+    {
+        $this->unidadesTemas[$unidadIndex]['editando'] = true;
+    }
+
+    public function cancelarEdicion($unidadIndex)
+    {
+        $this->unidadesTemas[$unidadIndex]['editando'] = false;
+        // Limpiar mensaje si existe
+        if (isset($this->unidadesTemas[$unidadIndex]['mensaje'])) {
+            unset($this->unidadesTemas[$unidadIndex]['mensaje']);
+        }
+        // Recargar datos desde BD para deshacer cambios no guardados
+        if (isset($this->unidadesTemas[$unidadIndex]['id'])) {
+            $unidad = Unidad::with('temas')->find($this->unidadesTemas[$unidadIndex]['id']);
+            if ($unidad) {
+                $temasArray = [];
+                foreach ($unidad->temas as $tema) {
+                    $temasArray[] = [
+                        'id' => $tema->id,
+                        'nombre' => $tema->nombre,
+                        'detalle' => $tema->detalle
+                    ];
+                }
+                $this->unidadesTemas[$unidadIndex] = [
+                    'id' => $unidad->id,
+                    'numero' => $unidad->numero,
+                    'titulo' => $unidad->titulo,
+                    'temas' => $temasArray,
+                    'guardada' => true,
+                    'editando' => false
+                ];
+            }
+        }
+    }
+
+    private function guardarUnidadesYTemas()
+    {
+        // Eliminar unidades y temas existentes para esta planificación
+        $this->planificacion->unidades()->delete();
+
+        // Guardar nuevas unidades y temas
+        foreach ($this->unidadesTemas as $unidadData) {
+            if (!empty($unidadData['titulo'])) {
+                $unidad = Unidad::create([
+                    'planificacion_id' => $this->planificacion_id,
+                    'numero' => $unidadData['numero'],
+                    'titulo' => $unidadData['titulo']
+                ]);
+
+                // Guardar temas para esta unidad
+                if (isset($unidadData['temas']) && is_array($unidadData['temas'])) {
+                    foreach ($unidadData['temas'] as $temaData) {
+                        if (!empty($temaData['nombre'])) {
+                            Tema::create([
+                                'unidad_id' => $unidad->id,
+                                'nombre' => $temaData['nombre'],
+                                'detalle' => $temaData['detalle'] ?? null
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public function OnPresentar()
     {
-        // Validación y manejo del archivo subido
-        if ($this->form['urlprograma'] == null || $this->file != null) {
-            $this->validate([
-                'file' => 'required|mimes:pdf|max:10240', // 10MB Max
-            ]);
+        // Guardar unidades y temas en tablas separadas
+        $this->guardarUnidadesYTemas();
 
-            $urlFile = $this->file->storePubliclyAs('programas', 'planificacion_' . $this->planificacion_id . '.pdf');
+        // Generar PDF automáticamente
+        $controller = app()->make(\App\Http\Controllers\PlanificacionController::class);
+        $pdfResponse = $controller->generarPdf($this->planificacion);
 
-            $this->planificacion->update([
-                "urlprograma" => $urlFile
-            ]);
+        // Guardar el PDF generado
+        $pdfContent = $pdfResponse->getContent();
+        $urlFile = 'programas/planificacion_' . $this->planificacion_id . '.pdf';
+
+        // Crear directorio si no existe
+        $directory = dirname(storage_path('app/public/' . $urlFile));
+        if (!file_exists($directory)) {
+            mkdir($directory, 0755, true);
         }
+
+        Storage::disk('public')->put($urlFile, $pdfContent);
+
+        // Verificar que el archivo se guardó correctamente
+        if (!Storage::disk('public')->exists($urlFile)) {
+            throw new \Exception('Error al guardar el archivo PDF');
+        }
+
+        $this->planificacion->update([
+            "urlprograma" => $urlFile
+        ]);
 
         // Actualizar estado de la planificación
         $this->planificacion->update([

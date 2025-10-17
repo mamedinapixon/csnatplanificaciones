@@ -195,6 +195,28 @@
                         </x-pixonui.show.labeltext>
                     @endif
 
+                    <!-- Unidades y Temas -->
+                    @if($planificacion->unidades && $planificacion->unidades->count() > 0)
+                        <x-pixonui.heading.h2 class="pt-8">Unidades y Temas</x-pixonui.heading.h2>
+                        @foreach($planificacion->unidades as $unidad)
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold mb-2">
+                                    Unidad {{ $unidad->numero }}: {{ $unidad->titulo }}
+                                </h3>
+                                @if($unidad->temas && $unidad->temas->count() > 0)
+                                    @foreach($unidad->temas as $tema)
+                                        <div class="mb-4 ml-4">
+                                            <h4 class="font-medium">{{ $tema->nombre }}</h4>
+                                            @if(!empty($tema->detalle))
+                                                <p class="text-gray-600 text-sm mt-1">{{ $tema->detalle }}</p>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        @endforeach
+                    @endif
+
                     <!-- Observaciones -->
                     <x-pixonui.heading.h2 class="pt-8">Observaciones</x-pixonui.heading.h2>
                     {!! $planificacion->necesidades !!}

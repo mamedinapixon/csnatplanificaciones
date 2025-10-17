@@ -403,6 +403,157 @@
         </div>
     @endif
 
+    <!-- Unidades y Temas -->
+    <x-pixonui.heading.h2 class="pt-8">Unidades y Temas</x-pixonui.heading.h2>
+    <div class="space-y-4">
+        @if(session('message'))
+            <div class="alert alert-success">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{{ session('message') }}</span>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-error">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{{ session('error') }}</span>
+            </div>
+        @endif
+
+        <div class="text-center mb-6">
+            <button type="button" wire:click="agregarUnidad"
+                    class="btn btn-primary btn-lg">Agregar Unidad</button>
+        </div>
+
+        @foreach($unidadesTemas as $unidadIndex => $unidad)
+            <div class="card bg-base-100 shadow-lg">
+                <div class="card-body">
+                    @if(isset($unidad['guardada']) && $unidad['guardada'] && (!isset($unidad['editando']) || !$unidad['editando']))
+                        <!-- Vista compacta para unidades guardadas -->
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="card-title">Unidad {{ $unidad['numero'] }}: {{ $unidad['titulo'] }}</h3>
+                            <div class="flex space-x-2">
+                                <button type="button" wire:click="editarUnidad({{ $unidadIndex }})"
+                                        class="btn btn-sm btn-primary">Editar</button>
+                                <button type="button" wire:click="quitarUnidad({{ $unidadIndex }})"
+                                        class="btn btn-sm btn-error">Quitar Unidad</button>
+                            </div>
+                        </div>
+
+                        <!-- Mostrar temas en vista compacta -->
+                        @if(count($unidad['temas']) > 0)
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Temas:</h4>
+                                <ul class="list-disc list-inside space-y-1">
+                                    @foreach($unidad['temas'] as $tema)
+                                        <li class="text-sm">
+                                            <strong>{{ $tema['nombre'] }}</strong>
+                                            @if(!empty($tema['detalle']))
+                                                <br><span class="text-gray-600">{{ $tema['detalle'] }}</span>
+                                            @endif
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    @else
+                        <!-- Vista completa para edición -->
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="card-title">Unidad {{ $unidad['numero'] }}</h3>
+                            <div class="flex space-x-2">
+                                @if(isset($unidad['guardada']) && $unidad['guardada'])
+                                    <button type="button" wire:click="cancelarEdicion({{ $unidadIndex }})"
+                                            class="btn btn-sm btn-warning">Cancelar</button>
+                                @endif
+                                <button type="button" wire:click="quitarUnidad({{ $unidadIndex }})"
+                                        class="btn btn-sm btn-error">Quitar Unidad</button>
+                            </div>
+                        </div>
+
+                        <div class="form-control w-full mb-4">
+                            <label class="label">
+                                <span class="label-text">Título de la Unidad</span>
+                            </label>
+                            <input type="text" class="input input-bordered w-full"
+                                wire:model.lazy="unidadesTemas.{{ $unidadIndex }}.titulo"
+                                placeholder="Ingrese el título de la unidad">
+                        </div>
+
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-semibold">Temas</h4>
+                                <button type="button" wire:click="agregarTema({{ $unidadIndex }})"
+                                        @if(empty($unidad['titulo'])) disabled @endif
+                                        class="btn btn-sm btn-primary">Agregar Tema</button>
+                            </div>
+
+                            @foreach($unidad['temas'] as $temaIndex => $tema)
+                                <div class="border border-gray-200 rounded-lg p-4 mb-2">
+                                    <div class="form-control w-full mb-2">
+                                        <label class="label">
+                                            <span class="label-text">Nombre del Tema</span>
+                                        </label>
+                                        <input type="text" class="input input-bordered w-full"
+                                            wire:model.lazy="unidadesTemas.{{ $unidadIndex }}.temas.{{ $temaIndex }}.nombre"
+                                            placeholder="Ingrese el nombre del tema">
+                                    </div>
+
+                                    <div class="form-control w-full mb-2">
+                                        <label class="label">
+                                            <span class="label-text">Detalle del Tema</span>
+                                        </label>
+                                        <textarea class="textarea textarea-bordered w-full"
+                                            wire:model.lazy="unidadesTemas.{{ $unidadIndex }}.temas.{{ $temaIndex }}.detalle"
+                                            placeholder="Ingrese los conceptos que se verán en este tema"
+                                            rows="3"></textarea>
+                                    </div>
+
+                                    @if(count($unidad['temas']) > 1)
+                                        <div class="text-right">
+                                            <button type="button" wire:click="quitarTema({{ $unidadIndex }}, {{ $temaIndex }})"
+                                                    class="btn btn-sm btn-error">Quitar Tema</button>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="text-right mt-4">
+                            @php
+                                $tieneTemasValidos = false;
+                                foreach($unidad['temas'] as $tema) {
+                                    if (!empty($tema['nombre'])) {
+                                        $tieneTemasValidos = true;
+                                        break;
+                                    }
+                                }
+                            @endphp
+                            <button type="button"
+                                    wire:click="guardarUnidad({{ $unidadIndex }})"
+                                    @if(empty($unidad['titulo']) || !$tieneTemasValidos) disabled @endif
+                                    class="btn btn-success">
+                                Guardar Unidad
+                            </button>
+                            @if(isset($unidad['mensaje']))
+                                <div class="alert alert-success mt-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>{{ $unidad['mensaje'] }}</span>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @endforeach
+
+    </div>
+
     <!-- Observaciones -->
     <x-pixonui.heading.h2 class="pt-8">Observaciones</x-pixonui.heading.h2>
     <div class="form-control w-full">
@@ -412,23 +563,6 @@
         <x-pixonui.form.error for="form.observacioens_sugerencias"></x-pixonui.form.error>
     </div>
 
-    <!-- Adjuntar programa -->
-    <x-pixonui.heading.h2 class="pt-8">Adjuntar programa</x-pixonui.heading.h2>
-    @if ($form['urlprograma'] != null)
-        <div class="flex items-center justify-start">
-            <img src="{{ asset('img/icon-pdf.png') }}">
-            <div><a target="_back" href="{{ asset($form['urlprograma']) }}">ver programa</a></div>
-        </div>
-    @endif
-    <div class="form-control w-full space-y-2">
-        <input type="file" wire:model="file" accept="application/pdf"
-            class="border-primary file-input file-input-bordered file-input-primary w-full max-w-xs rounded-md border-2">
-        <div wire:loading wire:target="file">Subiendo archivo...</div>
-        @error('file')
-            <span class="error text-red-500">{{ $message }}</span>
-        @enderror
-        <div class="text-blue-500">* Solos documentos PDF hasta 10mb.</div>
-    </div>
 
     @if ($es_electiva)
         <div class="alert alert-warning flex-col text-white">
