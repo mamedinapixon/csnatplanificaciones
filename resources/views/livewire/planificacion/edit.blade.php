@@ -427,6 +427,22 @@
         <div class="text-center mb-6">
             <button type="button" wire:click="agregarUnidad"
                     class="btn btn-primary btn-lg">Agregar Unidad</button>
+            @if(session('unidad_guardada'))
+                <div class="alert alert-success mt-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Unidad guardada correctamente</span>
+                </div>
+            @endif
+            @if(session('unidad_eliminada'))
+                <div class="alert alert-error mt-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Unidad eliminada correctamente</span>
+                </div>
+            @endif
         </div>
 
         @foreach($unidadesTemas as $unidadIndex => $unidad)
@@ -453,7 +469,7 @@
                                         <li class="text-sm">
                                             <strong>{{ $tema['nombre'] }}</strong>
                                             @if(!empty($tema['detalle']))
-                                                <br><span class="text-gray-600">{{ $tema['detalle'] }}</span>
+                                                : {{ $tema['detalle'] }}
                                             @endif
                                         </li>
                                     @endforeach
@@ -465,10 +481,6 @@
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="card-title">Unidad {{ $unidad['numero'] }}</h3>
                             <div class="flex space-x-2">
-                                @if(isset($unidad['guardada']) && $unidad['guardada'])
-                                    <button type="button" wire:click="cancelarEdicion({{ $unidadIndex }})"
-                                            class="btn btn-sm btn-warning">Cancelar</button>
-                                @endif
                                 <button type="button" wire:click="quitarUnidad({{ $unidadIndex }})"
                                         class="btn btn-sm btn-error">Quitar Unidad</button>
                             </div>
@@ -514,8 +526,11 @@
 
                                     @if(count($unidad['temas']) > 1)
                                         <div class="text-right">
-                                            <button type="button" wire:click="quitarTema({{ $unidadIndex }}, {{ $temaIndex }})"
-                                                    class="btn btn-sm btn-error">Quitar Tema</button>
+                                            <button class="btn btn-ghost" wire:click="quitarTema({{ $unidadIndex }}, {{ $temaIndex }})" wire:loading.attr="disabled">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path>
+                                                </svg>
+                                            </button>
                                         </div>
                                     @endif
                                 </div>
@@ -532,20 +547,20 @@
                                     }
                                 }
                             @endphp
-                            <button type="button"
-                                    wire:click="guardarUnidad({{ $unidadIndex }})"
-                                    @if(empty($unidad['titulo']) || !$tieneTemasValidos) disabled @endif
-                                    class="btn btn-success">
-                                Guardar Unidad
-                            </button>
-                            @if(isset($unidad['mensaje']))
-                                <div class="alert alert-success mt-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    <span>{{ $unidad['mensaje'] }}</span>
-                                </div>
-                            @endif
+                            <div class="flex justify-end space-x-2">
+                                <button type="button"
+                                        wire:click="guardarUnidad({{ $unidadIndex }})"
+                                        @if(empty($unidad['titulo']) || !$tieneTemasValidos) disabled @endif
+                                        class="btn btn-success">
+                                    Guardar Unidad
+                                </button>
+                                @if(isset($unidad['guardada']) && $unidad['guardada'])
+                                    <button type="button" wire:click="cancelarEdicion({{ $unidadIndex }})"
+                                            class="btn btn-warning">
+                                        Cancelar
+                                    </button>
+                                @endif
+                            </div>
                         </div>
                     @endif
                 </div>

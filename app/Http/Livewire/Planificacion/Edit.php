@@ -250,9 +250,10 @@ class Edit extends Component
 
             $this->unidadesTemas[$unidadIndex]['guardada'] = true;
             $this->unidadesTemas[$unidadIndex]['editando'] = false; // Cambiar a vista compacta después de guardar
-            $this->unidadesTemas[$unidadIndex]['mensaje'] = 'Unidad guardada correctamente';
+            session()->flash('unidad_guardada', true);
         }
     }
+
 
     public function quitarUnidad($index)
     {
@@ -276,6 +277,8 @@ class Edit extends Component
                 Unidad::where('id', $unidad['id'])->update(['numero' => $unidad['numero']]);
             }
         }
+
+        session()->flash('unidad_eliminada', true);
     }
 
     public function agregarTema($unidadIndex)

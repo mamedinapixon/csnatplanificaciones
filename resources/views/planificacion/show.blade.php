@@ -206,10 +206,7 @@
                                 @if($unidad->temas && $unidad->temas->count() > 0)
                                     @foreach($unidad->temas as $tema)
                                         <div class="mb-4 ml-4">
-                                            <h4 class="font-medium">{{ $tema->nombre }}</h4>
-                                            @if(!empty($tema->detalle))
-                                                <p class="text-gray-600 text-sm mt-1">{{ $tema->detalle }}</p>
-                                            @endif
+                                            <h4 class="font-medium"><strong>{{ $tema->nombre }}</strong>@if(!empty($tema->detalle)): {{ $tema->detalle }}@endif</h4>
                                         </div>
                                     @endforeach
                                 @endif
