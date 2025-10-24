@@ -424,27 +424,6 @@
             </div>
         @endif
 
-        <div class="text-center mb-6">
-            <button type="button" wire:click="agregarUnidad"
-                    class="btn btn-primary btn-lg">Agregar Unidad</button>
-            @if(session('unidad_guardada'))
-                <div class="alert alert-success mt-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span>Unidad guardada correctamente</span>
-                </div>
-            @endif
-            @if(session('unidad_eliminada'))
-                <div class="alert alert-error mt-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span>Unidad eliminada correctamente</span>
-                </div>
-            @endif
-        </div>
-
         @foreach($unidadesTemas as $unidadIndex => $unidad)
             <div class="card bg-base-100 shadow-lg">
                 <div class="card-body">
@@ -566,6 +545,28 @@
                 </div>
             </div>
         @endforeach
+
+        @if(session('unidad_guardada'))
+            <div class="alert alert-success">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Unidad guardada correctamente</span>
+            </div>
+        @endif
+        @if(session('unidad_eliminada'))
+            <div class="alert alert-error">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Unidad eliminada correctamente</span>
+            </div>
+        @endif
+
+        <div class="text-center mb-6">
+            <button type="button" wire:click="agregarUnidad"
+                    class="btn btn-primary btn-lg">Agregar Unidad</button>
+        </div>
 
     </div>
 

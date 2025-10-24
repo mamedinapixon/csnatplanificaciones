@@ -186,8 +186,8 @@ class Edit extends Component
         $maxNumero = Unidad::where('planificacion_id', $this->planificacion_id)->max('numero') ?? 0;
         $nuevoNumero = $maxNumero + 1;
 
-        // Agregar al principio del array
-        array_unshift($this->unidadesTemas, [
+        // Agregar al final del array (debajo de las unidades existentes)
+        array_push($this->unidadesTemas, [
             'numero' => $nuevoNumero,
             'titulo' => '',
             'temas' => []
