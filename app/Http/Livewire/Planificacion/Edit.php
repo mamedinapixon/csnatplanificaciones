@@ -283,8 +283,8 @@ class Edit extends Component
 
     public function agregarTema($unidadIndex)
     {
-        // Agregar al principio del array de temas
-        array_unshift($this->unidadesTemas[$unidadIndex]['temas'], [
+        // Agregar al final del array de temas
+        array_push($this->unidadesTemas[$unidadIndex]['temas'], [
             'nombre' => '',
             'detalle' => ''
         ]);

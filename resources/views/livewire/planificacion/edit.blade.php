@@ -477,9 +477,6 @@
                         <div class="space-y-2">
                             <div class="flex justify-between items-center">
                                 <h4 class="font-semibold">Temas</h4>
-                                <button type="button" wire:click="agregarTema({{ $unidadIndex }})"
-                                        @if(empty($unidad['titulo'])) disabled @endif
-                                        class="btn btn-sm btn-primary">Agregar Tema</button>
                             </div>
 
                             @foreach($unidad['temas'] as $temaIndex => $tema)
@@ -526,19 +523,24 @@
                                     }
                                 }
                             @endphp
-                            <div class="flex justify-end space-x-2">
-                                <button type="button"
-                                        wire:click="guardarUnidad({{ $unidadIndex }})"
-                                        @if(empty($unidad['titulo']) || !$tieneTemasValidos) disabled @endif
-                                        class="btn btn-success">
-                                    Guardar Unidad
-                                </button>
-                                @if(isset($unidad['guardada']) && $unidad['guardada'])
-                                    <button type="button" wire:click="cancelarEdicion({{ $unidadIndex }})"
-                                            class="btn btn-warning">
-                                        Cancelar
+                            <div class="flex justify-between items-center">
+                                <button type="button" wire:click="agregarTema({{ $unidadIndex }})"
+                                        @if(empty($unidad['titulo'])) disabled @endif
+                                        class="btn btn-sm btn-primary">Agregar Tema</button>
+                                <div class="flex space-x-2">
+                                    <button type="button"
+                                            wire:click="guardarUnidad({{ $unidadIndex }})"
+                                            @if(empty($unidad['titulo']) || !$tieneTemasValidos) disabled @endif
+                                            class="btn btn-success">
+                                        Guardar Unidad
                                     </button>
-                                @endif
+                                    @if(isset($unidad['guardada']) && $unidad['guardada'])
+                                        <button type="button" wire:click="cancelarEdicion({{ $unidadIndex }})"
+                                                class="btn btn-warning">
+                                            Cancelar
+                                        </button>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     @endif
