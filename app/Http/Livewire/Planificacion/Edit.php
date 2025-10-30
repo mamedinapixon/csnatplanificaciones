@@ -17,6 +17,7 @@ use App\Models\User;
 use App\Models\DocentePlanificacion;
 use App\Models\Unidad;
 use App\Models\Tema;
+use App\Models\Competencia;
 use Livewire\WithFileUploads;
 use Mail;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +39,7 @@ class Edit extends Component
     public $tipoAsignatura = [];
     public $modalidad = [];
     public $es_electiva = false;
+    public $competencias = [];
 
     public $planificacion_id = null;
     public $cargaHorariaSemanal = 0;
@@ -51,7 +53,6 @@ class Edit extends Component
 
     public function mount($planificacion)
     {
-        //$this->planificacion = $planificacion;
         $this->planificacion_id = $planificacion->id;
         $this->planificacion = $planificacion;
         $this->form = [
@@ -98,7 +99,6 @@ class Edit extends Component
             'observacioens_sugerencias' => $planificacion->observacioens_sugerencias,
             'urlprograma' => $planificacion->urlprograma
         ];
-        //dd($this->planificacion);
 
         $this->docentes = Docente::orderBy("apellido")->orderBy('nombre')->get();
         $this->tipoAsignatura = TipoAsignatura::get();
@@ -108,12 +108,14 @@ class Edit extends Component
         $this->dedicaciones = Dedicacion::Get();
         $this->situaciones = SituacionCargo::Get();
 
+        $this->competencias = Competencia::orderBy('nombre')->get();
+
         $this->es_electiva = $this->planificacion->materiaPlanEstudio->materia->tipo_materia == "G" ? true : false;
 
         // Cargar unidades y temas existentes desde las tablas relacionadas
         $this->unidadesTemas = [];
         try {
-            $unidades = $planificacion->unidades()->with('temas')->get();
+            $unidades = $planificacion->unidades()->with('temas.competencias')->get();
 
             foreach ($unidades as $unidad) {
                 $temasArray = [];
@@ -121,7 +123,8 @@ class Edit extends Component
                     $temasArray[] = [
                         'id' => $tema->id,
                         'nombre' => $tema->nombre,
-                        'detalle' => $tema->detalle
+                        'detalle' => $tema->detalle,
+                        'competencias' => !empty($tema->competencias->pluck('id')->toArray()) ? [$tema->competencias->pluck('id')->toArray()[0]] : [null]
                     ];
                 }
 
@@ -234,6 +237,13 @@ class Edit extends Component
                                     'nombre' => $temaData['nombre'],
                                     'detalle' => $temaData['detalle'] ?? null
                                 ]);
+
+                                // Actualizar competencias para el tema (solo una competencia)
+                                if (isset($temaData['competencias']) && is_array($temaData['competencias']) && !empty($temaData['competencias'][0])) {
+                                    $tema->competencias()->sync([$temaData['competencias'][0]]);
+                                } else {
+                                    $tema->competencias()->detach();
+                                }
                             }
                         } else {
                             // Crear nuevo tema
@@ -243,6 +253,11 @@ class Edit extends Component
                                 'detalle' => $temaData['detalle'] ?? null
                             ]);
                             $this->unidadesTemas[$unidadIndex]['temas'][$temaIndex]['id'] = $tema->id;
+
+                            // Guardar competencias para el tema (solo una competencia)
+                            if (isset($temaData['competencias']) && is_array($temaData['competencias']) && !empty($temaData['competencias'][0])) {
+                                $tema->competencias()->sync([$temaData['competencias'][0]]);
+                            }
                         }
                     }
                 }
@@ -286,7 +301,8 @@ class Edit extends Component
         // Agregar al final del array de temas
         array_push($this->unidadesTemas[$unidadIndex]['temas'], [
             'nombre' => '',
-            'detalle' => ''
+            'detalle' => '',
+            'competencias' => [null]
         ]);
     }
 
@@ -320,14 +336,16 @@ class Edit extends Component
         }
         // Recargar datos desde BD para deshacer cambios no guardados
         if (isset($this->unidadesTemas[$unidadIndex]['id'])) {
-            $unidad = Unidad::with('temas')->find($this->unidadesTemas[$unidadIndex]['id']);
+            $unidad = Unidad::with('temas.competencias')->find($this->unidadesTemas[$unidadIndex]['id']);
             if ($unidad) {
                 $temasArray = [];
                 foreach ($unidad->temas as $tema) {
+                    $competenciasIds = $tema->competencias->pluck('id')->toArray();
                     $temasArray[] = [
                         'id' => $tema->id,
                         'nombre' => $tema->nombre,
-                        'detalle' => $tema->detalle
+                        'detalle' => $tema->detalle,
+                        'competencias' => !empty($competenciasIds) ? [$competenciasIds[0]] : [null]
                     ];
                 }
                 $this->unidadesTemas[$unidadIndex] = [
@@ -360,11 +378,16 @@ class Edit extends Component
                 if (isset($unidadData['temas']) && is_array($unidadData['temas'])) {
                     foreach ($unidadData['temas'] as $temaData) {
                         if (!empty($temaData['nombre'])) {
-                            Tema::create([
+                            $tema = Tema::create([
                                 'unidad_id' => $unidad->id,
                                 'nombre' => $temaData['nombre'],
                                 'detalle' => $temaData['detalle'] ?? null
                             ]);
+
+                            // Guardar competencias para el tema (solo una competencia)
+                            if (isset($temaData['competencias']) && is_array($temaData['competencias']) && !empty($temaData['competencias'][0])) {
+                                $tema->competencias()->sync([$temaData['competencias'][0]]);
+                            }
                         }
                     }
                 }

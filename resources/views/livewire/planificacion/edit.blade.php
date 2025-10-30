@@ -450,6 +450,9 @@
                                             @if(!empty($tema['detalle']))
                                                 : {{ $tema['detalle'] }}
                                             @endif
+                                            @if(!empty($tema['competencias']) && count($tema['competencias']) > 0)
+                                                <br><strong>Competencia:</strong> <span class="text-base">{{ $competencias->where('id', $tema['competencias'][0])->first()->nombre ?? 'N/A' }}</span>
+                                            @endif
                                         </li>
                                     @endforeach
                                 </ul>
@@ -498,6 +501,20 @@
                                             wire:model.lazy="unidadesTemas.{{ $unidadIndex }}.temas.{{ $temaIndex }}.detalle"
                                             placeholder="Ingrese los conceptos que se verán en este tema"
                                             rows="3"></textarea>
+                                    </div>
+
+                                    <div class="form-control w-full mb-2">
+                                        <label class="label">
+                                            <span class="label-text">Competencia</span>
+                                        </label>
+                                        <select class="select select-bordered w-full"
+                                            wire:model.lazy="unidadesTemas.{{ $unidadIndex }}.temas.{{ $temaIndex }}.competencias.0"
+                                            style="background-image: none;">
+                                            <option value="">Seleccionar competencia...</option>
+                                            @foreach($competencias as $competencia)
+                                                <option value="{{ $competencia->id }}">{{ $competencia->nombre }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
 
                                     @if(count($unidad['temas']) > 1)
@@ -623,6 +640,138 @@
     </div>
 
     @push('scripts')
+    <script>
+        document.addEventListener('livewire:loaded', () => {
+            // Función para inicializar select con búsqueda
+            function initializeCompetenciaSelects() {
+                const selects = document.querySelectorAll('select[wire\\:model*="competencias"]');
+
+                selects.forEach(select => {
+                    if (!select.hasAttribute('data-search-initialized')) {
+                        select.setAttribute('data-search-initialized', 'true');
+
+                        // Crear contenedor de búsqueda
+                        const container = document.createElement('div');
+                        container.className = 'relative';
+                        select.parentNode.insertBefore(container, select);
+                        container.appendChild(select);
+
+                        // Crear input de búsqueda
+                        const searchInput = document.createElement('input');
+                        searchInput.type = 'text';
+                        searchInput.className = 'input input-bordered w-full pr-10';
+                        searchInput.placeholder = 'Buscar competencia...';
+                        container.insertBefore(searchInput, select);
+
+                        // Ocultar select original
+                        select.style.display = 'none';
+
+                        // Crear lista desplegable
+                        const dropdown = document.createElement('div');
+                        dropdown.className = 'absolute z-50 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto hidden';
+                        container.appendChild(dropdown);
+
+                        let selectedValue = select.value;
+                        let isOpen = false;
+
+                        // Función para actualizar opciones
+                        function updateOptions(searchTerm = '') {
+                            dropdown.innerHTML = '';
+
+                            const options = Array.from(select.options);
+                            const filteredOptions = options.filter(option => {
+                                if (option.value === '') return true; // Siempre mostrar opción vacía
+                                return option.text.toLowerCase().includes(searchTerm.toLowerCase());
+                            });
+
+                            filteredOptions.forEach(option => {
+                                const optionDiv = document.createElement('div');
+                                optionDiv.className = `px-4 py-2 cursor-pointer hover:bg-gray-100 ${
+                                    option.value === selectedValue ? 'bg-blue-100 text-blue-800' : ''
+                                }`;
+                                optionDiv.textContent = option.value === '' ? 'Seleccionar competencia...' : option.text;
+                                optionDiv.dataset.value = option.value;
+
+                                optionDiv.addEventListener('click', () => {
+                                    selectedValue = option.value;
+                                    searchInput.value = option.value === '' ? '' : option.text;
+                                    select.value = option.value;
+
+                                    // Trigger Livewire update
+                                    const event = new Event('input', { bubbles: true });
+                                    select.dispatchEvent(event);
+
+                                    closeDropdown();
+                                });
+
+                                dropdown.appendChild(optionDiv);
+                            });
+                        }
+
+                        // Función para abrir dropdown
+                        function openDropdown() {
+                            dropdown.classList.remove('hidden');
+                            isOpen = true;
+                            updateOptions(searchInput.value);
+                        }
+
+                        // Función para cerrar dropdown
+                        function closeDropdown() {
+                            dropdown.classList.add('hidden');
+                            isOpen = false;
+                        }
+
+                        // Event listeners
+                        searchInput.addEventListener('focus', openDropdown);
+
+                        searchInput.addEventListener('input', (e) => {
+                            if (!isOpen) openDropdown();
+                            updateOptions(e.target.value);
+                        });
+
+                        searchInput.addEventListener('keydown', (e) => {
+                            if (e.key === 'Escape') {
+                                closeDropdown();
+                            } else if (e.key === 'Enter') {
+                                e.preventDefault();
+                                closeDropdown();
+                            }
+                        });
+
+                        // Cerrar dropdown al hacer clic fuera
+                        document.addEventListener('click', (e) => {
+                            if (!container.contains(e.target)) {
+                                closeDropdown();
+                            }
+                        });
+
+                        // Inicializar valor
+                        if (selectedValue) {
+                            const selectedOption = Array.from(select.options).find(opt => opt.value === selectedValue);
+                            if (selectedOption) {
+                                searchInput.value = selectedOption.text;
+                            }
+                        }
+
+                        // Actualizar cuando Livewire cambie el valor
+                        select.addEventListener('change', () => {
+                            selectedValue = select.value;
+                            const selectedOption = Array.from(select.options).find(opt => opt.value === selectedValue);
+                            searchInput.value = selectedOption ? selectedOption.text : '';
+                        });
+                    }
+                });
+            }
+
+            // Inicializar selects existentes
+            initializeCompetenciaSelects();
+
+            // Re-inicializar cuando Livewire actualice el DOM
+            Livewire.hook('message.processed', () => {
+                initializeCompetenciaSelects();
+            });
+        });
+    </script>
     @endpush
 
 

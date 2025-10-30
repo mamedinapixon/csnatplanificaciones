@@ -77,7 +77,8 @@ class PlanificacionController extends Controller
             'periodoLectivo',
             'periodoLectivo.periodoAcademico',
             'modalidadParcial',
-            'estado'
+            'estado',
+            'unidades.temas.competencias'
         ])
             ->where("id", $planificacion->id)
             ->first();

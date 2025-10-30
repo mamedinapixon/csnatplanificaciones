@@ -26,4 +26,14 @@ class Tema extends Model
     {
         return $this->belongsTo(Unidad::class);
     }
+
+    /**
+     * Get the competencias that belong to the Tema
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function competencias()
+    {
+        return $this->belongsToMany(Competencia::class, 'tema_competencia');
+    }
 }

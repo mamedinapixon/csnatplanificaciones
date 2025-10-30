@@ -206,7 +206,15 @@
                                 @if($unidad->temas && $unidad->temas->count() > 0)
                                     @foreach($unidad->temas as $tema)
                                         <div class="mb-4 ml-4">
-                                            <h4 class="font-medium"><strong>{{ $tema->nombre }}</strong>@if(!empty($tema->detalle)): {{ $tema->detalle }}@endif</h4>
+                                            <h4 class="font-medium">
+                                                <strong>{{ $tema->nombre }}</strong>
+                                                @if(!empty($tema->detalle)): {{ $tema->detalle }}@endif
+                                            </h4>
+                                            @if($tema->competencias && $tema->competencias->count() > 0)
+                                                <div class="mb-3">
+                                                    <strong>Competencia:</strong> <span class="text-base">{{ $tema->competencias->first()->nombre }}</span>
+                                                </div>
+                                            @endif
                                         </div>
                                     @endforeach
                                 @endif
