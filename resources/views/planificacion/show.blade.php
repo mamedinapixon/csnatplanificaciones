@@ -214,6 +214,10 @@
                                                 <div class="mb-3">
                                                     <strong>Competencia:</strong> <span class="text-base">{{ $tema->competencias->first()->nombre }}</span>
                                                 </div>
+                                            @else
+                                                <div class="mb-3">
+                                                    <strong>Competencia:</strong> <span class="text-base">Sin Competencia</span>
+                                                </div>
                                             @endif
                                         </div>
                                     @endforeach

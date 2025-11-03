@@ -108,7 +108,10 @@ class Edit extends Component
         $this->dedicaciones = Dedicacion::Get();
         $this->situaciones = SituacionCargo::Get();
 
-        $this->competencias = Competencia::orderBy('nombre')->get();
+        $this->competencias = Competencia::where('carrera_id', $this->planificacion->materiaPlanEstudio->carrera_id)
+            ->orWhereNull('carrera_id')
+            ->orderBy('nombre')
+            ->get();
 
         $this->es_electiva = $this->planificacion->materiaPlanEstudio->materia->tipo_materia == "G" ? true : false;
 
@@ -124,7 +127,7 @@ class Edit extends Component
                         'id' => $tema->id,
                         'nombre' => $tema->nombre,
                         'detalle' => $tema->detalle,
-                        'competencias' => !empty($tema->competencias->pluck('id')->toArray()) ? [$tema->competencias->pluck('id')->toArray()[0]] : [null]
+                        'competencias' => !empty($tema->competencias->pluck('id')->toArray()) ? [$tema->competencias->pluck('id')->toArray()[0]] : ["Sin Competencia"]
                     ];
                 }
 
@@ -239,7 +242,7 @@ class Edit extends Component
                                 ]);
 
                                 // Actualizar competencias para el tema (solo una competencia)
-                                if (isset($temaData['competencias']) && is_array($temaData['competencias']) && !empty($temaData['competencias'][0])) {
+                                if (isset($temaData['competencias']) && is_array($temaData['competencias']) && !empty($temaData['competencias'][0]) && $temaData['competencias'][0] !== "Sin Competencia") {
                                     $tema->competencias()->sync([$temaData['competencias'][0]]);
                                 } else {
                                     $tema->competencias()->detach();
@@ -255,7 +258,7 @@ class Edit extends Component
                             $this->unidadesTemas[$unidadIndex]['temas'][$temaIndex]['id'] = $tema->id;
 
                             // Guardar competencias para el tema (solo una competencia)
-                            if (isset($temaData['competencias']) && is_array($temaData['competencias']) && !empty($temaData['competencias'][0])) {
+                            if (isset($temaData['competencias']) && is_array($temaData['competencias']) && !empty($temaData['competencias'][0]) && $temaData['competencias'][0] !== "Sin Competencia") {
                                 $tema->competencias()->sync([$temaData['competencias'][0]]);
                             }
                         }
@@ -302,7 +305,7 @@ class Edit extends Component
         array_push($this->unidadesTemas[$unidadIndex]['temas'], [
             'nombre' => '',
             'detalle' => '',
-            'competencias' => [null]
+            'competencias' => ["Sin Competencia"]
         ]);
     }
 
@@ -345,7 +348,7 @@ class Edit extends Component
                         'id' => $tema->id,
                         'nombre' => $tema->nombre,
                         'detalle' => $tema->detalle,
-                        'competencias' => !empty($competenciasIds) ? [$competenciasIds[0]] : [null]
+                        'competencias' => !empty($competenciasIds) ? [$competenciasIds[0]] : ["Sin Competencia"]
                     ];
                 }
                 $this->unidadesTemas[$unidadIndex] = [
@@ -385,7 +388,7 @@ class Edit extends Component
                             ]);
 
                             // Guardar competencias para el tema (solo una competencia)
-                            if (isset($temaData['competencias']) && is_array($temaData['competencias']) && !empty($temaData['competencias'][0])) {
+                            if (isset($temaData['competencias']) && is_array($temaData['competencias']) && !empty($temaData['competencias'][0]) && $temaData['competencias'][0] !== "Sin Competencia") {
                                 $tema->competencias()->sync([$temaData['competencias'][0]]);
                             }
                         }

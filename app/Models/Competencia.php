@@ -13,7 +13,8 @@ class Competencia extends Model
 
     protected $fillable = [
         'nombre',
-        'descripcion'
+        'descripcion',
+        'carrera_id'
     ];
 
     /**
@@ -24,5 +25,15 @@ class Competencia extends Model
     public function temas()
     {
         return $this->belongsToMany(Tema::class, 'tema_competencia');
+    }
+
+    /**
+     * Get the carrera that owns the Competencia
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function carrera()
+    {
+        return $this->belongsTo(Carrera::class);
     }
 }

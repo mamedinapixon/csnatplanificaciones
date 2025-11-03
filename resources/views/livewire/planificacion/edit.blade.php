@@ -451,7 +451,9 @@
                                                 : {{ $tema['detalle'] }}
                                             @endif
                                             @if(!empty($tema['competencias']) && count($tema['competencias']) > 0)
-                                                <br><strong>Competencia:</strong> <span class="text-base">{{ $competencias->where('id', $tema['competencias'][0])->first()->nombre ?? 'N/A' }}</span>
+                                                <br><strong>Competencia:</strong> <span class="text-base">{{ $competencias->where('id', $tema['competencias'][0])->first()->nombre ?? 'Sin Competencia' }}</span>
+                                            @else
+                                                <br><strong>Competencia:</strong> <span class="text-base">Sin Competencia</span>
                                             @endif
                                         </li>
                                     @endforeach
