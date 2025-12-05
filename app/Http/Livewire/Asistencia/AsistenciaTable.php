@@ -10,6 +10,8 @@ use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
 use App\Models\Asistencia;
 use App\Models\Ubicacion;
 use App\Models\User;
+use App\Models\Catedra;
+use App\Models\CatedraMember;
 use Illuminate\Support\Facades\Auth;
 use \Carbon\Carbon;
 use \Carbon\CarbonInterface;
@@ -29,14 +31,22 @@ class AsistenciaTable extends DataTableComponent
 
     public function builder(): Builder
     {
-
-        //dd(Asistencia::whereIn('id', [2451,2402,2171,2133])->with("user:id","ubicacion")->orderBy('id', 'desc')->get());
-
-        if(Auth::check() && Auth::user()->can('ver historial asistencia'))
+        $user = Auth::user();
+        
+        // Verificar si el usuario tiene permiso para ver todo el historial
+        if(Auth::check() && $user->can('ver historial asistencia'))
         {
             $asistencia = Asistencia::query()
                             ->with("user","ubicacion")->orderBy('id', 'desc');
-        } else {
+        } 
+        // Verificar si el usuario es jefe de cátedra
+        elseif (Auth::check() && $user->esJefeCatedra()) {
+            $asistencia = Asistencia::query()
+                            ->whereIn('user_id', $user->catedra_member_ids)
+                            ->with("user","ubicacion")->orderBy('id', 'desc');
+        }
+        // Solo ver su propia asistencia
+        else {
             $asistencia = Asistencia::query()
                             ->where("user_id","=",Auth::user()->id)
                             ->with("user","ubicacion")->orderBy('id', 'desc');
