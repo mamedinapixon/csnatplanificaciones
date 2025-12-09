@@ -42,7 +42,7 @@ class AsistenciaTable extends DataTableComponent
         // Verificar si el usuario es jefe de cátedra
         elseif (Auth::check() && $user->esJefeCatedra()) {
             $asistencia = Asistencia::query()
-                            ->whereIn('user_id', $user->catedra_member_ids)
+                            ->whereIn('user_id', array_merge([$user->id], $user->catedra_member_ids->toArray()))
                             ->with("user","ubicacion")->orderBy('id', 'desc');
         }
         // Solo ver su propia asistencia
