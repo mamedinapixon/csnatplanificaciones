@@ -44,12 +44,6 @@ class CatedraMemberResource extends Resource
                     ])
                     ->default('miembro')
                     ->required(),
-                Forms\Components\DatePicker::make('fecha_inicio')
-                    ->label('Fecha de Inicio')
-                    ->nullable(),
-                Forms\Components\DatePicker::make('fecha_fin')
-                    ->label('Fecha de Fin')
-                    ->nullable(),
                 Forms\Components\Toggle::make('activo')
                     ->label('Activo')
                     ->default(true)
@@ -79,14 +73,6 @@ class CatedraMemberResource extends Resource
                         'success' => 'jefe',
                         'primary' => 'miembro',
                     ]),
-                Tables\Columns\TextColumn::make('fecha_inicio')
-                    ->label('Inicio')
-                    ->date('d/m/Y')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('fecha_fin')
-                    ->label('Fin')
-                    ->date('d/m/Y')
-                    ->sortable(),
                 Tables\Columns\IconColumn::make('activo')
                     ->label('Activo')
                     ->boolean(),
