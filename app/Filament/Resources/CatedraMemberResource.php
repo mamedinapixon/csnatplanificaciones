@@ -133,4 +133,9 @@ class CatedraMemberResource extends Resource
             'edit' => Pages\EditCatedraMember::route('/{record}/edit'),
         ];
     }
+
+    protected static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
 }
