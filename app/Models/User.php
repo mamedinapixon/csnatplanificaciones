@@ -10,9 +10,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Filament\Models\Contracts\FilamentUser;
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens;
     use HasFactory;
@@ -144,5 +145,10 @@ class User extends Authenticatable
         }
         
         return false;
+    }
+
+    public function canAccessFilament(): bool
+    {
+        return $this->hasRole('admin');
     }
 }
