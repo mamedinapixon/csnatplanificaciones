@@ -73,7 +73,9 @@ class User extends Authenticatable implements FilamentUser
      */
     public function catedrasJefe()
     {
-        return $this->hasMany(Catedra::class, 'jefe_catedra_id');
+        return $this->hasManyThrough(Catedra::class, CatedraMember::class, 'user_id', 'id', 'id', 'catedra_id')
+                    ->where('catedra_members.role', 'jefe')
+                    ->where('catedra_members.activo', true);
     }
 
     /**
@@ -91,11 +93,10 @@ class User extends Authenticatable implements FilamentUser
      */
     public function catedras()
     {
-        return Catedra::where('jefe_catedra_id', $this->id)
-                    ->orWhereHas('miembros', function($query) {
-                        $query->where('user_id', $this->id)
-                              ->where('activo', true);
-                    });
+        return Catedra::whereHas('miembros', function ($query) {
+            $query->where('user_id', $this->id)
+                  ->where('activo', true);
+        });
     }
 
     /**
@@ -118,7 +119,10 @@ class User extends Authenticatable implements FilamentUser
      */
     public function esJefeCatedra(): bool
     {
-        return Catedra::where('jefe_catedra_id', $this->id)->exists();
+        return CatedraMember::where('user_id', $this->id)
+            ->where('role', 'jefe')
+            ->where('activo', true)
+            ->exists();
     }
 
     /**

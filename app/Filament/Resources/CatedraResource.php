@@ -37,11 +37,6 @@ class CatedraResource extends Resource
                 Forms\Components\Textarea::make('descripcion')
                     ->label('Descripción')
                     ->maxLength(65535),
-                Forms\Components\Select::make('jefe_catedra_id')
-                    ->label('Jefe de Cátedra')
-                    ->relationship('jefeCatedra', 'name')
-                    ->required()
-                    ->searchable(),
                 Forms\Components\Toggle::make('activa')
                     ->label('Activa')
                     ->default(true)
@@ -55,10 +50,6 @@ class CatedraResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
                     ->label('Nombre')
-                    ->searchable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('jefeCatedra.name')
-                    ->label('Jefe de Cátedra')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('miembros.count')

@@ -45,7 +45,6 @@ class CatedraSeeder extends Seeder
             ['nombre' => 'Cátedra de Matemáticas'],
             [
                 'descripcion' => 'Cátedra responsable de las materias de matemáticas',
-                'jefe_catedra_id' => $jefe->id,
                 'activa' => true,
             ]
         );

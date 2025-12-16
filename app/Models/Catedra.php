@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Catedra extends Model
 {
@@ -14,7 +13,6 @@ class Catedra extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'jefe_catedra_id',
         'activa',
     ];
 
@@ -23,14 +21,6 @@ class Catedra extends Model
         'fecha_inicio' => 'date',
         'fecha_fin' => 'date',
     ];
-
-    /**
-     * Relación con el jefe de cátedra
-     */
-    public function jefeCatedra(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'jefe_catedra_id');
-    }
 
     /**
      * Relación con todos los miembros de la cátedra
@@ -70,7 +60,11 @@ class Catedra extends Model
      */
     public function esJefe(User $user): bool
     {
-        return $this->jefe_catedra_id === $user->id;
+        return $this->miembros()
+            ->where('user_id', $user->id)
+            ->where('activo', true)
+            ->where('role', 'jefe')
+            ->exists();
     }
 
     /**
