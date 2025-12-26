@@ -10,6 +10,8 @@ use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
 use App\Models\Asistencia;
 use App\Models\Ubicacion;
 use App\Models\User;
+use App\Models\Catedra;
+use App\Models\CatedraMember;
 use Illuminate\Support\Facades\Auth;
 use \Carbon\Carbon;
 use \Carbon\CarbonInterface;
@@ -29,14 +31,47 @@ class AsistenciaTable extends DataTableComponent
 
     public function builder(): Builder
     {
-
-        //dd(Asistencia::whereIn('id', [2451,2402,2171,2133])->with("user:id","ubicacion")->orderBy('id', 'desc')->get());
-
-        if(Auth::check() && Auth::user()->can('ver historial asistencia'))
+        $user = Auth::user();
+        
+        // Verificar si el usuario tiene permiso para ver todo el historial
+        if(Auth::check() && $user->can('ver historial asistencia'))
         {
             $asistencia = Asistencia::query()
                             ->with("user","ubicacion")->orderBy('id', 'desc');
-        } else {
+        } 
+        // Verificar si el usuario es jefe de cátedra (por rol en CatedraMember)
+        elseif (Auth::check()) {
+            $catedraIdsComoJefe = CatedraMember::query()
+                ->where('user_id', $user->id)
+                ->where('role', 'jefe')
+                ->where('activo', true)
+                ->pluck('catedra_id');
+
+            if ($catedraIdsComoJefe->isNotEmpty()) {
+                // Ver su propia asistencia + la de todos los miembros activos de las cátedras donde es jefe
+                $idsUsuariosVisibles = CatedraMember::query()
+                    ->whereIn('catedra_id', $catedraIdsComoJefe)
+                    ->where('activo', true)
+                    ->pluck('user_id')
+                    ->push($user->id)
+                    ->unique()
+                    ->values();
+
+                $asistencia = Asistencia::query()
+                    ->whereIn('user_id', $idsUsuariosVisibles)
+                    ->with("user", "ubicacion")
+                    ->orderBy('id', 'desc');
+            } else {
+                // Solo ver su propia asistencia
+                $asistencia = Asistencia::query()
+                    ->where("user_id", "=", Auth::user()->id)
+                    ->with("user", "ubicacion")
+                    ->orderBy('id', 'desc');
+                $this->setFiltersVisibilityDisabled();
+            }
+        }
+        // Solo ver su propia asistencia
+        else {
             $asistencia = Asistencia::query()
                             ->where("user_id","=",Auth::user()->id)
                             ->with("user","ubicacion")->orderBy('id', 'desc');
