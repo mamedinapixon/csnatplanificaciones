@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(GenerarInformeAsistenciaDiario::class)->dailyAt('00:01');
-        $schedule->command(RecordarCerrarAsistencia::class)->dailyAt('20:00');
+        $schedule->command(RecordarCerrarAsistencia::class)->dailyAt(config('asistencia.recordatorio_hora', '20:00'));
     }
 
     /**
