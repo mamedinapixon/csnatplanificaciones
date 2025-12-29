@@ -48,7 +48,7 @@ class GoogleController extends Controller
 
                 Auth::login($finduser);
 
-                return redirect()->route(env("GOOGLE_REDIRECT_LOGIN"));
+                return redirect()->route("home");
 
             }else{
                 $finduser = User::where('email', $user->email)->first();
@@ -84,7 +84,7 @@ class GoogleController extends Controller
                     }*/
                 }
 
-                return redirect()->route(env("GOOGLE_REDIRECT_LOGIN"));
+                return redirect()->route("home");
             }
 
         } catch (Exception $e) {

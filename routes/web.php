@@ -93,8 +93,8 @@ Route::middleware([
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
-Route::get('auth/{provider}/redirect', [LoginUserViaSocialiteController::class, 'create'])->where('provider', 'google|microsoft');
-Route::get('auth/{provider}/callback', [LoginUserViaSocialiteController::class, 'store'])->where('provider', 'google|microsoft');
+/*Route::get('auth/{provider}/redirect', [LoginUserViaSocialiteController::class, 'create'])->where('provider', 'google|microsoft');
+Route::get('auth/{provider}/callback', [LoginUserViaSocialiteController::class, 'store'])->where('provider', 'google|microsoft');*/
 
 Route::get('planificacion/{planificacion}/pdf', [App\Http\Controllers\PlanificacionController::class, 'generarPdf'])
     ->middleware('auth')
