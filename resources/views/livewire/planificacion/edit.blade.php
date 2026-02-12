@@ -430,6 +430,27 @@
         <div class="text-blue-500">* Solos documentos PDF hasta 10mb.</div>
     </div>
 
+    <!-- Curriculum externo (docentes externos) -->
+    <x-pixonui.heading.h2 class="pt-8">CV Docente Externo</x-pixonui.heading.h2>
+    <div class="alert alert-info">
+        <span>Solo deben cargar el CV los docentes que no pertenecen a la institución.</span>
+    </div>
+    @if (isset($form['cv_externo']) && $form['cv_externo'] != null)
+        <div class="flex items-center justify-start mb-2">
+            <img src="{{ asset('img/icon-pdf.png') }}">
+            <a target="_blank" href="{{ asset($form['cv_externo']) }}">Ver CV Docente Externo</a>
+        </div>
+    @endif
+    <div class="form-control w-full space-y-2">
+        <input type="file" wire:model="cvExternoFile" accept="application/pdf"
+            class="border-primary file-input file-input-bordered file-input-primary w-full max-w-xs rounded-md border-2">
+        <div wire:loading wire:target="cvExternoFile">Subiendo archivo...</div>
+        @error('cvExternoFile')
+            <span class="error text-red-500">{{ $message }}</span>
+        @enderror
+        <div class="text-blue-500">* Solo documentos PDF hasta 10MB.</div>
+    </div>
+
     @if ($es_electiva)
         <div class="alert alert-warning flex-col text-white">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

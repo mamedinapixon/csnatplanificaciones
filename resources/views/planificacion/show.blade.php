@@ -212,6 +212,18 @@
                             <a target="_back" href="{{asset($planificacion->urlprograma)}}">{{config('app.test_url').''.asset($planificacion->urlprograma)}}</a>
                         </div>
                     @endif
+
+                    @if ($planificacion->cv_externo != null)
+                        <x-pixonui.heading.h2 class="pt-8">CV Docente Externo</x-pixonui.heading.h2>
+                        <div class="flex justify-start items-center no-print">
+                            <img src="{{asset('img/icon-pdf.png')}}">
+                            <div><a target="_blank" href="{{asset($planificacion->cv_externo)}}">Ver cv docente externo</a></div>
+                        </div>
+                        <div class="flex justify-start items-center print">
+                            <img src="{{asset('img/icon-pdf.png')}}">
+                            <a target="_blank" href="{{asset($planificacion->cv_externo)}}">{{config('app.test_url').''.asset($planificacion->cv_externo)}}</a>
+                        </div>
+                    @endif
                 </div>
             </div>
             @livewire('planificacion.cambiar-estado', ['planificacion' => $planificacion])

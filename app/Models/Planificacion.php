@@ -59,7 +59,8 @@ class Planificacion extends Model
         'estado_id',
         'presentado_at',
         'revisado_at',
-        'urlprograma'
+        'urlprograma',
+        'cv_externo'
     ];
 
     protected $guarded = ['id'];
@@ -103,6 +104,7 @@ class Planificacion extends Model
         'presentado_at' => 'datetime',
         'revisado_at' => 'datetime',
         'urlprograma' => 'string',
+        'cv_externo' => 'string',
     ];
 
 

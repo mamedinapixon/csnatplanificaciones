@@ -69,8 +69,10 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public_html'),
         public_path('programas') => storage_path('app/programas'),
+        public_path('curriculums_externos') => storage_path('app/curriculums_externos'),
         base_path('/public_html/storage') => storage_path('app/public'),
         base_path('/public_html/programas') => storage_path('app/programas'),
+        base_path('/public_html/curriculums_externos') => storage_path('app/curriculums_externos'),
     ],
 
 ];

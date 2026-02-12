@@ -26,6 +26,7 @@ class Edit extends Component
     use WithFileUploads;
 
     public $file;
+    public $cvExternoFile;
     public $planificacion;
     public $docentes = [];
     public $cargos = [];
@@ -91,7 +92,8 @@ class Edit extends Component
             'herramientas_virtuales_previstas' => $planificacion->herramientas_virtuales_previstas,
             'necesidades' => $planificacion->necesidades,
             'observacioens_sugerencias' => $planificacion->observacioens_sugerencias,
-            'urlprograma' => $planificacion->urlprograma
+            'urlprograma' => $planificacion->urlprograma,
+            'cv_externo' => $planificacion->cv_externo
         ];
         //dd($this->planificacion);
 
@@ -144,6 +146,21 @@ class Edit extends Component
     public function CalcularCargaHorariaSemanal()
     {
         $this->cargaHorariaSemanal = $this->planificacion->carga_horaria_semanal_practica + $this->planificacion->carga_horaria_semanal_practica_teorica + $this->planificacion->carga_horaria_semanal_teorica;
+    }
+
+    public function updatedCvExternoFile()
+    {
+        $this->validate([
+            'cvExternoFile' => 'required|mimes:pdf|max:10240',
+        ]);
+
+        $urlFile = $this->cvExternoFile->storePubliclyAs('curriculums_externos', 'planificacion_' . $this->planificacion_id . '_cv.pdf');
+
+        $this->planificacion->update([
+            'cv_externo' => $urlFile
+        ]);
+        $this->form['cv_externo'] = $urlFile;
+        $this->cvExternoFile = null;
     }
 
     public function OnPresentar()
