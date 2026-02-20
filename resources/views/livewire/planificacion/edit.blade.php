@@ -124,14 +124,6 @@
         hará uso de la misma (clases teóricas, prácticas, evaluaciones, consultas, etc.) y con qué herramientas (Zoom o
         Meet con clases sincrónicas, aulas híbridas, aulas virtuales, etc.)
     </p>
-    <div class="form-control w-full">
-        <x-pixonui.form.label>Detalle del uso de actividades virtuales y herramientas a utilizar (máximo 30%)</x-pixonui.form.label>
-        <x-pixonui.wire.quill wire:model="form.detalle_uso_actividades_virtuales"
-            ref="detalle_uso_actividades_virtuales"></x-pixonui.wire.quill>
-        <x-pixonui.wire.loading.spinner
-            wire:target="form.detalle_uso_actividades_virtuales"></x-pixonui.wire.loading.spinner>
-        <x-pixonui.form.error for="form.detalle_uso_actividades_virtuales"></x-pixonui.form.error>
-    </div>
 
     @if ($planificacion->materiaPlanEstudio->materia->tipo_materia == 'G')
         <div class="form-control w-full">
@@ -170,6 +162,15 @@
             <x-pixonui.wire.loading.spinner
                 wire:target="form.modalidad_dictado_practicas_id"></x-pixonui.wire.loading.spinner>
         </div>
+    </div>
+
+    <div class="form-control w-full">
+        <x-pixonui.form.label>Detalle del uso de actividades virtuales y herramientas a utilizar (máximo 30%)</x-pixonui.form.label>
+        <x-pixonui.wire.quill wire:model="form.detalle_uso_actividades_virtuales"
+            ref="detalle_uso_actividades_virtuales"></x-pixonui.wire.quill>
+        <x-pixonui.wire.loading.spinner
+            wire:target="form.detalle_uso_actividades_virtuales"></x-pixonui.wire.loading.spinner>
+        <x-pixonui.form.error for="form.detalle_uso_actividades_virtuales"></x-pixonui.form.error>
     </div>
 
     <!-- Carga horaria -->
