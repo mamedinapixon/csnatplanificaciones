@@ -113,6 +113,11 @@
                     @if ($planificacion->materiaPlanEstudio->materia->tipo_materia == "G")
                     <x-pixonui.show.labeltext caption="Nombre de la materia electiva">{{ $planificacion->electiva_nombre }}</x-pixonui.show.labeltext>
                     @endif
+                    <x-pixonui.show.labeltext caption="Detalle del uso de actividades virtuales (máximo 30%)">
+                        <div class="mb-3 font-light text-gray-500 dark:text-gray-400">
+                            {!! $planificacion->detalle_uso_actividades_virtuales !!}
+                        </div>
+                    </x-pixonui.show.labeltext>
                     <x-pixonui.show.labeltext caption="Tipo de asignatura">{{ $planificacion->tipoAsignatura != null ? $planificacion->tipoAsignatura->nombre : "" }}</x-pixonui.show.labeltext>
                     <x-pixonui.show.labeltext caption="Modalidad de dictado teoricas">{{ $planificacion->modalidadDictadoTeorica != null ? $planificacion->modalidadDictadoTeorica->nombre : "" }}</x-pixonui.show.labeltext>
                     <x-pixonui.show.labeltext caption="Modalidad de dictado practicas">{{ $planificacion->modalidadDictadoPractica != null ? $planificacion->modalidadDictadoPractica->nombre : "" }}</x-pixonui.show.labeltext>

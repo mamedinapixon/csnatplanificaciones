@@ -65,6 +65,7 @@ class Edit extends Component
             'formacion_recurso_humano_detalle' => $planificacion->formacion_recurso_humano_detalle,
             'doc_invitados' => $planificacion->doc_invitados,
             'doc_invitados_detalles' => $planificacion->doc_invitados_detalles,
+            'detalle_uso_actividades_virtuales' => $planificacion->detalle_uso_actividades_virtuales,
             'tipo_asignatura_id' => $planificacion->tipo_asignatura_id,
             'carga_horaria' => $planificacion->carga_horaria,
             'modalidad_dictado_teoriacas_id' => $planificacion->modalidad_dictado_teoriacas_id,
