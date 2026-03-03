@@ -234,19 +234,15 @@ class Edit extends Component
             $urlProgramaPath = storage_path('app/' . $this->planificacion->urlprograma);
         }
 
-        // Enviar el correo con ambos archivos adjuntos
-        if ($this->es_electiva) {
-            Mail::to([
-                config('notificar.mail_planificaciones'),
-                config('notificar.mail_mesa_entrada'),
-                Auth::user()->email
-            ])
-                ->queue(new MailNotificarPresentado($this->planificacion, $pdfPath, $urlProgramaPath));
-        } else {
-            Mail::to([
-                config('notificar.mail_planificaciones'),
-                Auth::user()->email
-            ])
+        // Enviar el correo con ambos archivos adjuntos (solo a destinatarios configurados)
+        $destinatarios = array_values(array_filter([
+            config('notificar.mail_planificaciones'),
+            $this->es_electiva ? config('notificar.mail_mesa_entrada') : null,
+            Auth::user()?->email,
+        ]));
+
+        if (!empty($destinatarios)) {
+            Mail::to($destinatarios)
                 ->queue(new MailNotificarPresentado($this->planificacion, $pdfPath, $urlProgramaPath));
         }
 
