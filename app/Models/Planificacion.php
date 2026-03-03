@@ -106,8 +106,41 @@ class Planificacion extends Model
         'presentado_at' => 'datetime',
         'revisado_at' => 'datetime',
         'urlprograma' => 'string',
-        'cv_externo' => 'string',
     ];
+
+    /**
+     * Normaliza cv_externo a array: legacy (string única) o JSON (array de rutas).
+     */
+    public function getCvExternoAttribute($valor): array
+    {
+        if ($valor === null || $valor === '') {
+            return [];
+        }
+        if (is_array($valor)) {
+            return $valor;
+        }
+        $valor = trim($valor);
+        if ($valor === '') {
+            return [];
+        }
+        if (str_starts_with($valor, '[')) {
+            $decoded = json_decode($valor, true);
+            return is_array($decoded) ? $decoded : [];
+        }
+        return [$valor];
+    }
+
+    /**
+     * Guarda cv_externo como JSON cuando se recibe un array.
+     */
+    public function setCvExternoAttribute($value): void
+    {
+        if (is_array($value)) {
+            $this->attributes['cv_externo'] = json_encode($value);
+            return;
+        }
+        $this->attributes['cv_externo'] = $value;
+    }
 
 
     /**

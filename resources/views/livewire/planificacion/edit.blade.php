@@ -445,20 +445,27 @@
         <div class="alert alert-info">
             <span>Solo deben cargar el CV los docentes que no pertenecen a la institución.</span>
         </div>
-        @if (isset($form['cv_externo']) && $form['cv_externo'] != null)
-            <div class="flex items-center justify-start mb-2">
-                <img src="{{ asset('img/icon-pdf.png') }}">
-                <a target="_blank" href="{{ asset($form['cv_externo']) }}">Ver CV Docente Externo</a>
-            </div>
+        @if (!empty($form['cv_externo']))
+            @foreach ($form['cv_externo'] as $indice => $rutaCv)
+                <div class="flex items-center justify-start gap-2 mb-2">
+                    <img src="{{ asset('img/icon-pdf.png') }}" alt="">
+                    <a target="_blank" href="{{ asset($rutaCv) }}">Ver CV Docente Externo</a>
+                    <button type="button" class="btn btn-sm btn-ghost btn-error"
+                        wire:click="eliminarCvExterno({{ $indice }})"
+                        wire:confirm="¿Eliminar este archivo?">
+                        Eliminar
+                    </button>
+                </div>
+            @endforeach
         @endif
         <div class="form-control w-full space-y-2">
-            <input type="file" wire:model="cvExternoFile" accept="application/pdf"
+            <input type="file" wire:model="archivosCvExterno" accept="application/pdf" multiple
                 class="border-primary file-input file-input-bordered file-input-primary w-full max-w-xs rounded-md border-2">
-            <div wire:loading wire:target="cvExternoFile">Subiendo archivo...</div>
-            @error('cvExternoFile')
+            <div wire:loading wire:target="archivosCvExterno">Subiendo archivo(s)...</div>
+            @error('archivosCvExterno.*')
                 <span class="error text-red-500">{{ $message }}</span>
             @enderror
-            <div class="text-blue-500">* Solo documentos PDF hasta 10MB.</div>
+            <div class="text-blue-500">* Solo documentos PDF hasta 10MB. Puede seleccionar varios.</div>
         </div>
     @endif
 

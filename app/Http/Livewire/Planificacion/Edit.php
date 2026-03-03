@@ -18,6 +18,7 @@ use App\Models\DocentePlanificacion;
 use Livewire\WithFileUploads;
 use Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
 
@@ -26,7 +27,8 @@ class Edit extends Component
     use WithFileUploads;
 
     public $file;
-    public $cvExternoFile;
+    /** @var \Illuminate\Http\UploadedFile[] */
+    public $archivosCvExterno = [];
     public $planificacion;
     public $docentes = [];
     public $cargos = [];
@@ -149,19 +151,37 @@ class Edit extends Component
         $this->cargaHorariaSemanal = $this->planificacion->carga_horaria_semanal_practica + $this->planificacion->carga_horaria_semanal_practica_teorica + $this->planificacion->carga_horaria_semanal_teorica;
     }
 
-    public function updatedCvExternoFile()
+    public function updatedArchivosCvExterno()
     {
         $this->validate([
-            'cvExternoFile' => 'required|mimes:pdf|max:10240',
+            'archivosCvExterno.*' => 'required|mimes:pdf|max:10240',
         ]);
 
-        $urlFile = $this->cvExternoFile->storePubliclyAs('curriculums_externos', 'planificacion_' . $this->planificacion_id . '_cv.pdf');
+        $rutas = is_array($this->form['cv_externo']) ? $this->form['cv_externo'] : [];
+        $timestamp = time();
 
-        $this->planificacion->update([
-            'cv_externo' => $urlFile
-        ]);
-        $this->form['cv_externo'] = $urlFile;
-        $this->cvExternoFile = null;
+        foreach ($this->archivosCvExterno as $indice => $archivo) {
+            $nombre = 'planificacion_' . $this->planificacion_id . '_cv_' . $timestamp . '_' . $indice . '.pdf';
+            $urlFile = $archivo->storePubliclyAs('curriculums_externos', $nombre);
+            $rutas[] = $urlFile;
+        }
+
+        $this->form['cv_externo'] = $rutas;
+        $this->planificacion->update(['cv_externo' => $rutas]);
+        $this->archivosCvExterno = [];
+    }
+
+    public function eliminarCvExterno(int $indice)
+    {
+        $rutas = $this->form['cv_externo'];
+        if (!is_array($rutas) || !isset($rutas[$indice])) {
+            return;
+        }
+        $rutaEliminar = $rutas[$indice];
+        array_splice($rutas, $indice, 1);
+        $this->form['cv_externo'] = $rutas;
+        $this->planificacion->update(['cv_externo' => $rutas]);
+        Storage::delete($rutaEliminar);
     }
 
     public function OnPresentar()
