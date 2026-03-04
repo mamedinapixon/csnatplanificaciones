@@ -53,4 +53,12 @@ class Docente extends Model
     {
         return $this->belongsToMany(Planificacion::class, 'docente_planificacions')->withPivot('cargo_id');
     }
+
+    /**
+     * Usuario asociado al docente (opcional).
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

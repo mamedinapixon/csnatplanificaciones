@@ -18,7 +18,7 @@ class DocentePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class DocentePolicy
      */
     public function view(User $user, Docente $docente)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +41,7 @@ class DocentePolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class DocentePolicy
      */
     public function update(User $user, Docente $docente)
     {
-        //
+        return true;
     }
 
     /**
@@ -65,7 +65,7 @@ class DocentePolicy
      */
     public function delete(User $user, Docente $docente)
     {
-        //
+        return true;
     }
 
     /**
@@ -77,7 +77,7 @@ class DocentePolicy
      */
     public function restore(User $user, Docente $docente)
     {
-        //
+        return true;
     }
 
     /**
@@ -89,6 +89,6 @@ class DocentePolicy
      */
     public function forceDelete(User $user, Docente $docente)
     {
-        //
+        return true;
     }
 }
