@@ -1,4 +1,7 @@
 <li><a href="{{ route('home') }}">Home</a></li>
+@role('admin')
+    <li><a href="{{ url('/admin') }}">Panel Admin</a></li>
+@endrole
 @can(['ver periodos lectivos', 'ver docentes'])
     <li tabindex="0" class="m-0">
         <details>
