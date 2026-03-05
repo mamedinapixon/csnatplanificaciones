@@ -18,7 +18,7 @@ class PlanificacionPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class PlanificacionPolicy
      */
     public function view(User $user, Planificacion $planificacion)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +41,7 @@ class PlanificacionPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class PlanificacionPolicy
      */
     public function update(User $user, Planificacion $planificacion)
     {
-        //
+        return true;
     }
 
     /**
@@ -65,7 +65,7 @@ class PlanificacionPolicy
      */
     public function delete(User $user, Planificacion $planificacion)
     {
-        //
+        return true;
     }
 
     /**
@@ -77,7 +77,7 @@ class PlanificacionPolicy
      */
     public function restore(User $user, Planificacion $planificacion)
     {
-        //
+        return true;
     }
 
     /**
@@ -89,6 +89,6 @@ class PlanificacionPolicy
      */
     public function forceDelete(User $user, Planificacion $planificacion)
     {
-        //
+        return true;
     }
 }
