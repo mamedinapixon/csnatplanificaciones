@@ -37,6 +37,19 @@ class PlanificacionResource extends Resource
                     ->getOptionLabelFromRecordUsing(fn ($record) => $record->full_periodo_lectivo ?? (string) $record->anio_academico)
                     ->searchable()
                     ->required(),
+                Forms\Components\Select::make('materia_plan_estudio_id')
+                    ->label('Materia (plan de estudio)')
+                    ->relationship(
+                        'materiaPlanEstudio',
+                        'id',
+                        fn ($query) => $query->with('materia')
+                    )
+                    ->getOptionLabelFromRecordUsing(fn ($record) => $record->materia?->nombre ?? "ID {$record->id}")
+                    ->searchable()
+                    ->preload(),
+                Forms\Components\TextInput::make('electiva_nombre')
+                    ->label('Electiva (nombre)')
+                    ->maxLength(255),
                 Forms\Components\Select::make('estado_id')
                     ->label('Estado')
                     ->relationship('estado', 'nombre')
@@ -57,6 +70,13 @@ class PlanificacionResource extends Resource
                     ->label('Usuario')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('materiaPlanEstudio.materia.nombre')
+                    ->label('Materia')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('electiva_nombre')
+                    ->label('Electiva (nombre)')
+                    ->searchable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('periodo_lectivo_id')
                     ->label('Período lectivo')
                     ->formatStateUsing(fn ($state, $record) => $record->periodoLectivo?->full_periodo_lectivo ?? '-')
