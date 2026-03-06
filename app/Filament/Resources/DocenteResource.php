@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 
+
 class DocenteResource extends Resource
 {
     protected static ?string $model = Docente::class;
@@ -53,12 +54,10 @@ class DocenteResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('nro_documento')
                     ->label('Nº documento')
-                    ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
                     ->label('Email Institucional')
                     ->email()
-                    ->required()
                     ->maxLength(255),
                 Forms\Components\Toggle::make('activo')
                     ->label('Activo')
@@ -71,11 +70,6 @@ class DocenteResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('Usuario')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(),
                 Tables\Columns\TextColumn::make('apellido')
                     ->label('Apellido')
                     ->searchable()
@@ -114,10 +108,6 @@ class DocenteResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('user_id')
-                    ->label('Usuario')
-                    ->relationship('user', 'name')
-                    ->searchable(),
                 Tables\Filters\TernaryFilter::make('activo')
                     ->label('Estado')
                     ->placeholder('Todos')
@@ -149,4 +139,6 @@ class DocenteResource extends Resource
             'edit' => Pages\EditDocente::route('/{record}/edit'),
         ];
     }
+
+    
 }

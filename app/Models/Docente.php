@@ -23,6 +23,10 @@ class Docente extends Model
 
     protected $guarded = ['id'];
 
+    protected $attributes = [
+        'activo' => true,
+    ];
+
     protected $casts = [
         'user_id' => 'integer',
         'apellido' => 'string',
