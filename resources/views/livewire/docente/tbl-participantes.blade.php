@@ -39,44 +39,69 @@
         </div>
     </div>
     <div class="w-full form-control">
-
-        <div class="flex-wrap flex justify-end space-x-4 space-y-4 items-end" >
-            <select class="select select-bordered" wire:model.defer="docente_id">
-                <option value="null" disabled>Docente</option>
-                @foreach ($docentes as $docente)
-                    <option value="{{ $docente->id }}"  wire:key="docente-{{ $docente->id }}">
-                        {{ $docente->apellido }}, {{ $docente->nombre }}
-                    </option>
-                @endforeach
-            </select>
-            <select class="select select-bordered" wire:model.defer="cargo_id">
-                <option value="null" disabled>Cargo</option>
-                @foreach ($cargos as $cargo)
-                    <option value="{{ $cargo->id }}"  wire:key="cargo-{{ $cargo->id }}">
-                        {{ $cargo->nombre }}
-                    </option>
-                @endforeach
-            </select>
-            <select class="select select-bordered" wire:model.defer="dedicacion_id">
-                <option value="null" disabled>Dedicación</option>
-                @foreach ($dedicaciones as $dedicacion)
-                    <option value="{{ $dedicacion->id }}"  wire:key="dedicacion-{{ $dedicacion->id }}">
-                        {{ $dedicacion->nombre }}
-                    </option>
-                @endforeach
-            </select>
-            <select class="select select-bordered" wire:model.defer="situacion_id">
-                <option value="null" disabled>Situación del cargo</option>
-                @foreach ($situaciones as $situacion)
-                    <option value="{{ $situacion->id }}"  wire:key="situacion-{{ $situacion->id }}">
-                        {{ $situacion->nombre }}
-                    </option>
-                @endforeach
-            </select>
-            <button class="btn btn-secondary" wire:click="store" wire:loading.class="loading">Guardar</button>
+        <div class="flex justify-end">
+            <button class="btn btn-primary" type="button" wire:click="abrirModal">
+                Agregar docente participante
+            </button>
         </div>
-        @error('docente_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
-        @error('cargo_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
-        @error('situacion_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
+
+        @if($mostrarModal)
+            <div class="modal modal-open">
+                <div class="modal-box space-y-4">
+                    <h3 class="font-bold text-lg">Agregar docente participante</h3>
+
+                    <div class="flex flex-wrap justify-start space-x-4 space-y-4 items-end">
+                        <select class="select select-bordered" wire:model.defer="docente_id">
+                            <option value="null" disabled>Docente</option>
+                            @foreach ($docentes as $docente)
+                                <option value="{{ $docente->id }}" wire:key="docente-{{ $docente->id }}">
+                                    {{ $docente->apellido }}, {{ $docente->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <select class="select select-bordered" wire:model.defer="cargo_id">
+                            <option value="null" disabled>Cargo</option>
+                            @foreach ($cargos as $cargo)
+                                <option value="{{ $cargo->id }}" wire:key="cargo-{{ $cargo->id }}">
+                                    {{ $cargo->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <select class="select select-bordered" wire:model.defer="dedicacion_id">
+                            <option value="null" disabled>Dedicación</option>
+                            @foreach ($dedicaciones as $dedicacion)
+                                <option value="{{ $dedicacion->id }}" wire:key="dedicacion-{{ $dedicacion->id }}">
+                                    {{ $dedicacion->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <select class="select select-bordered" wire:model.defer="situacion_id">
+                            <option value="null" disabled>Situación del cargo</option>
+                            @foreach ($situaciones as $situacion)
+                                <option value="{{ $situacion->id }}" wire:key="situacion-{{ $situacion->id }}">
+                                    {{ $situacion->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        @error('docente_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
+                        @error('cargo_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
+                        @error('dedicacion_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
+                        @error('situacion_id') <x-pixonui.alert.error>{{ $message }}</x-pixonui.alert.error> @enderror
+                    </div>
+
+                    <div class="modal-action">
+                        <button class="btn btn-ghost" type="button" wire:click="cerrarModal">
+                            Cancelar
+                        </button>
+                        <button class="btn btn-secondary" type="button" wire:click="store" wire:loading.class="loading">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 </div>

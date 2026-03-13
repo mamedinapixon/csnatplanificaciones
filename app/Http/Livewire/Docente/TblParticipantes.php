@@ -18,6 +18,8 @@ class TblParticipantes extends Component
     public $dedicaciones = [];
     public $situaciones;
 
+    public $mostrarModal = false;
+
     public  $docente_id = null,
             $cargo_id = null,
             $planificacion_id = null,
@@ -52,6 +54,16 @@ class TblParticipantes extends Component
     public function render()
     {
         return view('livewire.docente.tbl-participantes');
+    }
+
+    public function abrirModal()
+    {
+        $this->mostrarModal = true;
+    }
+
+    public function cerrarModal()
+    {
+        $this->mostrarModal = false;
     }
 
     public function load()
@@ -97,6 +109,8 @@ class TblParticipantes extends Component
         $this->cargo_id = null;
         $this->dedicacion_id = null;
         $this->situacion_id = null;
+
+        $this->cerrarModal();
     }
 
     public function destroy($docente_id)
