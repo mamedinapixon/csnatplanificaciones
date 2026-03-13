@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PlanificacionResource\Pages;
 use App\Models\Planificacion;
+use App\Models\PeriodoLectivo;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -97,13 +98,34 @@ class PlanificacionResource extends Resource
                     ->toggleable(),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('anio_academico')
+                    ->label('Año académico')
+                    ->options(fn () => PeriodoLectivo::query()
+                        ->orderByDesc('anio_academico')
+                        ->pluck('anio_academico', 'anio_academico')
+                        ->toArray()
+                    )
+                    ->default(fn () => now()->year)
+                    ->query(function ($query, array $data) {
+                        $anio = $data['value'] ?? null;
+                        return $query->when($anio, function ($query) use ($anio) {
+                            $query->whereHas('periodoLectivo', function ($subQuery) use ($anio) {
+                                $subQuery->where('anio_academico', $anio);
+                            });
+                        });
+                    }),
                 Tables\Filters\SelectFilter::make('user_id')
                     ->label('Usuario')
                     ->relationship('user', 'name')
                     ->searchable(),
                 Tables\Filters\SelectFilter::make('periodo_lectivo_id')
                     ->label('Período lectivo')
-                    ->relationship('periodoLectivo', 'anio_academico'),
+                    ->options(fn () => PeriodoLectivo::query()
+                        ->with('periodoAcademico')
+                        ->get()
+                        ->pluck('full_periodo_lectivo', 'id')
+                        ->toArray()
+                    ),
                 Tables\Filters\SelectFilter::make('estado_id')
                     ->label('Estado')
                     ->relationship('estado', 'nombre'),
