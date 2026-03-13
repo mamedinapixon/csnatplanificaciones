@@ -14,6 +14,7 @@ use App\Models\PeriodoLectivo;
 use App\Models\Carrera;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class PlanificacionTable extends DataTableComponent
 {
@@ -108,6 +109,12 @@ class PlanificacionTable extends DataTableComponent
                 ->sortable(),
             Column::make("Carrera", "materiaPlanEstudio.carrera.nombre_reducido")->sortable(),
             Column::make("Asignatura", "materiaPlanEstudio.materia.nombre")->searchable()->sortable(),
+            Column::make("Electiva", "electiva_nombre")
+                ->format(
+                    fn($value, $row, Column $column) => Str::limit($value, 30)
+                )
+                ->searchable()
+                ->sortable(),
             Column::make("Presentado", "presentado_at")
                 ->format(
                     fn($value, $row, Column $column) => $row->presentado_at == null ? '' : \Carbon\Carbon::parse($row->presentado_at)->diffForHumans()
