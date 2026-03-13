@@ -76,6 +76,8 @@ class PlanificacionResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('electiva_nombre')
                     ->label('Electiva (nombre)')
+                    ->limit(30)
+                    ->tooltip(fn ($record) => $record->electiva_nombre)
                     ->searchable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('periodo_lectivo_id')
