@@ -27,7 +27,6 @@ use Illuminate\Support\Facades\Auth; // Import Auth facade
 class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
 {
     use Tables\Concerns\InteractsWithTable;
-
     protected function getTableQuery(): Builder
     {
         return LibroTema::query()
@@ -318,9 +317,11 @@ class HistorialLibroTema extends Component implements Tables\Contracts\HasTable
             Filter::make('fecha')
                 ->form([
                     Forms\Components\DatePicker::make('created_from')
-                        ->label('Fecha desde'),
+                        ->label('Fecha desde')
+                        ->default(Carbon::now()->startOfYear()),
                     Forms\Components\DatePicker::make('created_until')
-                        ->label('Fecha hasta'),
+                        ->label('Fecha hasta')
+                        ->default(Carbon::now()->endOfYear()),
                 ])
                 ->query(function (Builder $query, array $data): Builder {
                     return $query
