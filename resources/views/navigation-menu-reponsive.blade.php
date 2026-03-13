@@ -50,6 +50,7 @@
             @else
                 <li><a href="{{ route('planificacion.index') }}">Mis Planificaciones</a></li>
             @endcan
+            <li><a href="/memoria">Memoria</a></li>
             <div class="dropdown dropdown-end">
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                     <label tabindex="0" class="avatar btn btn-circle btn-ghost">
