@@ -83,10 +83,10 @@
                                 @foreach ($docentesPartipan as $docentePartipan)
                                     <tr wire:key="docente-partipan-{{ $docentePartipan->id }}">
                                         <td>{{ $loop->index + 1 }}</td>
-                                        <th>{{ $docentePartipan->docente->apellido }},
-                                            {{ $docentePartipan->docente->nombre }}</th>
-                                        <td>{{ $docentePartipan->cargo->nombre }}</td>
-                                        <td>{{ $docentePartipan->dedicacion->nombre }}</td>
+                                        <th>{{ $docentePartipan->docente->apellido ?? 'Sin docente' }},
+                                            {{ $docentePartipan->docente->nombre ?? '' }}</th>
+                                        <td>{{ $docentePartipan->cargo->nombre ?? '' }}</td>
+                                        <td>{{ $docentePartipan->dedicacion->nombre ?? '' }}</td>
                                         <td>{{ $docentePartipan->situacion->nombre ?? '' }}</td>
                                     </tr>
                                 @endforeach
