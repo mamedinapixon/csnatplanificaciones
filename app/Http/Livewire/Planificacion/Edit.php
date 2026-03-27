@@ -100,7 +100,10 @@ class Edit extends Component
         ];
         //dd($this->planificacion);
 
-        $this->docentes = Docente::orderBy("apellido")->orderBy('nombre')->get();
+        $this->docentes = Docente::where('activo', true)
+            ->orderBy('apellido')
+            ->orderBy('nombre')
+            ->get();
         $this->tipoAsignatura = TipoAsignatura::get();
         $this->modalidades = Modalidad::get();
 
