@@ -159,7 +159,7 @@ class Planificacion extends Model
      */
     public function docenteCargo()
     {
-        return $this->belongsTo(Docente::class, "docente_id");
+        return $this->belongsTo(Docente::class, "docente_id")->withTrashed();
     }
     public function cargo()
     {
