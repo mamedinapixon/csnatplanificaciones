@@ -35,14 +35,24 @@ class PeriodoLectivoTable extends DataTableComponent
                     fn($value, $row, Column $column) => $row->periodoAcademico->nombre
                 )
                 ->sortable(),
-            Column::make("Fecha inicio", "fecha_inicio_activo")
+            Column::make("Inicio planificaciones", "fecha_inicio_carga_planificaciones")
                 ->format(
-                    fn($value, $row, Column $column) => $row->fecha_inicio_activo->format('d/m/Y')
+                    fn($value, $row, Column $column) => optional($row->fecha_inicio_carga_planificaciones)->format('d/m/Y')
                 )
                 ->sortable(),
-            Column::make("Fecha cierre", "fecha_fin_activo")
+            Column::make("Fin planificaciones", "fecha_fin_carga_planificaciones")
                 ->format(
-                    fn($value, $row, Column $column) => $row->fecha_fin_activo->format('d/m/Y')
+                    fn($value, $row, Column $column) => optional($row->fecha_fin_carga_planificaciones)->format('d/m/Y')
+                )
+                ->sortable(),
+            Column::make("Inicio memorias", "fecha_inicio_carga_memorias")
+                ->format(
+                    fn($value, $row, Column $column) => optional($row->fecha_inicio_carga_memorias)->format('d/m/Y')
+                )
+                ->sortable(),
+            Column::make("Fin memorias", "fecha_fin_carga_memorias")
+                ->format(
+                    fn($value, $row, Column $column) => optional($row->fecha_fin_carga_memorias)->format('d/m/Y')
                 )
                 ->sortable(),
         ];

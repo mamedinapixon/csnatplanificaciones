@@ -35,16 +35,30 @@
                         <div class="w-full form-control">
                             <x-pixonui.form.label>Fecha inicio carga de planificaciones</x-pixonui.form.label>
                             <div class="flex items-center w-20 min-w-full space-x-2">
-                                <x-pixonui.form.input type="date" for="fecha_inicio_activo" name="fecha_inicio_activo" required value="{{ old() ? old('fecha_inicio_activo') : '' }}"></x-pixonui.form.input>
+                                <x-pixonui.form.input type="date" for="fecha_inicio_carga_planificaciones" name="fecha_inicio_carga_planificaciones" required value="{{ old() ? old('fecha_inicio_carga_planificaciones') : '' }}"></x-pixonui.form.input>
                             </div>
-                            <x-pixonui.form.error for="fecha_inicio_activo"></x-pixonui.form.error>
+                            <x-pixonui.form.error for="fecha_inicio_carga_planificaciones"></x-pixonui.form.error>
                         </div>
                         <div class="w-full form-control">
                             <x-pixonui.form.label>Fecha cierre carga de planificaciones</x-pixonui.form.label>
                             <div class="flex items-center w-20 min-w-full space-x-2">
-                                <x-pixonui.form.input type="date" for="fecha_fin_activo" name="fecha_fin_activo" required value="{{ old() ? old('fecha_fin_activo') : '' }}"></x-pixonui.form.input>
+                                <x-pixonui.form.input type="date" for="fecha_fin_carga_planificaciones" name="fecha_fin_carga_planificaciones" required value="{{ old() ? old('fecha_fin_carga_planificaciones') : '' }}"></x-pixonui.form.input>
                             </div>
-                            <x-pixonui.form.error for="fecha_fin_activo"></x-pixonui.form.error>
+                            <x-pixonui.form.error for="fecha_fin_carga_planificaciones"></x-pixonui.form.error>
+                        </div>
+                        <div class="w-full form-control">
+                            <x-pixonui.form.label>Fecha inicio carga de memorias</x-pixonui.form.label>
+                            <div class="flex items-center w-20 min-w-full space-x-2">
+                                <x-pixonui.form.input type="date" for="fecha_inicio_carga_memorias" name="fecha_inicio_carga_memorias" required value="{{ old() ? old('fecha_inicio_carga_memorias') : '' }}"></x-pixonui.form.input>
+                            </div>
+                            <x-pixonui.form.error for="fecha_inicio_carga_memorias"></x-pixonui.form.error>
+                        </div>
+                        <div class="w-full form-control">
+                            <x-pixonui.form.label>Fecha cierre carga de memorias</x-pixonui.form.label>
+                            <div class="flex items-center w-20 min-w-full space-x-2">
+                                <x-pixonui.form.input type="date" for="fecha_fin_carga_memorias" name="fecha_fin_carga_memorias" required value="{{ old() ? old('fecha_fin_carga_memorias') : '' }}"></x-pixonui.form.input>
+                            </div>
+                            <x-pixonui.form.error for="fecha_fin_carga_memorias"></x-pixonui.form.error>
                         </div>
                         <div class="flex flex-row space-x-4 form-control">
                             <a class="max-w-xs btn" href="{{ route('periodoLectivo.index') }}"  >

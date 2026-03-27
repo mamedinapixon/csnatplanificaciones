@@ -7,6 +7,7 @@ use App\Http\Requests\StorePlanificacionRequest;
 use App\Http\Requests\UpdatePlanificacionRequest;
 use Illuminate\Http\Request;
 use App\Models\DocentePlanificacion;
+use App\Models\PeriodoLectivo;
 use App\Models\Salida;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -33,6 +34,16 @@ class PlanificacionController extends Controller
      */
     public function create()
     {
+        $hoy = Carbon::now();
+        $hayPeriodoAbierto = PeriodoLectivo::whereDate('fecha_inicio_carga_planificaciones', '<=', $hoy)
+            ->whereDate('fecha_fin_carga_planificaciones', '>=', $hoy)
+            ->exists();
+
+        if (!$hayPeriodoAbierto) {
+            session()->flash('message', 'La carga de planificaciones no se encuentra habilitada en este momento.');
+            return redirect()->route('planificacion.index');
+        }
+
         return view('planificacion.create');
     }
 

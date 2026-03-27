@@ -29,9 +29,10 @@ class Create extends Component
 
     public function mount()
     {
+        $hoy = Carbon::now()->toDateString();
         $this->periodosLectivos = PeriodoLectivo::with("periodoAcademico")
-                ->whereDate('fecha_inicio_activo','<=', Carbon::now()->toDateTimeString())
-                ->whereDate('fecha_fin_activo','>=', Carbon::now()->toDateTimeString())
+                ->whereDate('fecha_inicio_carga_planificaciones','<=', $hoy)
+                ->whereDate('fecha_fin_carga_planificaciones','>=', $hoy)
                 ->get();
         //dd(Carbon::now()->toDateTimeString());
         //dd($this->periodosLectivos);
@@ -56,6 +57,18 @@ class Create extends Component
 
     public function store()
     {
+        $hoy = Carbon::now()->toDateString();
+
+        $periodoEnRango = PeriodoLectivo::where('id', $this->periodo_lectivo_id)
+            ->whereDate('fecha_inicio_carga_planificaciones', '<=', $hoy)
+            ->whereDate('fecha_fin_carga_planificaciones', '>=', $hoy)
+            ->exists();
+
+        if (!$periodoEnRango) {
+            $this->msj_error = "La carga de planificaciones no se encuentra habilitada para el periodo seleccionado.";
+            return;
+        }
+
         if (empty($this->materia_plan_estudio_id)) {
             $this->msj_error = "Primero debe seleccionar una asignatura";
         } else {

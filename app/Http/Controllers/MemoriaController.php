@@ -6,7 +6,7 @@ use App\Models\Memoria;
 use App\Http\Requests\StoreMemoriaRequest;
 use App\Http\Requests\UpdateMemoriaRequest;
 use App\Models\MemoriaAsignatura;
-use App\Models\AnioAcademico;
+use App\Models\PeriodoLectivo;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -31,8 +31,18 @@ class MemoriaController extends Controller
      */
     public function create()
     {
-        $anio_academico = 2025; // TODO: Seleccionar desde la tabla AnioAcademico. Se lo hardcodea por el apuro que tiene que salga.
-        //AnioAcademico::where('memoria_activo_hasta');//Carbon::now()->year;
+        $hoy = Carbon::now()->toDateString();
+        $periodoLectivoConMemoriaAbierta = PeriodoLectivo::whereDate('fecha_inicio_carga_memorias', '<=', $hoy)
+            ->whereDate('fecha_fin_carga_memorias', '>=', $hoy)
+            ->orderByDesc('anio_academico')
+            ->first();
+
+        if (empty($periodoLectivoConMemoriaAbierta)) {
+            session()->flash('message', 'La carga de memorias no se encuentra habilitada en este momento.');
+            return redirect()->route('memoria.index');
+        }
+
+        $anio_academico = $periodoLectivoConMemoriaAbierta->anio_academico;
         $memoria = Memoria::where("anio_academico",$anio_academico)->where("user_id",Auth::user()->id)->first();
 
         if(empty($memoria))

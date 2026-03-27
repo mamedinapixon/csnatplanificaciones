@@ -15,8 +15,10 @@ class PeriodoLectivo extends Model
     protected $fillable = [
         'anio_academico',
         'periodo_academico_id',
-        'fecha_inicio_activo',
-        'fecha_fin_activo'
+        'fecha_inicio_carga_planificaciones',
+        'fecha_fin_carga_planificaciones',
+        'fecha_inicio_carga_memorias',
+        'fecha_fin_carga_memorias'
     ];
 
     protected $guarded = ['id'];
@@ -24,11 +26,18 @@ class PeriodoLectivo extends Model
     protected $casts = [
         'anio_academico' => 'integer',
         'periodo_academico_id' => 'integer',
-        'fecha_inicio_activo' => 'date',
-        'fecha_fin_activo' => 'date'
+        'fecha_inicio_carga_planificaciones' => 'date',
+        'fecha_fin_carga_planificaciones' => 'date',
+        'fecha_inicio_carga_memorias' => 'date',
+        'fecha_fin_carga_memorias' => 'date'
     ];
 
-    protected $dates = ['fecha_inicio_activo','fecha_fin_activo'];
+    protected $dates = [
+        'fecha_inicio_carga_planificaciones',
+        'fecha_fin_carga_planificaciones',
+        'fecha_inicio_carga_memorias',
+        'fecha_fin_carga_memorias'
+    ];
 
 
     /**

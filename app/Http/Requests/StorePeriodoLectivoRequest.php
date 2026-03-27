@@ -26,8 +26,10 @@ class StorePeriodoLectivoRequest extends FormRequest
         return [
             'anio_academico' => 'required|integer',
             'periodo_academico_id' => 'required|integer',
-            'fecha_inicio_activo' => 'required|date',
-            'fecha_fin_activo' => 'required|date'
+            'fecha_inicio_carga_planificaciones' => 'required|date',
+            'fecha_fin_carga_planificaciones' => 'required|date|after_or_equal:fecha_inicio_carga_planificaciones',
+            'fecha_inicio_carga_memorias' => 'required|date',
+            'fecha_fin_carga_memorias' => 'required|date|after_or_equal:fecha_inicio_carga_memorias',
         ];
     }
 }
